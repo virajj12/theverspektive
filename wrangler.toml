@@ -1,0 +1,15 @@
+name = "verspektive"
+compatibility_date = "2024-03-20"
+compatibility_flags = ["nodejs_compat"]
+
+pages_build_output_dir = ".vercel/output/static"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "verspektive-db"
+database_id = "b8c39d55-9d88-4f52-8b62-0cac959079fc" # Placeholder, this gets filled when created in CF Dashboard
+migrations_dir = "drizzle"
+
+[[r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "verspektive-media"

@@ -1,0 +1,9 @@
+export const orders = sqliteTable("orders", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  user_id: integer("user_id").notNull(),
+  total_amount: integer("total_amount").notNull(), // Amount in smallest currency unit (e.g. paise)
+  status: text("status").notNull().default("pending"), // 'pending', 'paid', 'cancelled'
+  razorpay_order_id: text("razorpay_order_id"),
+  created_at: integer("created_at", { mode: "timestamp" }).notNull(),
+  updated_at: integer("updated_at", { mode: "timestamp" }).notNull(),
+});
