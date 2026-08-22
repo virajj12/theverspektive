@@ -13,7 +13,7 @@ function requireEnv(name: string): string {
   return value;
 }
 
-export const sessionOptions = {
+export const getSessionOptions = () => ({
   password: requireEnv("ADMIN_SESSION_SECRET"),
   cookieName: "verspektive_admin_session",
   cookieOptions: {
@@ -22,9 +22,9 @@ export const sessionOptions = {
     sameSite: "strict" as const,
     maxAge: 60 * 60 * 24, // 24 hours
   },
-};
+});
 
-export const userSessionOptions = {
+export const getUserSessionOptions = () => ({
   password: requireEnv("USER_SESSION_SECRET"),
   cookieName: "verspektive_user_session",
   cookieOptions: {
@@ -33,7 +33,7 @@ export const userSessionOptions = {
     sameSite: "strict" as const,
     maxAge: 60 * 60 * 24 * 14, // 14 days
   },
-};
+});
 
 export interface SessionData {
   isLoggedIn: boolean;
@@ -56,7 +56,7 @@ export const defaultUserSession: UserSessionData = {
 
 export async function getSession() {
   const cookieStore = await cookies();
-  const session = await getIronSession<SessionData>(cookieStore, sessionOptions);
+  const session = await getIronSession<SessionData>(cookieStore, getSessionOptions());
   
   if (!session.isLoggedIn) {
     session.isLoggedIn = defaultSession.isLoggedIn;
@@ -67,7 +67,7 @@ export async function getSession() {
 
 export async function getUserSession() {
   const cookieStore = await cookies();
-  const session = await getIronSession<UserSessionData>(cookieStore, userSessionOptions);
+  const session = await getIronSession<UserSessionData>(cookieStore, getUserSessionOptions());
   
   if (!session.isLoggedIn) {
     session.isLoggedIn = defaultUserSession.isLoggedIn;
