@@ -37,7 +37,7 @@ const footerSections = [
     title: "Contact",
     links: [
       { name: "verspektive@gmail.com", href: "mailto:verspektive@gmail.com" },
-      { name: "+91 78927 44461", href: "tel:+917892744461" },
+      { name: "+91", href: "tel:+91" },
     ],
   },
 ];
@@ -104,8 +104,8 @@ export default function Footer() {
                       {section.links.map((link) => (
                         <li key={link.name}>
                           {link.href.startsWith("mailto:") ? (
-                            <ContactEmailDropdown 
-                              email={link.name} 
+                            <ContactEmailDropdown
+                              email={link.name}
                               className="text-xs text-[#424245] hover:text-[#1d1d1f] hover:underline transition-colors duration-200 text-left p-0 m-0 bg-transparent"
                             >
                               {link.name}
