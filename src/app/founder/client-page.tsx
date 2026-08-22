@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, Variants } from "framer-motion";
 import { Mail, ChevronDown } from "lucide-react";
 
 /* Inline brand icons — lucide-react doesn't ship brand icons */
@@ -32,7 +32,7 @@ import { BeamsBackground } from "@/components/ui/beams-background";
    Animation Variants
    ────────────────────────────────────────── */
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
   visible: (i: number) => ({
     opacity: 1,
@@ -41,7 +41,7 @@ const fadeUp = {
   }),
 };
 
-const stagger = {
+const stagger: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.12 } },
 };
