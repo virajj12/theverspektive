@@ -10,6 +10,8 @@ export default async function Productions() {
   let videos: any[] = [];
   let teams: any[] = [];
 
+  let youtubeApiVideos: any[] = [];
+
   try {
     const env = getRequestContext().env;
     if (env && env.DB) {
@@ -32,9 +34,33 @@ export default async function Productions() {
         } catch (e) {}
       }
     }
+
+    // Fetch from YouTube Data API
+    const ytApiKey = (env as any)?.YOUTUBE_API_KEY || process.env.YOUTUBE_API_KEY;
+    const ytChannelId = (env as any)?.YOUTUBE_CHANNEL_ID || process.env.YOUTUBE_CHANNEL_ID;
+
+    if (ytApiKey && ytChannelId) {
+      const ytUrl = `https://www.googleapis.com/youtube/v3/search?key=${ytApiKey}&channelId=${ytChannelId}&part=snippet,id&order=date&maxResults=5&type=video`;
+      const res = await fetch(ytUrl, { next: { revalidate: 3600 } });
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data.items) {
+          youtubeApiVideos = data.items.map((item: any) => ({
+            id: item.id.videoId,
+            title: item.snippet.title,
+            thumbnail_url: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.default?.url,
+            youtube_url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+            published_at: item.snippet.publishedAt,
+          }));
+        }
+      } else {
+        console.error("YouTube API error:", await res.text());
+      }
+    }
   } catch (error) {
-    console.error("Failed to load videos/teams from D1", error);
+    console.error("Failed to load videos/teams from D1 or YouTube API", error);
   }
 
-  return <ProductionsClient initialVideos={videos} teams={teams} />;
+  return <ProductionsClient initialVideos={videos} teams={teams} youtubeApiVideos={youtubeApiVideos} />;
 }

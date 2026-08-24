@@ -19,8 +19,33 @@ interface Video {
 }
 import { PerspectiveHero } from "@/components/ui/perspective-hero";
 
-export default function ProductionsClient({ initialVideos, teams = [] }: { initialVideos: Video[], teams?: any[] }) {
+export default function ProductionsClient({ initialVideos, teams = [], youtubeApiVideos = [] }: { initialVideos: Video[], teams?: any[], youtubeApiVideos?: any[] }) {
   const [visibleCount, setVisibleCount] = useState(6);
+
+  // If no youtubeApiVideos, provide some sleek mock data so the UI works until API keys are added
+  const recentYoutubeVideos = youtubeApiVideos.length > 0 ? youtubeApiVideos : [
+    {
+      id: "mock1",
+      title: "VerspeKtive Studios - Behind the Scenes",
+      thumbnail_url: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=800&auto=format&fit=crop",
+      youtube_url: "#",
+      published_at: new Date().toISOString(),
+    },
+    {
+      id: "mock2",
+      title: "Talk It Out - Episode 01 Premiere",
+      thumbnail_url: "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?q=80&w=800&auto=format&fit=crop",
+      youtube_url: "#",
+      published_at: new Date(Date.now() - 86400000).toISOString(),
+    },
+    {
+      id: "mock3",
+      title: "Taste It Out - Exploring Culinary Masterpieces",
+      thumbnail_url: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800&auto=format&fit=crop",
+      youtube_url: "#",
+      published_at: new Date(Date.now() - 86400000 * 3).toISOString(),
+    }
+  ];
 
   const visibleVideos = initialVideos.slice(0, visibleCount);
   const hasMore = visibleCount < initialVideos.length;
@@ -182,28 +207,56 @@ export default function ProductionsClient({ initialVideos, teams = [] }: { initi
           </div>
         )}
 
-        {/* Instagram Section */}
+        {/* YouTube Section */}
         <div className="mb-32">
-          <div className="flex flex-col items-center text-center space-y-6">
-            <MaskText text="Follow Our Journey" className="text-4xl font-bold tracking-tight justify-center" />
+          <div className="flex flex-col items-center text-center space-y-6 mb-16">
+            <MaskText text="Recent from our Channel" className="text-4xl font-bold tracking-tight justify-center" />
             <MaskText 
-              text="Stay updated with behind-the-scenes content, latest projects, and more on our Instagram."
+              text="Stay updated with our latest video projects, behind-the-scenes, and more on YouTube."
               className="text-lg text-muted-foreground max-w-2xl justify-center"
             />
-            <Link 
-              href="https://instagram.com/verspektive_productions" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="relative w-full max-w-4xl aspect-[16/10] md:aspect-video rounded-3xl overflow-hidden border border-zinc-200 dark:border-white/10 mt-8 group block"
-            >
-              <Image
-                src="/Productions screenshot.png"
-                alt="VerspeKtive Productions Instagram"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 dark:group-hover:bg-white/5 transition-colors" />
-            </Link>
+          </div>
+
+          <div className="flex flex-col gap-4 max-w-4xl mx-auto w-full">
+            {recentYoutubeVideos.map((video, index) => (
+              <Link
+                key={video.id}
+                href={video.youtube_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative flex flex-col md:flex-row items-start md:items-center gap-6 p-4 rounded-3xl border border-transparent hover:border-white/10 hover:bg-white/5 transition-all duration-300 overflow-hidden"
+              >
+                <div className="relative w-full md:w-72 aspect-video rounded-2xl overflow-hidden shrink-0 border border-white/5">
+                  <Image
+                    src={video.thumbnail_url}
+                    alt={video.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">
+                      <Play className="w-6 h-6 text-white fill-white ml-1" />
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex-1 flex flex-col items-start text-left space-y-3 py-2 w-full">
+                  <div className="flex items-start md:items-center gap-4 w-full">
+                    <span className="text-lg font-bold text-white/30 font-mono mt-1 md:mt-0">{(index + 1).toString().padStart(2, '0')}</span>
+                    <h3 className="text-xl md:text-2xl font-semibold text-white/90 group-hover:text-white transition-colors line-clamp-2">
+                      {video.title}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-white/50 pl-[42px] md:pl-11">
+                    {new Date(video.published_at).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
 
