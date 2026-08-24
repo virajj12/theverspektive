@@ -1,0 +1,28 @@
+# VerspeKtive Productions - Functional Feature Analysis
+
+Based on your business structure, here is a focused breakdown of the functional features required specifically for the **VerspeKtive Productions** pillar. 
+
+## 1. TIO Originals (Content Platform)
+This sub-pillar focuses on the production and distribution of your cinema-grade social media content. While we have the core UI built, the following functional features are required:
+
+### Talk It Out of Mangalore (Podcast)
+- **Multilingual Support Structure**: Since this is explicitly a multilingual podcast show, the UI and database need to support language tagging. Users should be able to filter or easily identify the language of a specific episode (e.g., Tulu, Kannada, English) via badges on the video thumbnails.
+- **Episode Management (CMS)**: An admin interface to upload new podcast episodes, link YouTube URLs, and categorize them under "Talk It Out".
+
+### Taste It Out of Mangalore (Food Show)
+- **Distinct Categorization**: The database (`youtube_videos` table) must support categorization so that "Taste It Out" food show episodes are clearly separated from "Talk It Out" podcasts in the UI, potentially with their own dedicated carousel or filter tab.
+
+---
+
+## 2. Verspektive Studios (Physical Space & Rentals)
+This sub-pillar represents the physical space where the podcasts are shot. It is positioned as the 1st premium podcast studio in Tulunad.
+
+### Team Management
+- **Studios Team Showcase**: The "Team section is needed in this" requirement means we need to ensure the existing Coverflow Carousel is specifically populated with the team members responsible for operating the studio (e.g., sound engineers, camera operators, producers). This requires managing the `teams` JSON data in the database.
+
+### Studio Rentals System (Future Phase)
+To support the "Rentals in future" requirement, we will need to build a robust booking engine:
+- **Interactive Booking Calendar**: A UI for users to view available time slots for the studio and select a date/time to rent it.
+- **Booking Flow & Forms**: A form for users to specify their equipment needs, rental duration, and contact details.
+- **Payment Gateway Integration**: Integration with Stripe or Razorpay to process upfront booking deposits or full rental payments securely.
+- **Admin Rental Dashboard**: A backend interface for you to manage bookings, block out dates (when you are shooting your own TIO Originals), and manage rental invoices.
