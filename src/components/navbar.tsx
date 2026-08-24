@@ -127,8 +127,11 @@ export default function Navbar() {
       document.documentElement.classList.remove("dark");
     } else {
       const savedTheme = localStorage.getItem("theme");
-      if (savedTheme === "dark") {
+      // Default to dark mode for productions unless explicitly set to light
+      if (savedTheme !== "light") {
         document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
       }
     }
   }, [isProductionsPage]);
@@ -198,7 +201,7 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             {isProductionsPage && (
               <AnimatedThemeToggler
-                className="hidden lg:flex text-muted-foreground hover:text-foreground transition-colors duration-200"
+                className="flex text-muted-foreground hover:text-foreground transition-colors duration-200"
               />
             )}
             <Link
