@@ -315,7 +315,7 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
             className={clsx(
-              "fixed inset-0 z-40 backdrop-blur-2xl flex flex-col pt-12",
+              "fixed inset-0 z-[45] backdrop-blur-2xl flex flex-col pt-12",
               isBlackHeroPage ? "bg-[#1d1d1f]/98" : isProductionsPage ? "bg-background/98" : "bg-white/98"
             )}
           >

@@ -51,7 +51,7 @@ export function AnimatedTabs({ tabs, backHref, activeTabOverride }: AnimatedTabs
   const showBack = backHref && pathname !== backHref;
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center">
       <div className="relative bg-black/60 border border-white/10 mx-auto flex w-fit items-center rounded-full p-2 backdrop-blur-md overflow-hidden">
         
         <div className="relative flex items-center">
