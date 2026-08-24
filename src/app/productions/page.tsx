@@ -44,7 +44,7 @@ export default async function Productions() {
       const res = await fetch(ytUrl, { next: { revalidate: 3600 } });
       
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as any;
         if (data.items) {
           youtubeApiVideos = data.items.map((item: any) => ({
             id: item.id.videoId,
