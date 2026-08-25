@@ -15,7 +15,13 @@ export default async function TalkItOutPage() {
   let playlistVideos: Record<string, any[]> = {};
 
   try {
-    const env = getRequestContext().env;
+    let env: any = null;
+    try {
+      env = getRequestContext().env;
+    } catch (e) {
+      // getRequestContext throws in Vercel, ignore
+    }
+
     if (env && env.DB) {
       const db = getDb(env.DB);
       const playlistsConfig = await db.select().from(pages).where(
