@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Play, ChevronLeft, ChevronRight } from "lucide-react";
+import { Play } from "lucide-react";
 import { useTabsStore } from "@/store/tabs-store";
 import { PerspectiveHero } from "@/components/ui/perspective-hero";
 import MaskText from "@/components/MaskText";
@@ -70,14 +70,6 @@ export default function TalkItOutClient({ playlists = [], playlistVideos = {} }:
     </div>
   );
 
-  const scrollContainer = (id: string, direction: 'left' | 'right') => {
-    const container = document.getElementById(`scroll-container-${id}`);
-    if (container) {
-      const scrollAmount = container.clientWidth * 0.8;
-      container.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
-    }
-  };
-
   return (
     <div className="flex flex-col min-h-screen bg-black text-white pb-32">
       <div id="talk-it-out" className="relative scroll-m-20">
@@ -90,35 +82,33 @@ export default function TalkItOutClient({ playlists = [], playlistVideos = {} }:
                   <div key={playlist.id} id={`playlist-${playlist.id}`} className="scroll-m-40 min-h-[50vh]">
                     <div className="flex items-center justify-between mb-8">
                       <MaskText text={playlist.title} className="text-3xl md:text-4xl font-bold tracking-tight" />
-                      {videos.length > 0 && (
-                        <div className="flex gap-2">
-                          <button onClick={() => scrollContainer(playlist.id, 'left')} className="p-3 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-colors">
-                            <ChevronLeft className="w-5 h-5" />
-                          </button>
-                          <button onClick={() => scrollContainer(playlist.id, 'right')} className="p-3 rounded-full bg-zinc-900 hover:bg-zinc-800 transition-colors">
-                            <ChevronRight className="w-5 h-5" />
-                          </button>
-                        </div>
-                      )}
                     </div>
                     
                     {videos.length === 0 ? (
-                      <div className="bg-zinc-900/50 rounded-2xl p-12 text-center text-zinc-500 border border-white/5">
-                        No videos found for this playlist.
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {[1, 2, 3].map((i) => (
+                          <div key={`skeleton-${i}`} className="group flex flex-col gap-4">
+                            <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900 border border-white/10">
+                              <div className="absolute inset-0 flex items-center justify-center text-zinc-500">
+                                <Play className="w-8 h-8" />
+                              </div>
+                            </div>
+                            <div>
+                              <div className="h-6 bg-zinc-900 rounded w-3/4 mb-2"></div>
+                              <div className="h-4 bg-zinc-900/50 rounded w-1/2"></div>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     ) : (
-                      <div 
-                        id={`scroll-container-${playlist.id}`}
-                        className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-hide"
-                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                      >
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8">
                         {videos.map((video: any) => (
                           <a 
                             key={video.id} 
                             href={video.youtube_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group flex flex-col gap-4 min-w-[300px] md:min-w-[400px] snap-start"
+                            className="group flex flex-col gap-4"
                           >
                             <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900 border border-white/10">
                               <Image 
