@@ -1,75 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
-import Image from "next/image";
 import { PerspectiveHero } from "@/components/ui/perspective-hero";
-import MaskText from "@/components/MaskText";
-import { Play } from "lucide-react";
-import { LiquidMetal, liquidMetalPresets } from '@paper-design/shaders-react';
+import { LiquidMetal, liquidMetalPresets } from "@paper-design/shaders-react";
+import Link from "next/link";
+import { ArrowRight, MessageCircle, Utensils } from "lucide-react";
 
 export default function TioOriginalsClient() {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const hash = `#${entry.target.id}`;
-            if (window.location.hash !== hash) {
-              window.history.replaceState(null, '', hash);
-              window.dispatchEvent(new CustomEvent("updateActiveHash", { detail: hash }));
-            }
-          }
-        });
-      },
-      { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
-    );
-
-    const talkSection = document.getElementById("talk-it-out");
-    const tasteSection = document.getElementById("taste-it-out");
-
-    if (talkSection) observer.observe(talkSection);
-    if (tasteSection) observer.observe(tasteSection);
-
-    return () => observer.disconnect();
-  }, []);
-
-  const talkHero = (
-    <div className="flex flex-col items-center justify-center text-foreground bg-background transition-colors duration-300 w-full h-full px-6 text-center">
-      <div
-        className="relative w-full max-w-[400px] h-[150px] mx-auto mb-8"
-        style={{
-          maskImage: `url('/TIO-01.png')`,
-          WebkitMaskImage: `url('/TIO-01.png')`,
-          maskSize: "contain",
-          WebkitMaskSize: "contain",
-          maskRepeat: "no-repeat",
-          WebkitMaskRepeat: "no-repeat",
-          maskPosition: "center",
-          WebkitMaskPosition: "center"
-        }}
-      >
-        <LiquidMetal {...liquidMetalPresets[2]} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", transform: "scale(5)" }} />
-      </div>
-      <MaskText
-        text="Conversations that matter. Stories that inspire."
-        className="text-xl md:text-2xl text-white/80 font-medium max-w-3xl leading-relaxed justify-center"
-      />
-    </div>
-  );
-
-  const talkCover = (
-    <div className="relative w-full h-full overflow-hidden">
-      <Image
-        src="https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?q=80&w=2656&auto=format&fit=crop"
-        alt="Podcast Studio"
-        fill
-        priority
-        className="object-cover"
-      />
-    </div>
-  );
-
-  const tasteHero = (
+  const tioOriginalsHero = (
     <div className="flex flex-col items-center justify-center text-foreground bg-background transition-colors duration-300 w-full h-full px-6 text-center">
       <div
         className="relative w-full max-w-[400px] h-[150px] mx-auto mb-8"
@@ -86,69 +23,78 @@ export default function TioOriginalsClient() {
       >
         <LiquidMetal {...liquidMetalPresets[2]} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", transform: "scale(5)" }} />
       </div>
-      <MaskText
-        text="A culinary journey through stories and flavors."
-        className="text-xl md:text-2xl text-white/80 font-medium max-w-3xl leading-relaxed justify-center"
-      />
+      <p className="text-xl md:text-2xl text-zinc-400 font-medium max-w-2xl leading-relaxed">
+        Pioneering perspectives. Authentic stories.
+      </p>
     </div>
   );
 
-  const tasteCover = (
-    <div className="relative w-full h-full overflow-hidden">
-      <Image
-        src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=2000&auto=format&fit=crop"
-        alt="Food Presentation"
-        fill
-        priority
-        className="object-cover"
-      />
+  const tioOriginalsAboutCover = (
+    <div className="relative w-full h-full flex flex-col items-center justify-center bg-zinc-950 p-6 md:p-16 text-center">
+      <div className="max-w-4xl">
+        <h2 className="text-3xl md:text-5xl font-bold mb-8 text-white">About TIO Originals</h2>
+        <p className="text-lg md:text-xl text-white/80 leading-relaxed mb-6">
+          TIO Originals is the flagship production house of VerspeKtive, dedicated to creating profound, thought-provoking content that challenges the status quo. We believe in the power of authentic storytelling to bridge divides and foster understanding across diverse communities.
+        </p>
+        <p className="text-lg md:text-xl text-white/80 leading-relaxed">
+          Our productions range from deep-dive conversational series like <span className="font-semibold text-white">Talk It Out</span> to culinary explorations like <span className="font-semibold text-white">Taste It Out</span>, all produced with our signature commitment to raw, unfiltered truth and exceptional production value.
+        </p>
+      </div>
     </div>
   );
 
   return (
-    <div className="flex flex-col min-h-screen bg-black text-white">
-      {/* Talk It Out Section */}
-      <div id="talk-it-out" className="relative scroll-m-20">
-        <PerspectiveHero hero={talkHero} cover={talkCover}>
-          <div className="container mx-auto px-6 md:px-12 py-12 md:py-24 max-w-[1200px] relative z-10">
-            <div className="mb-32">
-              <MaskText text="Talk It Out - Featured Episodes" className="text-4xl font-bold tracking-tight mb-10" />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[1, 2, 3].map((i) => (
-                  <div key={`talk-${i}`} className="group flex flex-col gap-4">
-                    <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900 border border-white/10">
-                      <div className="absolute inset-0 flex items-center justify-center text-zinc-500">
-                        <Play className="w-8 h-8" />
-                      </div>
-                    </div>
-                    <h3 className="text-lg font-medium leading-snug">Episode {i}</h3>
-                  </div>
-                ))}
-              </div>
+    <div className="flex flex-col min-h-screen bg-black text-white pb-32">
+      {/* TIO Originals Section */}
+      <div id="tio-originals" className="relative scroll-m-20">
+        <PerspectiveHero hero={tioOriginalsHero} cover={tioOriginalsAboutCover}>
+          <div className="container mx-auto px-6 md:px-12 py-24 max-w-[1200px] relative z-10 flex flex-col items-center justify-center min-h-[50vh]">
+            
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">Explore the Brands</h2>
+              <p className="text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto">
+                Dive into our specialized production verticals, each crafted to tell stories from a unique perspective.
+              </p>
             </div>
-          </div>
-        </PerspectiveHero>
-      </div>
 
-      {/* Taste It Out Section */}
-      <div id="taste-it-out" className="relative scroll-m-20">
-        <PerspectiveHero hero={tasteHero} cover={tasteCover}>
-          <div className="container mx-auto px-6 md:px-12 py-12 md:py-24 max-w-[1200px] relative z-10">
-            <div className="mb-32">
-              <MaskText text="Taste It Out - Recent Experiences" className="text-4xl font-bold tracking-tight mb-10" />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[1, 2, 3].map((i) => (
-                  <div key={`taste-${i}`} className="group flex flex-col gap-4">
-                    <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900 border border-white/10">
-                      <div className="absolute inset-0 flex items-center justify-center text-zinc-500">
-                        <Play className="w-8 h-8" />
-                      </div>
-                    </div>
-                    <h3 className="text-lg font-medium leading-snug">Episode {i}</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl">
+              {/* Talk It Out Card */}
+              <Link 
+                href="/productions/tio-originals/talk-it-out"
+                className="group relative flex flex-col justify-between h-[400px] p-10 rounded-3xl bg-zinc-900 border border-white/10 hover:border-white/20 transition-all duration-500 overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-zinc-800/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10 flex items-center justify-between">
+                  <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center backdrop-blur-md border border-white/10 group-hover:scale-110 transition-transform duration-500">
+                    <MessageCircle className="w-8 h-8 text-white" />
                   </div>
-                ))}
-              </div>
+                  <ArrowRight className="w-8 h-8 text-white/30 group-hover:text-white transition-colors duration-300" />
+                </div>
+                <div className="relative z-10 mt-auto">
+                  <h3 className="text-3xl font-bold mb-4">Talk It Out</h3>
+                  <p className="text-zinc-400 text-lg">Profound, unfiltered conversations with guests from all walks of life.</p>
+                </div>
+              </Link>
+
+              {/* Taste It Out Card */}
+              <Link 
+                href="/productions/tio-originals/taste-it-out"
+                className="group relative flex flex-col justify-between h-[400px] p-10 rounded-3xl bg-zinc-900 border border-white/10 hover:border-white/20 transition-all duration-500 overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-zinc-800/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10 flex items-center justify-between">
+                  <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center backdrop-blur-md border border-white/10 group-hover:scale-110 transition-transform duration-500">
+                    <Utensils className="w-8 h-8 text-white" />
+                  </div>
+                  <ArrowRight className="w-8 h-8 text-white/30 group-hover:text-white transition-colors duration-300" />
+                </div>
+                <div className="relative z-10 mt-auto">
+                  <h3 className="text-3xl font-bold mb-4">Taste It Out</h3>
+                  <p className="text-zinc-400 text-lg">A flavorful journey exploring culinary gems and the stories behind them.</p>
+                </div>
+              </Link>
             </div>
+
           </div>
         </PerspectiveHero>
       </div>

@@ -301,10 +301,46 @@ function StudiosAdmin() {
 
 function TalkItOutAdmin() {
   const [loading, setLoading] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
   const [formData, setFormData] = useState({
     title: "Talk It Out",
     subtitle: "Talk It Out — the flagship podcast series produced by VerspeKtive Productions.",
   });
+  const [playlists, setPlaylists] = useState<{ id: string, title: string, playlistId: string }[]>([
+    { id: "tulu", title: "Tulu", playlistId: "" },
+    { id: "kannada", title: "Kannada", playlistId: "" },
+    { id: "english", title: "English", playlistId: "" }
+  ]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/api/content?slug=talk-it-out");
+        const data: any = await res.json();
+        if (data.data) {
+          const newData = { ...formData };
+          let newPlaylists = [...playlists];
+          
+          data.data.forEach((item: any) => {
+            if (item.section_key === "heroTitle") newData.title = item.value;
+            if (item.section_key === "heroSubtitle") newData.subtitle = item.value;
+            if (item.section_key === "playlists") {
+              try {
+                newPlaylists = JSON.parse(item.value);
+              } catch (e) {}
+            }
+          });
+          setFormData(newData);
+          setPlaylists(newPlaylists);
+        }
+      } catch (err) {
+        console.error("Failed to fetch talk-it-out content");
+      } finally {
+        setInitialLoad(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -315,12 +351,43 @@ function TalkItOutAdmin() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slug: "talk-it-out", section_key: "heroTitle", value: formData.title, content_type: "text" }),
       });
+      await fetch("/api/content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug: "talk-it-out", section_key: "heroSubtitle", value: formData.subtitle, content_type: "text" }),
+      });
+      await fetch("/api/content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug: "talk-it-out", section_key: "playlists", value: JSON.stringify(playlists), content_type: "json" }),
+      });
       alert("Talk It Out content saved successfully!");
     } catch (err) {
       alert("Error saving content");
     } finally {
       setLoading(false);
     }
+  };
+
+  if (initialLoad) return <p>Loading...</p>;
+
+  const handleAddPlaylist = () => {
+    setPlaylists([...playlists, { id: `playlist-${Date.now()}`, title: "New Playlist", playlistId: "" }]);
+  };
+
+  const handleRemovePlaylist = (index: number) => {
+    const newPlaylists = [...playlists];
+    newPlaylists.splice(index, 1);
+    setPlaylists(newPlaylists);
+  };
+
+  const handlePlaylistChange = (index: number, field: string, value: string) => {
+    const newPlaylists = [...playlists];
+    newPlaylists[index] = { ...newPlaylists[index], [field]: value };
+    if (field === "title") {
+      newPlaylists[index].id = value.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    }
+    setPlaylists(newPlaylists);
   };
 
   return (
@@ -344,6 +411,48 @@ function TalkItOutAdmin() {
           onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
           className="w-full px-4 py-3 rounded-lg border border-zinc-300 bg-transparent focus:outline-none focus:ring-2 focus:ring-zinc-400 transition-all h-24"
         />
+      </div>
+
+      <div className="pt-6 border-t border-zinc-100">
+        <div className="flex justify-between items-center mb-4">
+          <h4 className="text-lg font-semibold">Playlists</h4>
+          <button type="button" onClick={handleAddPlaylist} className="text-sm bg-zinc-100 px-3 py-1.5 rounded-lg hover:bg-zinc-200 text-zinc-900">
+            + Add Playlist
+          </button>
+        </div>
+        <div className="space-y-4">
+          {playlists.map((playlist, idx) => (
+            <div key={idx} className="flex items-center gap-4 bg-zinc-50 p-4 rounded-xl border border-zinc-200">
+              <div className="flex-1 grid gap-2">
+                <label className="text-xs font-medium text-zinc-500">Title</label>
+                <input
+                  type="text"
+                  value={playlist.title}
+                  onChange={(e) => handlePlaylistChange(idx, "title", e.target.value)}
+                  className="w-full px-3 py-2 rounded border border-zinc-300 bg-white"
+                  placeholder="e.g. Tulu"
+                />
+              </div>
+              <div className="flex-1 grid gap-2">
+                <label className="text-xs font-medium text-zinc-500">YouTube Playlist ID</label>
+                <input
+                  type="text"
+                  value={playlist.playlistId}
+                  onChange={(e) => handlePlaylistChange(idx, "playlistId", e.target.value)}
+                  className="w-full px-3 py-2 rounded border border-zinc-300 bg-white"
+                  placeholder="PL..."
+                />
+              </div>
+              <button 
+                type="button" 
+                onClick={() => handleRemovePlaylist(idx)}
+                className="mt-6 text-red-500 hover:text-red-700 font-medium text-sm"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="pt-4 flex justify-end">

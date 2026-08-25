@@ -6,29 +6,39 @@ import MaskText from "@/components/MaskText";
 import { Video, Mic, Film } from "lucide-react";
 import { ContactEmailDropdown } from "@/components/ContactEmailDropdown";
 import { ArrowRight } from "lucide-react";
-import { LiquidMetal, liquidMetalPresets } from '@paper-design/shaders-react';
+import LightRays from "@/components/ui/LightRays";
 export default function VerspektiveStudiosClient() {
   const hero = (
-    <div className="flex flex-col items-center justify-center text-foreground bg-background transition-colors duration-300 w-full h-full px-6 text-center">
-      <div 
-        className="relative w-full max-w-[400px] h-[150px] mx-auto mb-8"
-        style={{
-          maskImage: `url('/MFB LOGO wg.png')`,
-          WebkitMaskImage: `url('/MFB LOGO wg.png')`,
-          maskSize: "contain",
-          WebkitMaskSize: "contain",
-          maskRepeat: "no-repeat",
-          WebkitMaskRepeat: "no-repeat",
-          maskPosition: "center",
-          WebkitMaskPosition: "center"
-        }}
-      >
-        <LiquidMetal {...liquidMetalPresets[2]} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", transform: "scale(5)" }} />
+    <div className="flex flex-col items-center justify-center text-foreground bg-transparent relative transition-colors duration-300 w-full h-full px-6 text-center" style={{ minHeight: '600px' }}>
+      <div className="absolute inset-0 z-0">
+        <LightRays
+          raysOrigin="top-center"
+          raysColor="#ffffff"
+          raysSpeed={1.5}
+          lightSpread={0.8}
+          rayLength={1.2}
+          followMouse={true}
+          mouseInfluence={0.1}
+          noiseAmount={0.1}
+          distortion={0.05}
+          className="custom-rays"
+        />
       </div>
-      <MaskText
-        text="State-of-the-art production spaces."
-        className="text-xl md:text-2xl text-white/80 font-medium max-w-3xl leading-relaxed justify-center"
-      />
+      <div className="relative z-10 flex flex-col items-center justify-center w-full mt-20">
+        <div className="relative w-full max-w-[400px] h-[150px] mx-auto mb-8">
+          <Image
+            src="/MFB LOGO wg.png"
+            alt="Verspektive Studio"
+            fill
+            className="object-contain"
+            priority
+          />
+        </div>
+        <MaskText
+          text="State-of-the-art production spaces."
+          className="text-xl md:text-2xl text-white/80 font-medium max-w-3xl leading-relaxed justify-center"
+        />
+      </div>
     </div>
   );
 

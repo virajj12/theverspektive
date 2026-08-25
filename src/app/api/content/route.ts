@@ -18,7 +18,7 @@ const getContentSchema = z.object({
 const upsertContentSchema = z.object({
   slug: z.string().min(1).max(100).regex(slugPattern, "Invalid slug format"),
   section_key: z.string().min(1).max(100).regex(slugPattern, "Invalid section_key format"),
-  content_type: z.enum(["text", "richtext", "image_url"]).default("text"),
+  content_type: z.enum(["text", "richtext", "image_url", "json"]).default("text"),
   value: z.string().min(1).max(50000), // 50KB max per field
 });
 

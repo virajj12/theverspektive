@@ -3,35 +3,31 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
+import { useTabsStore } from "@/store/tabs-store";
 
 const MAIN_TABS = [
-  { label: "TIO Originals", href: "/productions/tio-originals" },
-  { label: "VerspeKtive Studios", href: "/productions/verspektive-studios" },
-];
-
-const TIO_TABS = [
-  { label: "Talk it out", href: "#talk-it-out", grouped: true },
-  { label: "Taste it out", href: "#taste-it-out", grouped: true },
+  { id: "tio-originals", label: "TIO Originals", href: "/productions/tio-originals" },
+  { id: "verspektive-studios", label: "VerspeKtive Studios", href: "/productions/verspektive-studios" },
 ];
 
 const STUDIOS_TABS = [
-  { label: "VerspeKtive Studios", href: "/productions/verspektive-studios", className: "w-[120px]" },
+  { id: "verspektive-studios", label: "VerspeKtive Studios", href: "/productions/verspektive-studios" },
 ];
 
 export function ProductionsTabs() {
   const pathname = usePathname();
   const [activeHash, setActiveHash] = useState("");
+  const playlists = useTabsStore(s => s.playlists);
 
   useEffect(() => {
-    // Check initial hash on mount
     if (typeof window !== "undefined") {
-      setActiveHash(window.location.hash || "#talk-it-out");
+      setActiveHash(window.location.hash);
       
       const handleHashChange = (e: Event) => {
         if (e.type === "updateActiveHash") {
           setActiveHash((e as CustomEvent).detail);
         } else {
-          setActiveHash(window.location.hash || "#talk-it-out");
+          setActiveHash(window.location.hash);
         }
       };
 
@@ -42,14 +38,44 @@ export function ProductionsTabs() {
         window.removeEventListener("updateActiveHash", handleHashChange);
       };
     }
-  }, []);
+  }, [pathname]);
 
-  if (pathname === "/productions/tio-originals") {
-    return <AnimatedTabs tabs={TIO_TABS} backHref="/productions" activeTabOverride={activeHash} />;
+  if (pathname.startsWith("/productions/tio-originals")) {
+    const isTalkPage = pathname === "/productions/tio-originals/talk-it-out";
+    const isTastePage = pathname === "/productions/tio-originals/taste-it-out";
+    
+    const tioTabs = [];
+
+    if (isTalkPage) {
+      tioTabs.push({ id: "talk-it-out", label: "Talk it out", href: "/productions/tio-originals/talk-it-out", grouped: true });
+      playlists.forEach(p => {
+        tioTabs.push({ id: `playlist-${p.id}`, label: p.title, href: `#playlist-${p.id}`, grouped: true });
+      });
+    } else if (isTastePage) {
+      tioTabs.push({ id: "taste-it-out", label: "Taste it out", href: "/productions/tio-originals/taste-it-out", iconOnlyWhenActiveBack: true });
+    } else {
+      tioTabs.push({ id: "tio-originals", label: "TIO Originals", href: "/productions/tio-originals", iconOnlyWhenActiveBack: true });
+      tioTabs.push({ id: "talk-it-out", label: "Talk it out", href: "/productions/tio-originals/talk-it-out", grouped: false });
+      tioTabs.push({ id: "taste-it-out", label: "Taste it out", href: "/productions/tio-originals/taste-it-out", grouped: false });
+    }
+
+    // Determine the active tab ID to pass to AnimatedTabs
+    let activeTabId = "";
+    if (isTalkPage) {
+      // Prioritize hash if it matches a playlist, otherwise default to the talk page route
+      activeTabId = tioTabs.find(t => t.href === activeHash)?.href || "/productions/tio-originals/talk-it-out";
+    }
+
+    const backHref = isTalkPage || isTastePage ? "/productions/tio-originals" : "/productions";
+
+    return <AnimatedTabs tabs={tioTabs} activeTabOverride={activeTabId} backHref={backHref} />;
   }
 
   if (pathname === "/productions/verspektive-studios") {
-    return <AnimatedTabs tabs={STUDIOS_TABS} backHref="/productions" />;
+    const studiosTabs = [
+      { id: "verspektive-studios", label: "VerspeKtive Studios", href: "/productions/verspektive-studios", iconOnlyWhenActiveBack: true }
+    ];
+    return <AnimatedTabs tabs={studiosTabs} backHref="/productions" />;
   }
 
   return <AnimatedTabs tabs={MAIN_TABS} backHref="/productions" />;
