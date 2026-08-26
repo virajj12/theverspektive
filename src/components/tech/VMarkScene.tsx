@@ -34,7 +34,7 @@ import {
 } from "./v-mark-geometry";
 import { useTechTrackStore } from "@/store/tech-track-store";
 
-const OBSIDIAN = "#0a0a0b";
+const OBSIDIAN = "#18181c";
 const RIM = "#2997ff"; // brand accent (dark mode) — spec 3
 
 /** Build an extruded, lightly bevelled solid from a 2D polygon. */
@@ -67,11 +67,11 @@ function useExtruded(points: Pt[]) {
 function obsidianMaterial() {
   return new THREE.MeshPhysicalMaterial({
     color: OBSIDIAN,
-    metalness: 0.35,
-    roughness: 0.18,
+    metalness: 0.5,
+    roughness: 0.2,
     clearcoat: 1,
-    clearcoatRoughness: 0.25,
-    reflectivity: 0.6,
+    clearcoatRoughness: 0.2,
+    reflectivity: 0.8,
   });
 }
 
@@ -250,14 +250,16 @@ export default function VMarkScene({ reducedMotion = false }: { reducedMotion?: 
       aria-hidden="true"
     >
       {/* Deep ambient so the black reads as material, not a silhouette. */}
-      <ambientLight intensity={0.55} />
+      <ambientLight intensity={3.5} />
       {/* Key — cool white, high and to the left. */}
-      <directionalLight position={[-3, 4, 3]} intensity={1.5} color="#ffffff" />
+      <directionalLight position={[-3, 4, 3]} intensity={10.0} color="#ffffff" />
+      {/* Direct front light for clear visibility and specular shine. */}
+      <directionalLight position={[0, 0, 5]} intensity={8.0} color="#ffffff" />
       {/* Rim lights in the brand blue along the inner edges (spec 5). */}
-      <pointLight position={[2.4, -1.2, 1.4]} intensity={9} color={RIM} distance={7} />
-      <pointLight position={[-2.2, 1.6, -1.8]} intensity={7} color={RIM} distance={7} />
+      <pointLight position={[2.4, -1.2, 1.4]} intensity={80} color={RIM} distance={15} />
+      <pointLight position={[-2.2, 1.6, -1.8]} intensity={75} color={RIM} distance={15} />
       {/* A touch of warm bounce so the obsidian isn't monochrome-flat. */}
-      <pointLight position={[0, -2.4, 2]} intensity={2.4} color="#ffffff" distance={6} />
+      <pointLight position={[0, -2.4, 2]} intensity={40} color="#ffffff" distance={10} />
       <Rig reducedMotion={reducedMotion} />
     </Canvas>
   );
