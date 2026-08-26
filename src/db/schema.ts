@@ -70,6 +70,24 @@ export const rate_limits = sqliteTable("rate_limits", {
   reset_at: integer("reset_at", { mode: "timestamp" }).notNull(),
 });
 
+/**
+ * Inbound leads from the /tech page contact section (spec 4.7).
+ *
+ * Persisted as well as emailed so an inquiry is never lost to a Resend outage
+ * or a missing API key — the email is a notification, this table is the record.
+ */
+export const tech_inquiries = sqliteTable("tech_inquiries", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  email: text("email").notNull(),
+  name: text("name"),
+  /** Which audience track they came through, if they picked one: 'business' | 'personal' */
+  track: text("track"),
+  message: text("message").notNull(),
+  /** Set false if the notification email failed, so it can be retried/reviewed. */
+  notified: integer("notified", { mode: "boolean" }).notNull().default(false),
+  created_at: integer("created_at", { mode: "timestamp" }).notNull(),
+});
+
 export const orders = sqliteTable("orders", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   user_id: integer("user_id").notNull(),

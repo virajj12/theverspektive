@@ -13,6 +13,7 @@ import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 const navItems = [
   { name: "G3 Builders & Architecture", href: "/g3-builders" },
   { name: "Productions", href: "/productions" },
+  { name: "Tech", href: "/tech" },
   { name: "Founder", href: "/founder" },
   { name: "Store", href: "/store" },
 ];
@@ -45,6 +46,23 @@ const megaMenus: Record<string, { title: string, links: { name: string, href: st
       links: [
         { name: "YouTube", href: "https://www.youtube.com/@verspektive_productions/" },
         { name: "Instagram", href: "https://www.instagram.com/verspektive_productions" }
+      ]
+    }
+  ],
+  "Tech": [
+    {
+      title: "Explore",
+      links: [
+        { name: "For Businesses", href: "/tech#audience" },
+        { name: "For Personal Brands", href: "/tech#audience" },
+        { name: "How We Work", href: "/tech#process" }
+      ]
+    },
+    {
+      title: "Quick Links",
+      links: [
+        { name: "Case Study", href: "/tech#case-study" },
+        { name: "Start a Project", href: "/tech#contact" }
       ]
     }
   ],
@@ -119,7 +137,7 @@ export default function Navbar() {
 
   // Define pages with black hero sections
   const isProductionsPage = pathname.startsWith("/productions");
-  const isBlackHeroPage = pathname === "/error" || pathname.startsWith("/account") || pathname === "/founder";
+  const isBlackHeroPage = pathname === "/error" || pathname.startsWith("/account") || pathname === "/founder" || pathname === "/tech";
 
   // Enforce theme isolation: remove .dark class when not on productions page
   useEffect(() => {
