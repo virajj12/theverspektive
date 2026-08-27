@@ -21,6 +21,7 @@ import { PerspectiveHero } from "@/components/ui/perspective-hero";
 
 export default function ProductionsClient({ initialVideos, teams = [], youtubeApiVideos = [] }: { initialVideos: Video[], teams?: any[], youtubeApiVideos?: any[] }) {
   const [visibleCount, setVisibleCount] = useState(6);
+  const [visibleRecentCount, setVisibleRecentCount] = useState(6);
 
   // If no youtubeApiVideos, provide some sleek mock data so the UI works until API keys are added
   const recentYoutubeVideos = youtubeApiVideos.length > 0 ? youtubeApiVideos : [
@@ -54,6 +55,13 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
     setVisibleCount((prev) => prev + 6);
   };
 
+  const visibleRecentVideos = recentYoutubeVideos.slice(0, visibleRecentCount);
+  const hasMoreRecent = visibleRecentCount < recentYoutubeVideos.length;
+
+  const handleShowMoreRecent = () => {
+    setVisibleRecentCount((prev) => prev + 6);
+  };
+
   const hero = (
     <div className="flex flex-col items-center justify-center text-white bg-transparent relative overflow-hidden w-full h-full px-6 text-center">
       <AnimatedGradient />
@@ -76,14 +84,24 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
   );
 
   const cover = (
-    <div className="relative w-full h-full overflow-hidden">
-      <Image
-        src="https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?q=80&w=2656&auto=format&fit=crop"
-        alt="Production Studio"
-        fill
-        priority
-        className="object-cover"
-      />
+    <div className="relative w-full h-full flex flex-col items-center justify-center bg-zinc-950 p-6 md:p-16 text-center overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: 0.8 }}
+        className="max-w-4xl"
+      >
+        <MaskText text="About Us" className="text-3xl md:text-5xl font-bold mb-8 justify-center" />
+        <MaskText
+          text="VerspeKtive Productions is a premium digital media and content production company based in Beluvai, strategically located between Karkala and Moodbidri, Karnataka - dedicated to high-quality visual storytelling and meaningful digital content across platforms."
+          className="text-lg md:text-xl text-white/80 leading-relaxed mb-6 block justify-center"
+        />
+        <MaskText
+          text="We bring creativity, professionalism, and cinematic production standards to every project we undertake."
+          className="text-lg md:text-xl text-white/80 leading-relaxed block justify-center"
+        />
+      </motion.div>
     </div>
   );
 
@@ -92,47 +110,34 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
       <PerspectiveHero hero={hero} cover={cover}>
         <div className="container mx-auto px-6 md:px-12 pt-12 pb-32 md:pt-24 md:pb-40 max-w-[1200px] relative z-10">
 
-          {/* About Section */}
-          <div id="about" className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 mb-32">
-            <div>
-              <MaskText text="About Us" className="text-3xl font-semibold mb-6" />
-              <MaskText
-                text="VerspeKtive Productions is a premium digital media and content production company based in Beluvai, strategically located between Karkala and Moodbidri, Karnataka - dedicated to high-quality visual storytelling and meaningful digital content across platforms."
-                className="text-lg text-white/70 leading-relaxed mb-6 block"
-              />
-              <MaskText
-                text="We bring creativity, professionalism, and cinematic production standards to every project we undertake."
-                className="text-lg text-white/70 leading-relaxed block"
-              />
-            </div>
-            <div>
-              <MaskText text="Our Services" className="text-3xl font-semibold mb-6" />
-              <ul className="space-y-6">
-                {[
-                  { icon: Mic, title: "Podcast Production" },
-                  { icon: Film, title: "Commercial Video Production" },
-                  { icon: MonitorPlay, title: "Social Media Content" },
-                  { icon: Video, title: "Creative Media Solutions & Post-Production" },
-                ].map((service, i) => (
-                  <motion.li
-                    key={i}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-10%" }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                    className="flex items-center gap-4 text-lg font-medium p-4 rounded-2xl bg-zinc-900 border border-white/10 text-white"
-                  >
-                    <service.icon className="w-6 h-6 text-white/80" />
-                    <MaskText text={service.title} />
-                  </motion.li>
-                ))}
-              </ul>
+          {/* Our Services Section (Hidden for now) */}
+          <div className="mb-32 hidden">
+            <MaskText text="Our Services" className="text-4xl font-bold tracking-tight mb-10" />
+            <div className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory" style={{ scrollbarWidth: 'none' }}>
+              {[
+                { icon: Mic, title: "Podcast Production" },
+                { icon: Film, title: "Commercial Video Production" },
+                { icon: MonitorPlay, title: "Social Media Content" },
+                { icon: Video, title: "Creative Media Solutions & Post-Production" },
+              ].map((service, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="flex flex-col items-center justify-center gap-4 text-lg font-medium p-8 rounded-3xl bg-zinc-900 border border-white/10 text-white min-w-[280px] md:min-w-[320px] snap-center shrink-0"
+                >
+                  <service.icon className="w-12 h-12 text-white/80" />
+                  <MaskText text={service.title} className="text-center" />
+                </motion.div>
+              ))}
             </div>
           </div>
 
           {/* YouTube Showcase Section */}
           <div className="mb-32">
-            <MaskText text="Our Latest Work" className="text-4xl font-bold tracking-tight mb-10" />
+            <MaskText text="Featured Portfolio" className="text-4xl font-bold tracking-tight mb-10" />
 
             {initialVideos.length === 0 ? (
               <p className="text-muted-foreground text-lg">No videos added yet. Check back soon!</p>
@@ -217,16 +222,16 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
               />
             </div>
 
-            <div className="flex flex-col gap-4 max-w-4xl mx-auto w-full">
-              {recentYoutubeVideos.map((video, index) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {visibleRecentVideos.map((video, index) => (
                 <Link
                   key={video.id}
                   href={video.youtube_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative flex flex-col md:flex-row items-start md:items-center gap-6 p-4 rounded-3xl border border-transparent hover:border-white/10 hover:bg-white/5 transition-all duration-300 overflow-hidden"
+                  className="group flex flex-col gap-4"
                 >
-                  <div className="relative w-full md:w-72 aspect-video rounded-2xl overflow-hidden shrink-0 border border-white/5">
+                  <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900 border border-white/10">
                     <Image
                       src={video.thumbnail_url}
                       alt={video.title}
@@ -240,14 +245,11 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
                     </div>
                   </div>
 
-                  <div className="flex-1 flex flex-col items-start text-left space-y-3 py-2 w-full">
-                    <div className="flex items-start md:items-center gap-4 w-full">
-                      <span className="text-lg font-bold text-white/30 font-mono mt-1 md:mt-0">{(index + 1).toString().padStart(2, '0')}</span>
-                      <h3 className="text-xl md:text-2xl font-semibold text-white/90 group-hover:text-white transition-colors line-clamp-2">
-                        {video.title}
-                      </h3>
-                    </div>
-                    <p className="text-sm text-white/50 pl-[42px] md:pl-11">
+                  <div>
+                    <h3 className="text-lg font-medium leading-snug line-clamp-2 group-hover:text-white/80 transition-colors">
+                      {video.title}
+                    </h3>
+                    <p className="text-sm text-zinc-500 mt-2">
                       {new Date(video.published_at).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'long',
@@ -258,6 +260,17 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
                 </Link>
               ))}
             </div>
+
+            {hasMoreRecent && (
+              <div className="flex justify-center mt-12">
+                <button
+                  onClick={handleShowMoreRecent}
+                  className="px-8 py-3 rounded-full bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 font-medium transition-colors"
+                >
+                  Show More
+                </button>
+              </div>
+            )}
           </div>
 
           {/* CTA */}

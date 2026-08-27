@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm";
 import TechClientPage from "./client-page";
 
 export const metadata: Metadata = {
-  title: "Tech — VerspeKtive",
+  title: "Tech - VerspeKtive",
   description:
     "The team behind theverspektive.com builds websites, applications and booking systems for businesses and personal brands.",
 };

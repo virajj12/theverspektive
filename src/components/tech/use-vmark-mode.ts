@@ -35,9 +35,6 @@ function detect(): VMarkCapability {
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // A narrow viewport is the phone case the spec calls out.
-  const isNarrow = window.matchMedia("(max-width: 767px)").matches;
-
   // Respect an explicit data-saver request.
   const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
   const saveData = conn?.saveData === true;
@@ -46,7 +43,7 @@ function detect(): VMarkCapability {
   const mem = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
   const lowMemory = typeof mem === "number" && mem < 4;
 
-  if (isNarrow || saveData || lowMemory) {
+  if (saveData || lowMemory) {
     cached = { mode: "fallback", reducedMotion };
     return cached;
   }

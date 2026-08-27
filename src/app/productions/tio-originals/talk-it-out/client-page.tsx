@@ -9,6 +9,16 @@ import MaskText from "@/components/MaskText";
 
 export default function TalkItOutClient({ playlists = [], playlistVideos = {} }: { playlists?: any[], playlistVideos?: Record<string, any[]> }) {
   const setPlaylists = useTabsStore(s => s.setPlaylists);
+  const [visibleCounts, setVisibleCounts] = useState<Record<string, number>>({});
+
+  const getVisibleCount = (playlistId: string) => visibleCounts[playlistId] || 6;
+
+  const handleShowMore = (playlistId: string) => {
+    setVisibleCounts(prev => ({
+      ...prev,
+      [playlistId]: getVisibleCount(playlistId) + 6
+    }));
+  };
 
   useEffect(() => {
     setPlaylists(playlists);
@@ -78,6 +88,10 @@ export default function TalkItOutClient({ playlists = [], playlistVideos = {} }:
             <div className="space-y-24 mb-32 mt-12">
               {playlists.map((playlist) => {
                 const videos = playlistVideos[playlist.id] || [];
+                const visibleCount = getVisibleCount(playlist.id);
+                const visibleVideos = videos.slice(0, visibleCount);
+                const hasMore = visibleCount < videos.length;
+
                 return (
                   <div key={playlist.id} id={`playlist-${playlist.id}`} className="scroll-m-40 min-h-[50vh]">
                     <div className="flex items-center justify-between mb-8">
@@ -101,36 +115,49 @@ export default function TalkItOutClient({ playlists = [], playlistVideos = {} }:
                         ))}
                       </div>
                     ) : (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8">
-                        {videos.map((video: any) => (
-                          <a 
-                            key={video.id} 
-                            href={video.youtube_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group flex flex-col gap-4"
-                          >
-                            <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900 border border-white/10">
-                              <Image 
-                                src={video.thumbnail_url} 
-                                alt={video.title} 
-                                fill 
-                                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                              />
-                              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                                <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform">
-                                  <Play className="w-6 h-6 text-white fill-white ml-1" />
+                      <div className="space-y-12 pb-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {visibleVideos.map((video: any) => (
+                            <a 
+                              key={video.id} 
+                              href={video.youtube_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group flex flex-col gap-4"
+                            >
+                              <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900 border border-white/10">
+                                <Image 
+                                  src={video.thumbnail_url} 
+                                  alt={video.title} 
+                                  fill 
+                                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                                  <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <Play className="w-6 h-6 text-white fill-white ml-1" />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div>
-                              <h3 className="text-lg font-medium leading-snug line-clamp-2 group-hover:text-white/80 transition-colors">{video.title}</h3>
-                              <p className="text-sm text-zinc-500 mt-2">
-                                {new Date(video.published_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
-                              </p>
-                            </div>
-                          </a>
-                        ))}
+                              <div>
+                                <h3 className="text-lg font-medium leading-snug line-clamp-2 group-hover:text-white/80 transition-colors">{video.title}</h3>
+                                <p className="text-sm text-zinc-500 mt-2">
+                                  {new Date(video.published_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+                                </p>
+                              </div>
+                            </a>
+                          ))}
+                        </div>
+
+                        {hasMore && (
+                          <div className="flex justify-center mt-12">
+                            <button
+                              onClick={() => handleShowMore(playlist.id)}
+                              className="px-8 py-3 rounded-full bg-zinc-900 hover:bg-zinc-800 border border-white/10 font-medium transition-colors"
+                            >
+                              Show More
+                            </button>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>

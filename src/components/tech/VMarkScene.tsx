@@ -20,7 +20,7 @@
  *      parent, which never mounts this component on small/low-power devices.
  */
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import {
@@ -65,13 +65,10 @@ function useExtruded(points: Pt[]) {
 }
 
 function obsidianMaterial() {
-  return new THREE.MeshPhysicalMaterial({
+  return new THREE.MeshPhongMaterial({
     color: OBSIDIAN,
-    metalness: 0.5,
-    roughness: 0.2,
-    clearcoat: 1,
-    clearcoatRoughness: 0.2,
-    reflectivity: 0.8,
+    specular: 0x555555,
+    shininess: 80,
   });
 }
 
@@ -83,7 +80,7 @@ function Blade({ points, opacity }: { points: Pt[]; opacity: React.RefObject<num
 
   useFrame(() => {
     if (!ref.current) return;
-    const m = ref.current.material as THREE.MeshPhysicalMaterial;
+    const m = ref.current.material as THREE.MeshPhongMaterial;
     const target = opacity.current;
     if (m.opacity !== target) {
       m.opacity = target;
@@ -163,7 +160,7 @@ function Block({ amount }: { amount: React.RefObject<number> }) {
   useFrame(() => {
     if (!ref.current) return;
     const a = amount.current;
-    const m = ref.current.material as THREE.MeshPhysicalMaterial;
+    const m = ref.current.material as THREE.MeshPhongMaterial;
     m.opacity = a;
     m.transparent = a < 0.999;
     ref.current.visible = a > 0.001;
@@ -186,6 +183,17 @@ function Block({ amount }: { amount: React.RefObject<number> }) {
 function Rig({ reducedMotion }: { reducedMotion: boolean }) {
   const track = useTechTrackStore((s) => s.track);
   const group = useRef<THREE.Group>(null);
+  const mouse = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [reducedMotion]);
 
   // Animated 0..1 amounts, damped toward their targets in useFrame so state
   // changes ease rather than snap.
@@ -212,12 +220,20 @@ function Rig({ reducedMotion }: { reducedMotion: boolean }) {
       group.current.rotation.set(0, -0.32, 0);
       return;
     }
-    // Idle: a slow, shallow drift. Deliberately not a full spin — spec 3 asks
-    // for subtle micro-animation, and non-goal 4 rules out portfolio-style
-    // free-roam camera work.
+    
+    // Idle: a slow, shallow drift.
     const t = state.clock.elapsedTime;
-    group.current.rotation.y = -0.32 + Math.sin(t * 0.28) * 0.22;
-    group.current.rotation.x = Math.sin(t * 0.21) * 0.075;
+    const idleRotY = -0.32 + Math.sin(t * 0.28) * 0.22;
+    const idleRotX = Math.sin(t * 0.21) * 0.075;
+    
+    // Mouse influence (approx up to 28 degrees at screen edges)
+    const targetRotY = idleRotY + mouse.current.x * 0.5;
+    const targetRotX = idleRotX - mouse.current.y * 0.5;
+
+    // Smoothly damp current rotation towards target
+    group.current.rotation.y += (targetRotY - group.current.rotation.y) * k;
+    group.current.rotation.x += (targetRotX - group.current.rotation.x) * k;
+    
     group.current.position.y = Math.sin(t * 0.5) * 0.035;
   });
 
