@@ -1,7 +1,7 @@
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { LogOut, Settings } from "lucide-react";
+import { LogOut, Settings, Building2, Image as ImageIcon, Inbox } from "lucide-react";
 
 export default async function AdminLayout({
   children,
@@ -28,9 +28,28 @@ export default async function AdminLayout({
             <Link href="/admin" className="block px-4 py-2 rounded-lg bg-zinc-100 font-medium text-zinc-900">
               Dashboard
             </Link>
-            <Link href="/" target="_blank" className="block px-4 py-2 rounded-lg text-zinc-500 hover:bg-zinc-100 transition-colors">
-              View Live Site
-            </Link>
+
+            {/* G3 Builders — separate content pillar with its own g3_* tables */}
+            <div className="pt-4">
+              <p className="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                G3 Builders
+              </p>
+              <Link href="/admin/g3/projects" className="flex items-center gap-2 px-4 py-2 rounded-lg text-zinc-500 hover:bg-zinc-100 transition-colors">
+                <Building2 className="w-4 h-4" /> Projects
+              </Link>
+              <Link href="/admin/g3/media" className="flex items-center gap-2 px-4 py-2 rounded-lg text-zinc-500 hover:bg-zinc-100 transition-colors">
+                <ImageIcon className="w-4 h-4" /> Media Library
+              </Link>
+              <Link href="/admin/g3/inquiries" className="flex items-center gap-2 px-4 py-2 rounded-lg text-zinc-500 hover:bg-zinc-100 transition-colors">
+                <Inbox className="w-4 h-4" /> Enquiries
+              </Link>
+            </div>
+
+            <div className="pt-4">
+              <Link href="/" target="_blank" className="block px-4 py-2 rounded-lg text-zinc-500 hover:bg-zinc-100 transition-colors">
+                View Live Site
+              </Link>
+            </div>
           </nav>
 
           {/* Logout */}

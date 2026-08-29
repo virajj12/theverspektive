@@ -98,3 +98,118 @@ export const orders = sqliteTable("orders", {
   created_at: integer("created_at", { mode: "timestamp" }).notNull(),
   updated_at: integer("updated_at", { mode: "timestamp" }).notNull(),
 });
+
+/* ══════════════════════════════════════════════════════════════════════
+   G3 Builders & Architecture — spec section 5
+   ──────────────────────────────────────────────────────────────────────
+   Tables are prefixed `g3_` rather than sharing VerspeKtive's. The spec
+   calls G3 "its own database"; since both brands now run from one D1
+   binding, the prefix is how that separation is preserved — it also
+   avoids a direct collision on `pages`, which already exists.
+
+   `g3_media` is the single source of truth for every uploaded asset.
+   Nothing in G3 stores a file path directly: projects, services, team,
+   testimonials and page heroes all reference media by id. That indirection
+   is what makes the no-code admin in section 5a possible.
+   ══════════════════════════════════════════════════════════════════════ */
+
+export const g3_media = sqliteTable("g3_media", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  type: text("type").notNull(),                       // 'image' | 'video'
+  r2_key: text("r2_key").notNull().unique(),
+  url: text("url").notNull(),
+  alt_text: text("alt_text").notNull().default(""),   // required at upload (spec 5a → SEO, spec 7)
+  width: integer("width"),
+  height: integer("height"),
+  duration_seconds: integer("duration_seconds"),      // video only
+  thumbnail_r2_key: text("thumbnail_r2_key"),         // video poster frame
+  thumbnail_url: text("thumbnail_url"),
+  size_bytes: integer("size_bytes"),
+  mime_type: text("mime_type"),
+  uploaded_at: integer("uploaded_at", { mode: "timestamp" }).notNull(),
+  uploaded_by: text("uploaded_by"),
+});
+
+export const g3_projects = sqliteTable("g3_projects", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  category: text("category").notNull(),               // Residential | Commercial | Interiors | Concept
+  location: text("location"),
+  sqft: integer("sqft"),
+  year: integer("year"),
+  status: text("status").notNull().default("completed"), // completed | in-progress | concept
+  client_name: text("client_name"),
+  cover_media_id: integer("cover_media_id"),          // → g3_media.id
+  summary: text("summary"),
+  body: text("body"),                                 // narrative: brief / challenge / approach
+  featured: integer("featured", { mode: "boolean" }).notNull().default(false),
+  published: integer("published", { mode: "boolean" }).notNull().default(false),
+  sort_order: integer("sort_order").notNull().default(0),
+  created_at: integer("created_at", { mode: "timestamp" }).notNull(),
+  updated_at: integer("updated_at", { mode: "timestamp" }).notNull(),
+});
+
+/* Join table: an ordered gallery of many assets per project, so media can be
+   reused and reordered without touching the project record (spec 5). */
+export const g3_project_media = sqliteTable("g3_project_media", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  project_id: integer("project_id").notNull(),        // → g3_projects.id
+  media_id: integer("media_id").notNull(),            // → g3_media.id
+  sort_order: integer("sort_order").notNull().default(0),
+  caption: text("caption"),
+});
+
+export const g3_services = sqliteTable("g3_services", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  summary: text("summary"),
+  body: text("body"),
+  icon_media_id: integer("icon_media_id"),            // → g3_media.id (nullable)
+  sort_order: integer("sort_order").notNull().default(0),
+});
+
+export const g3_team_members = sqliteTable("g3_team_members", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
+  role: text("role").notNull(),
+  bio: text("bio"),
+  photo_media_id: integer("photo_media_id"),          // → g3_media.id
+  sort_order: integer("sort_order").notNull().default(0),
+});
+
+export const g3_testimonials = sqliteTable("g3_testimonials", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  client_name: text("client_name").notNull(),
+  project_id: integer("project_id"),                  // → g3_projects.id
+  quote: text("quote").notNull(),
+  rating: integer("rating"),
+  sort_order: integer("sort_order").notNull().default(0),
+});
+
+export const g3_inquiries = sqliteTable("g3_inquiries", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
+  phone: text("phone").notNull(),
+  email: text("email").notNull(),
+  project_type: text("project_type"),
+  budget_range: text("budget_range"),
+  location: text("location"),
+  message: text("message"),
+  status: text("status").notNull().default("new"),    // new | contacted | closed
+  notified: integer("notified", { mode: "boolean" }).notNull().default(false),
+  created_at: integer("created_at", { mode: "timestamp" }).notNull(),
+});
+
+/* Same shape as VerspeKtive's `pages`, plus hero_media_id so hero
+   backgrounds are swappable from the admin without a deploy (spec 5). */
+export const g3_pages = sqliteTable("g3_pages", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  slug: text("slug").notNull(),
+  section_key: text("section_key").notNull(),
+  content_type: text("content_type").notNull(),       // text | richtext | media
+  value: text("value").notNull().default(""),
+  hero_media_id: integer("hero_media_id"),            // → g3_media.id
+  updated_at: integer("updated_at", { mode: "timestamp" }).notNull(),
+});

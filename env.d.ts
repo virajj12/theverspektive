@@ -13,6 +13,8 @@ declare global {
     RESEND_API_KEY: string;
     /** Optional: recipient for /tech inquiry notifications. */
     TECH_INQUIRY_TO?: string;
+    /** Optional: recipient for G3 Builders consultation enquiries. */
+    G3_INQUIRY_TO?: string;
   }
 
   namespace NodeJS {

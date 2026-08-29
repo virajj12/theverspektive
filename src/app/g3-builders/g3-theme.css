@@ -1,0 +1,215 @@
+/* ══════════════════════════════════════════════════════════════
+   G3 Builders & Architecture — Design Tokens
+   Spec section 3: "Black & Wood"
+
+   Everything is scoped under .g3-theme rather than :root. G3 is a
+   distinct identity inside a shared codebase — VerspeKtive's flat
+   monochrome palette must keep working untouched on every other
+   route, so these tokens can never leak past the G3 layout.
+   ══════════════════════════════════════════════════════════════ */
+
+.g3-theme {
+  /* ── Surfaces ──
+     Near-black, never pure #000 — keeps a hint of warmth so it sits
+     correctly beside the wood tones instead of going blue against them. */
+  --g3-black: #0a0908;
+  --g3-black-raised: #121110;
+
+  /* Deep walnut / espresso, used as section and card fills. */
+  --g3-wood: #2b1d14;
+  --g3-wood-deep: #3e2723;
+
+  /* Warm off-white for contrast sections and forms — not pure white,
+     which would read as a different brand family. */
+  --g3-bone: #f5f1ea;
+
+  /* ── Accent ──
+     Burnished brass. Reads as fine joinery hardware, not corporate blue. */
+  --g3-brass: #b8905b;
+  --g3-brass-light: #c9a66b;
+
+  /* ── Text ──
+     Body copy is softened off-white; stark white on near-black is
+     fatiguing over long scrolls. */
+  --g3-ink: #f5f1ea;
+  --g3-ink-soft: rgba(245, 241, 234, 0.72);
+  --g3-ink-faint: rgba(245, 241, 234, 0.45);
+  --g3-ink-dark: #1a1512; /* for use on .g3-surface-bone */
+
+  /* ── Rules ──
+     Thin brass hairlines as dividers — furniture inlay, not blueprint grid. */
+  --g3-rule: rgba(184, 144, 91, 0.32);
+  --g3-rule-faint: rgba(184, 144, 91, 0.14);
+
+  /* ── Type ── */
+  --g3-font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --g3-font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --g3-font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  /* ── Motion ──
+     Strong ease-out, never bouncy (spec 3a: "power3.out/power4.out feel"). */
+  --g3-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --g3-ease-strong: cubic-bezier(0.19, 1, 0.22, 1);
+
+  background-color: var(--g3-black);
+  color: var(--g3-ink);
+  font-family: var(--g3-font-body);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Wood grain
+   Spec: "high-res tileable grain image or SVG noise, low opacity,
+   applied as a background-blend over the solid color — never a
+   cheesy literal photo of planks."
+
+   Generated as an inline SVG turbulence rather than a bitmap: it is
+   ~1KB instead of a multi-hundred-KB texture, tiles seamlessly at any
+   size, and costs nothing on the mobile performance budget (spec 6).
+   Grain runs vertically, stretched hard on one axis, which is what
+   makes fBm read as timber rather than as noise.
+   ══════════════════════════════════════════════════════════════ */
+
+.g3-wood-surface {
+  background-color: var(--g3-wood);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9 0.012' numOctaves='4' seed='7'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.55'/%3E%3C/svg%3E");
+  background-blend-mode: overlay;
+  background-size: 400px 400px;
+}
+
+.g3-wood-surface-deep {
+  background-color: var(--g3-wood-deep);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85 0.01' numOctaves='4' seed='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.5'/%3E%3C/svg%3E");
+  background-blend-mode: multiply;
+  background-size: 400px 400px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Film grain
+   Spec: "~3–5% opacity site-wide ... to stop flat dark sections
+   looking dead in photos/screenshots."
+
+   pointer-events:none and fixed so it sits over everything without
+   ever intercepting a tap — important given the mobile CTA bar.
+   ══════════════════════════════════════════════════════════════ */
+
+.g3-grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Surfaces & primitives
+   ══════════════════════════════════════════════════════════════ */
+
+.g3-surface-black   { background-color: var(--g3-black); color: var(--g3-ink); }
+.g3-surface-raised  { background-color: var(--g3-black-raised); color: var(--g3-ink); }
+.g3-surface-bone    { background-color: var(--g3-bone); color: var(--g3-ink-dark); }
+
+/* Warm-tinted glass nav (spec 3: rgba(10,9,8,0.7), not neutral gray). */
+.g3-glass {
+  background: rgba(10, 9, 8, 0.7);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+/* Brass hairline divider. */
+.g3-rule {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--g3-rule) 15%,
+    var(--g3-rule) 85%,
+    transparent
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Type scale
+   ══════════════════════════════════════════════════════════════ */
+
+.g3-display-xl {
+  font-family: var(--g3-font-display);
+  font-size: clamp(2.75rem, 7vw, 6rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+.g3-display-lg {
+  font-family: var(--g3-font-display);
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.g3-display-md {
+  font-family: var(--g3-font-display);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.g3-body {
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  line-height: 1.65;
+  color: var(--g3-ink-soft);
+}
+
+/* Technical metadata — "SQ FT — 4,200", "COMPLETED — 2025" (spec 3). */
+.g3-meta {
+  font-family: var(--g3-font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--g3-brass);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   "Learn more →" link — brass on hover, chevron slides (spec 3)
+   ══════════════════════════════════════════════════════════════ */
+
+.g3-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-weight: 500;
+  color: var(--g3-ink);
+  text-decoration: none;
+  transition: color 0.25s var(--g3-ease), gap 0.25s var(--g3-ease);
+}
+
+.g3-link:hover { color: var(--g3-brass-light); gap: 0.65em; }
+.g3-link svg { width: 0.85em; height: 0.85em; transition: transform 0.25s var(--g3-ease); }
+.g3-link:hover svg { transform: translateX(2px); }
+
+/* Touch devices have no hover — keep the affordance visible (spec 6). */
+@media (hover: none) {
+  .g3-link { color: var(--g3-brass-light); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Reduced motion (spec 3a: pinned/scrubbed degrade to fades,
+   parallax and rotation disabled entirely)
+   ══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .g3-theme *,
+  .g3-theme *::before,
+  .g3-theme *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .g3-grain::after { display: none; }
+}
