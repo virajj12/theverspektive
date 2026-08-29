@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ContactEmailDropdown } from "@/components/ContactEmailDropdown";
 
 const footerSections = [
@@ -43,6 +44,7 @@ const footerSections = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
   const currentYear = new Date().getFullYear();
   const containerRef = useRef<HTMLElement>(null);
   const [height, setHeight] = useState(0);
@@ -60,6 +62,12 @@ export default function Footer() {
     return () => observer.disconnect();
   }, []);
 
+
+  // G3 Builders ships its own footer — see the matching guard in navbar.tsx.
+  // Must sit after all hooks.
+  if (pathname.startsWith('/g3-builders')) {
+    return null;
+  }
   return (
     <div
       className="relative w-full z-0"

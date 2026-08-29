@@ -242,3 +242,39 @@
     opacity: 1 !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   Above-the-fold entrance — CSS, not JS
+
+   Measured on Slow 4G + 4x CPU: the hero <h1> was the LCP element
+   at 2,637ms, of which 2,602ms was render delay. Cause: it was
+   wrapped in the framer-motion <Reveal>, which paints at opacity 0
+   and only reveals once JS has hydrated and the viewport observer
+   has fired. On a slow device that is seconds of blank hero — and
+   if JS never arrives, the headline never appears at all.
+
+   Anything above the fold therefore animates in CSS, which runs at
+   first paint with no JS involved. <Reveal> is still right for
+   everything below the fold, where the scroll trigger is the point.
+
+   Kept deliberately short: LCP cannot complete until opacity passes
+   the visibility threshold, so this duration is added directly to
+   the metric.
+   ══════════════════════════════════════════════════════════════ */
+
+@keyframes g3-enter {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.g3-enter {
+  animation: g3-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.g3-enter-1 { animation-delay: 0.06s; }
+.g3-enter-2 { animation-delay: 0.12s; }
+.g3-enter-3 { animation-delay: 0.18s; }
+
+/* The global reduced-motion block collapses animation-duration, and
+   `both` keeps the end state — so this settles instantly rather than
+   never running. */

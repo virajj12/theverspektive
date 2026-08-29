@@ -21,7 +21,6 @@ import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { ChevronRight } from "lucide-react";
-import { Reveal } from "./Reveal";
 import { useG3Scroll, MOTION_OK } from "./use-g3-scroll";
 import type { G3Image } from "@/lib/g3-constants";
 
@@ -92,29 +91,28 @@ export default function HeroShrinkReveal({
             }}
           />
 
+          {/* Above the fold: CSS entrance, never JS-gated. The <h1> here is
+              the LCP element — see the note in g3-theme.css. */}
           <div ref={copy} className="absolute inset-x-0 bottom-0">
             <div className="mx-auto w-full max-w-6xl px-6 pb-20">
-              <Reveal>
-                <span className="g3-meta">Architecture · Interiors · Construction</span>
-              </Reveal>
-              <Reveal delay={0.08}>
-                <h1 className="g3-display-xl mt-4 max-w-4xl" style={{ color: "var(--g3-ink)" }}>
-                  {headline}
-                </h1>
-              </Reveal>
-              <Reveal delay={0.18}>
-                <p className="g3-body mt-6 max-w-xl">{tagline}</p>
-              </Reveal>
-              <Reveal delay={0.26}>
-                <Link
-                  href="/g3-builders/contact"
-                  className="mt-9 inline-flex items-center gap-2 rounded-full px-7 py-4 text-base font-semibold"
-                  style={{ background: "var(--g3-brass)", color: "#0a0908" }}
-                >
-                  Book a consultation
-                  <ChevronRight className="h-4 w-4" aria-hidden="true" />
-                </Link>
-              </Reveal>
+              <span className="g3-enter g3-meta block">
+                Architecture · Interiors · Construction
+              </span>
+              <h1
+                className="g3-enter g3-enter-1 g3-display-xl mt-4 max-w-4xl"
+                style={{ color: "var(--g3-ink)" }}
+              >
+                {headline}
+              </h1>
+              <p className="g3-enter g3-enter-2 g3-body mt-6 max-w-xl">{tagline}</p>
+              <Link
+                href="/g3-builders/contact"
+                className="g3-enter g3-enter-3 mt-9 inline-flex items-center gap-2 rounded-full px-7 py-4 text-base font-semibold"
+                style={{ background: "var(--g3-brass)", color: "#0a0908" }}
+              >
+                Book a consultation
+                <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
             </div>
           </div>
         </div>
