@@ -11,7 +11,6 @@ export const runtime = 'edge';
  */
 
 import Link from "next/link";
-import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 import {
   getFeaturedProjects,
@@ -20,11 +19,12 @@ import {
   getPageContent,
   getStats,
 } from "@/lib/g3-data";
-import ProjectCard from "@/components/g3/ProjectCard";
+import HeroShrinkReveal from "@/components/g3/HeroShrinkReveal";
+import PinnedProjectShowcase from "@/components/g3/PinnedProjectShowcase";
 import ServicesBento from "@/components/g3/ServicesBento";
 import ProcessTimeline from "@/components/g3/ProcessTimeline";
 import TestimonialCarousel from "@/components/g3/TestimonialCarousel";
-import { Reveal, RevealImage } from "@/components/g3/Reveal";
+import { Reveal } from "@/components/g3/Reveal";
 import { revealDelay } from "@/components/g3/motion";
 
 function formatSqft(n: number) {
@@ -49,80 +49,11 @@ export default async function G3Home() {
 
   return (
     <>
-      {/* ── Hero ── */}
-      <section className="relative flex min-h-[92svh] items-end overflow-hidden">
-        <div className="absolute inset-0">
-          {page.heroImage ? (
-            <Image
-              src={page.heroImage.url}
-              alt={page.heroImage.alt || "G3 Builders flagship project"}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover"
-            />
-          ) : (
-            <div className="g3-wood-surface absolute inset-0" />
-          )}
-          <div
-            className="absolute inset-0"
-            style={{ background: "linear-gradient(to top, rgba(10,9,8,0.95) 8%, rgba(10,9,8,0.45) 45%, rgba(10,9,8,0.7) 100%)" }}
-          />
-        </div>
+      {/* ── Hero: signature shrink-and-reveal (spec 3a) ── */}
+      <HeroShrinkReveal heroImage={page.heroImage} headline={headline} tagline={tagline} />
 
-        <div className="relative mx-auto w-full max-w-6xl px-6 pb-20 pt-32">
-          <Reveal>
-            <span className="g3-meta">Architecture · Interiors · Construction</span>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <h1 className="g3-display-xl mt-4 max-w-4xl" style={{ color: "var(--g3-ink)" }}>
-              {headline}
-            </h1>
-          </Reveal>
-          <Reveal delay={0.18}>
-            <p className="g3-body mt-6 max-w-xl">{tagline}</p>
-          </Reveal>
-          <Reveal delay={0.26}>
-            <Link
-              href="/g3-builders/contact"
-              className="mt-9 inline-flex items-center gap-2 rounded-full px-7 py-4 text-base font-semibold"
-              style={{ background: "var(--g3-brass)", color: "#0a0908" }}
-            >
-              Book a consultation
-              <ChevronRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── Featured work ── */}
-      <section className="mx-auto max-w-6xl px-6 py-24 md:py-32">
-        <Reveal>
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <span className="g3-meta">Selected work</span>
-              <h2 className="g3-display-lg mt-3" style={{ color: "var(--g3-ink)" }}>
-                Recent projects
-              </h2>
-            </div>
-            <Link href="/g3-builders/projects" className="g3-link">
-              All projects <ChevronRight aria-hidden="true" />
-            </Link>
-          </div>
-        </Reveal>
-
-        {featured.length ? (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {featured.map((p, i) => (
-              <RevealImage key={p.id} delay={revealDelay(i)}>
-                <ProjectCard project={p} priority={i === 0} />
-              </RevealImage>
-            ))}
-          </div>
-        ) : (
-          <p className="g3-body">Projects are being added — check back shortly.</p>
-        )}
-      </section>
+      {/* ── Featured work: pinned horizontal showcase (spec 3a) ── */}
+      <PinnedProjectShowcase projects={featured} />
 
       {/* ── Services bento ── */}
       {services.length > 0 && (

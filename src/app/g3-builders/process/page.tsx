@@ -5,7 +5,7 @@ export const runtime = 'edge';
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import ProcessTimeline from "@/components/g3/ProcessTimeline";
+import StackingProcess from "@/components/g3/StackingProcess";
 import { Reveal } from "@/components/g3/Reveal";
 
 export const metadata: Metadata = {
@@ -32,9 +32,14 @@ export default function ProcessPage() {
           </p>
         </Reveal>
 
-        <div className="mt-16">
-          <ProcessTimeline />
-        </div>
+      </div>
+
+      {/* Signature stacking card deck (spec 3a) */}
+      <div className="mt-16">
+        <StackingProcess />
+      </div>
+
+      <div className="mx-auto max-w-6xl px-6">
 
         <Reveal delay={0.15}>
           <div

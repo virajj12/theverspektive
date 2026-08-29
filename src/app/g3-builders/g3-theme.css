@@ -213,3 +213,32 @@
   }
   .g3-grain::after { display: none; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   Signature sequence degradation (spec 3a)
+
+   The GSAP scrubs are registered only under
+   "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+   but the holding behaviour is CSS sticky — which would keep running
+   everywhere. Left alone that gives a phone, or anyone who asked for
+   reduced motion, two viewports of dead scroll with no payoff.
+
+   So the runway and the stickiness are unwound in exactly the same
+   conditions the animation is, leaving a plain document flow.
+   ══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  /* Hero: collapse the scroll runway, stop holding, drop the scrub styling. */
+  .g3-hero-runway { height: 100svh !important; }
+  .g3-hero-sticky { position: relative !important; }
+  .g3-hero-underlay { display: none !important; }
+
+  /* Process: cards become a normal vertical list. */
+  .g3-stack-card {
+    position: relative !important;
+    top: auto !important;
+    margin-bottom: 1.5rem !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
