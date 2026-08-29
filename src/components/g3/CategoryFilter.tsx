@@ -46,7 +46,8 @@ export default function CategoryFilter({ counts }: { counts: Record<string, numb
             initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.05, duration: 0.4, ease: [0.34, 1.4, 0.64, 1] }}
-            className="rounded-full border px-4 py-2 text-sm transition-colors"
+            /* min-h-11 = 44px, spec 6's minimum tap target. py-2 alone gave 37px. */
+            className="flex min-h-11 items-center rounded-full border px-4 py-2 text-sm transition-colors"
             style={{
               borderColor: on ? "var(--g3-brass)" : "var(--g3-rule-faint)",
               background: on ? "var(--g3-brass)" : "transparent",

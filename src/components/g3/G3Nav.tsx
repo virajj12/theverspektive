@@ -66,7 +66,7 @@ export default function G3Nav() {
       <motion.header
         className="g3-glass fixed left-1/2 top-4 z-50 flex -translate-x-1/2 items-center gap-2 rounded-full border px-2 py-2"
         style={{ borderColor: "var(--g3-rule-faint)" }}
-        animate={{ width: collapsed && !open ? 56 : "auto" }}
+        animate={{ width: collapsed && !open ? 60 : "auto" }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
         <AnimatePresence initial={false}>
@@ -106,7 +106,7 @@ export default function G3Nav() {
           onClick={() => setOpen(!open)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full md:hidden"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full md:hidden"
           style={{ background: "var(--g3-brass)", color: "#0a0908" }}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

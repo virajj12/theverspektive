@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronUp, ChevronDown } from "lucide-react";
 
 export default function ScrollToTop() {
+  const pathname = usePathname();
   const [scrollState, setScrollState] = useState<"up" | "down" | "none">("down");
 
   useEffect(() => {
@@ -38,6 +40,13 @@ export default function ScrollToTop() {
     }
   };
 
+
+  // G3 Builders is a standalone identity with its own chrome, and on mobile
+  // this control sits directly above G3's sticky CTA bar. Stand down there —
+  // same guard as navbar.tsx and footer.tsx. Must be after all hooks.
+  if (pathname.startsWith('/g3-builders')) {
+    return null;
+  }
   return (
     <AnimatePresence mode="wait">
       {scrollState !== "none" && (

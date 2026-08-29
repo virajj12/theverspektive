@@ -65,7 +65,7 @@ export default function TestimonialCarousel({ items }: { items: Testimonial[] })
 
       {items.length > 1 && (
         <div className="mt-4 flex items-center justify-between">
-          <div className="flex gap-1.5" role="tablist" aria-label="Testimonials">
+          <div className="flex items-center gap-0.5" role="tablist" aria-label="Testimonials">
             {items.map((_, i) => (
               <button
                 key={i}
@@ -73,12 +73,19 @@ export default function TestimonialCarousel({ items }: { items: Testimonial[] })
                 aria-label={`Go to testimonial ${i + 1}`}
                 aria-selected={i === index}
                 role="tab"
-                className="h-1.5 rounded-full transition-all"
-                style={{
-                  width: i === index ? 24 : 8,
-                  background: i === index ? "var(--g3-brass)" : "var(--g3-rule)",
-                }}
-              />
+                /* The dot stays small visually, but the button carries a 44px
+                   hit area around it — spec 6's minimum. A 6px-tall target is
+                   not reliably hittable with a thumb. */
+                className="flex h-11 items-center px-1"
+              >
+                <span
+                  className="block h-1.5 rounded-full transition-all"
+                  style={{
+                    width: i === index ? 24 : 8,
+                    background: i === index ? "var(--g3-brass)" : "var(--g3-rule)",
+                  }}
+                />
+              </button>
             ))}
           </div>
 
