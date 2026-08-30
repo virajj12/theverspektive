@@ -16,7 +16,7 @@ export default function TasteItOutClient() {
   );
 
   const tasteAboutCover = (
-    <div className="relative w-full h-full flex flex-col items-center justify-center bg-zinc-950 p-6 md:p-16 text-center">
+    <div className="relative w-full h-full flex flex-col items-center justify-center bg-zinc-900 p-6 md:p-16 text-center">
       <div className="max-w-4xl">
         <h2 className="text-3xl md:text-5xl font-bold mb-8 text-white">About Taste It Out</h2>
         <p className="text-lg md:text-xl text-white/80 leading-relaxed">

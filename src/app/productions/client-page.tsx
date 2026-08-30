@@ -9,6 +9,8 @@ import { motion } from "framer-motion";
 import { ContactEmailDropdown } from "@/components/ContactEmailDropdown";
 import { CoverflowCarousel, CoverflowSlide } from "@/components/ui/coverflow-carousel";
 import AnimatedGradient from "@/components/ui/animated-gradient";
+import CardSwap, { Card } from "@/components/ui/CardSwap";
+import BorderGlow from "@/components/ui/BorderGlow";
 
 interface Video {
   id: number;
@@ -76,7 +78,7 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
           />
         </div>
         <MaskText
-          text="1st Premium Multi-Cam & Podcast & Creator Studio in DK & Udupi District"
+          text="1st Premium Multi-Cam & Podcast & Creator Studio in Tulunadu"
           className="text-xl md:text-2xl text-white/80 font-medium max-w-3xl leading-relaxed justify-center"
         />
       </div>
@@ -84,7 +86,7 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
   );
 
   const cover = (
-    <div className="relative w-full h-full flex flex-col items-center justify-center bg-zinc-950 p-6 md:p-16 text-center overflow-hidden">
+    <div className="relative w-full h-full flex flex-col items-center justify-center bg-zinc-900 p-6 md:p-16 text-center overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -126,10 +128,12 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="flex flex-col items-center justify-center gap-4 text-lg font-medium p-8 rounded-3xl bg-zinc-900 border border-white/10 text-white min-w-[280px] md:min-w-[320px] snap-center shrink-0"
+                  className="text-lg font-medium text-white min-w-[280px] md:min-w-[320px] snap-center shrink-0 h-full"
                 >
-                  <service.icon className="w-12 h-12 text-white/80" />
-                  <MaskText text={service.title} className="text-center" />
+                  <BorderGlow className="flex flex-col items-center justify-center gap-4 p-8 w-full h-full" borderRadius={24}>
+                    <service.icon className="w-12 h-12 text-white/80" />
+                    <MaskText text={service.title} className="text-center" />
+                  </BorderGlow>
                 </motion.div>
               ))}
             </div>
@@ -137,53 +141,53 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
 
           {/* YouTube Showcase Section */}
           <div className="mb-32">
-            <MaskText text="Featured Portfolio" className="text-4xl font-bold tracking-tight mb-10" />
-
-            {initialVideos.length === 0 ? (
-              <p className="text-muted-foreground text-lg">No videos added yet. Check back soon!</p>
-            ) : (
-              <div className="space-y-12">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {visibleVideos.map((video) => (
-                    <Link
-                      key={video.id}
-                      href={video.youtube_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex flex-col gap-4"
-                    >
-                      <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 transition-transform duration-300 group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-black/10 dark:group-hover:shadow-white/5">
-                        <Image
-                          src={video.thumbnail_url}
-                          alt={video.title}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                          <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform group-hover:scale-110">
-                            <Play className="w-5 h-5 text-black ml-1" />
-                          </div>
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-medium leading-snug line-clamp-2 group-hover:text-primary transition-colors">
-                        {video.title}
-                      </h3>
-                    </Link>
-                  ))}
+            <div className="flex flex-col md:flex-row items-center justify-between gap-12 bg-zinc-900/40 p-8 md:p-16 rounded-3xl border border-white/10 min-h-[500px] md:min-h-[600px] relative overflow-hidden">
+              <div className="z-10 w-full md:w-1/2 mb-20 md:mb-0 relative">
+                <MaskText text="Featured Portfolio" className="text-3xl md:text-5xl font-semibold mb-6 text-white leading-tight" />
+                <p className="text-lg md:text-xl text-zinc-400 mb-10 max-w-lg leading-relaxed">
+                  Check out our latest video projects and productions. We bring visions to life with cinematic quality and engaging storytelling.
+                </p>
+                <div className="flex gap-6">
+                  <div className="p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors"><Play className="w-6 h-6" /></div>
                 </div>
+              </div>
 
-                {hasMore && (
-                  <div className="flex justify-center mt-8">
-                    <button
-                      onClick={handleShowMore}
-                      className="px-8 py-3 rounded-full bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 font-medium transition-colors"
-                    >
-                      Show More
-                    </button>
-                  </div>
+              <div className="w-full md:w-1/2 relative h-[300px] md:h-[500px]">
+                {initialVideos.length === 0 ? (
+                  <p className="text-muted-foreground text-lg">No videos added yet. Check back soon!</p>
+                ) : (
+                  <CardSwap
+                    cardDistance={60}
+                    verticalDistance={70}
+                    delay={4000}
+                    pauseOnHover={true}
+                    width={350}
+                    height={250}
+                  >
+                    {initialVideos.slice(0, 6).map((video) => (
+                      <Card key={video.id} customClass="!border-transparent !bg-transparent overflow-hidden cursor-pointer shadow-2xl group">
+                        <BorderGlow className="w-full h-full !overflow-hidden" borderRadius={12}>
+                          <Link href={video.youtube_url} target="_blank" rel="noopener noreferrer" className="block w-full h-full relative">
+                            <Image
+                              src={video.thumbnail_url}
+                              alt={video.title}
+                              fill
+                              className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex flex-col justify-end p-6">
+                              <h3 className="text-xl font-bold text-white mb-2 leading-snug line-clamp-2">{video.title}</h3>
+                              <div className="flex items-center text-sm font-medium text-white/80">
+                                <Play className="w-4 h-4 mr-2" /> Watch on YouTube
+                              </div>
+                            </div>
+                          </Link>
+                        </BorderGlow>
+                      </Card>
+                    ))}
+                  </CardSwap>
                 )}
               </div>
-            )}
+            </div>
           </div>
 
           {/* Teams Section */}
@@ -229,34 +233,36 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
                   href={video.youtube_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-col gap-4"
+                  className="group flex h-full"
                 >
-                  <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900 border border-white/10">
-                    <Image
-                      src={video.thumbnail_url}
-                      alt={video.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                      <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">
-                        <Play className="w-6 h-6 text-white fill-white ml-1" />
+                  <BorderGlow className="w-full h-full p-4 flex flex-col gap-4" borderRadius={24}>
+                    <div className="relative aspect-video rounded-xl overflow-hidden bg-zinc-900 border border-white/10 shrink-0">
+                      <Image
+                        src={video.thumbnail_url}
+                        alt={video.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                        <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">
+                          <Play className="w-6 h-6 text-white fill-white ml-1" />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div>
-                    <h3 className="text-lg font-medium leading-snug line-clamp-2 group-hover:text-white/80 transition-colors">
-                      {video.title}
-                    </h3>
-                    <p className="text-sm text-zinc-500 mt-2">
-                      {new Date(video.published_at).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </p>
-                  </div>
+                    <div className="flex flex-col flex-1 justify-between px-2 pb-2">
+                      <h3 className="text-lg font-medium leading-snug line-clamp-2 group-hover:text-white transition-colors">
+                        {video.title}
+                      </h3>
+                      <p className="text-sm text-zinc-500 mt-2">
+                        {new Date(video.published_at).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </p>
+                    </div>
+                  </BorderGlow>
                 </Link>
               ))}
             </div>

@@ -64,7 +64,7 @@ export default function G3Nav() {
   return (
     <>
       <motion.header
-        className="g3-glass fixed left-1/2 top-4 z-50 flex -translate-x-1/2 items-center gap-2 rounded-full border px-2 py-2"
+        className="g3-glass fixed left-1/2 bottom-6 z-50 flex -translate-x-1/2 items-center gap-2 rounded-full border px-2 py-2"
         style={{ borderColor: "var(--g3-rule-faint)" }}
         animate={{ width: collapsed && !open ? 60 : "auto" }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}

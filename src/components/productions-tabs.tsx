@@ -43,20 +43,23 @@ export function ProductionsTabs() {
   if (pathname.startsWith("/productions/tio-originals")) {
     const isTalkPage = pathname === "/productions/tio-originals/talk-it-out";
     const isTastePage = pathname === "/productions/tio-originals/taste-it-out";
+    const ENABLE_TASTE_IT_OUT = false;
     
     const tioTabs = [];
 
     if (isTalkPage) {
-      tioTabs.push({ id: "talk-it-out", label: "Talk it out", href: "/productions/tio-originals/talk-it-out", grouped: true });
       playlists.forEach(p => {
         tioTabs.push({ id: `playlist-${p.id}`, label: p.title, href: `#playlist-${p.id}`, grouped: true });
       });
     } else if (isTastePage) {
-      tioTabs.push({ id: "taste-it-out", label: "Taste it out", href: "/productions/tio-originals/taste-it-out", iconOnlyWhenActiveBack: true });
+      if (ENABLE_TASTE_IT_OUT) {
+        tioTabs.push({ id: "taste-it-out", label: "Taste it out", href: "/productions/tio-originals/taste-it-out", iconOnlyWhenActiveBack: true });
+      }
     } else {
-      tioTabs.push({ id: "tio-originals", label: "TIO Originals", href: "/productions/tio-originals", iconOnlyWhenActiveBack: true });
       tioTabs.push({ id: "talk-it-out", label: "Talk it out", href: "/productions/tio-originals/talk-it-out", grouped: false });
-      tioTabs.push({ id: "taste-it-out", label: "Taste it out", href: "/productions/tio-originals/taste-it-out", grouped: false });
+      if (ENABLE_TASTE_IT_OUT) {
+        tioTabs.push({ id: "taste-it-out", label: "Taste it out", href: "/productions/tio-originals/taste-it-out", grouped: false });
+      }
     }
 
     // Determine the active tab ID to pass to AnimatedTabs

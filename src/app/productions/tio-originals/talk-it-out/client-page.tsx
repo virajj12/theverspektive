@@ -29,6 +29,7 @@ export default function TalkItOutClient({ playlists = [], playlistVideos = {} }:
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            if ((window as any).isProgrammaticScroll) return;
             const hash = `#${entry.target.id}`;
             if (window.location.hash !== hash) {
               window.history.replaceState(null, '', hash);
@@ -37,6 +38,7 @@ export default function TalkItOutClient({ playlists = [], playlistVideos = {} }:
           } else if (playlists.length > 0 && entry.target.id === `playlist-${playlists[0].id}`) {
             // If the first playlist leaves the active zone by moving down (user scrolled up to hero)
             if (entry.boundingClientRect.top > window.innerHeight * 0.3) {
+              if ((window as any).isProgrammaticScroll) return;
               if (window.location.hash) {
                 window.history.replaceState(null, '', window.location.pathname);
                 window.dispatchEvent(new CustomEvent("updateActiveHash", { detail: "" }));
@@ -70,7 +72,7 @@ export default function TalkItOutClient({ playlists = [], playlistVideos = {} }:
   );
 
   const talkAboutCover = (
-    <div className="relative w-full h-full flex flex-col items-center justify-center bg-zinc-950 p-6 md:p-16 text-center">
+    <div className="relative w-full h-full flex flex-col items-center justify-center bg-zinc-900 p-6 md:p-16 text-center">
       <div className="max-w-4xl">
         <h2 className="text-3xl md:text-5xl font-bold mb-8 text-white">About Talk It Out</h2>
         <p className="text-lg md:text-xl text-white/80 leading-relaxed">

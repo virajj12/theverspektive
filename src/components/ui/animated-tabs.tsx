@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { ChevronLeftIcon } from "@/components/ui/chevron-left-icon";
 
 import { motion, AnimatePresence } from "framer-motion";
+import GlassSurface from "@/components/ui/GlassSurface";
 
 export interface AnimatedTabsProps {
   tabs: { id?: string, label: string, href: string, grouped?: boolean, className?: string, iconOnlyWhenActiveBack?: boolean }[];
@@ -28,10 +29,16 @@ export function AnimatedTabs({ tabs, backHref, activeTabOverride }: AnimatedTabs
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center">
       <motion.div 
         layout
-        className="relative bg-black/60 border border-white/10 mx-auto flex w-fit items-center rounded-full p-2 backdrop-blur-md overflow-hidden"
+        className="relative mx-auto flex w-fit items-center rounded-full"
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
       >
-        <div className="relative flex items-center">
+        <GlassSurface
+          width="max-content"
+          height="max-content"
+          borderRadius={9999}
+          className="p-2"
+        >
+          <div className="relative flex items-center">
           <div className="relative flex w-full justify-center">
             <AnimatePresence initial={false} mode="popLayout">
               {tabs.map((tab, index) => {
@@ -72,13 +79,36 @@ export function AnimatedTabs({ tabs, backHref, activeTabOverride }: AnimatedTabs
                       />
                     )}
                     <Link
-                      href={isBack ? backHref : tab.href}
+                      href={tab.href}
                       onClick={(e) => {
-                        if (isBack) return;
-                        
                         if (tab.href.startsWith("#")) {
                           e.preventDefault();
+                          
+                          // Prevent scroll spy glitches during smooth scroll
+                          (window as any).isProgrammaticScroll = true;
+                          
+                          // Update URL and state immediately
+                          window.history.pushState(null, '', tab.href);
                           window.dispatchEvent(new CustomEvent("updateActiveHash", { detail: tab.href }));
+                          
+                          // Use a scroll event listener to detect when scrolling stops
+                          const handleScroll = () => {
+                            if ((window as any).scrollTimeout) clearTimeout((window as any).scrollTimeout);
+                            (window as any).scrollTimeout = setTimeout(() => {
+                              (window as any).isProgrammaticScroll = false;
+                              window.removeEventListener('scroll', handleScroll);
+                            }, 100);
+                          };
+                          window.addEventListener('scroll', handleScroll);
+                          
+                          // Fallback in case scroll doesn't happen
+                          setTimeout(() => {
+                            if ((window as any).isProgrammaticScroll) {
+                              (window as any).isProgrammaticScroll = false;
+                              window.removeEventListener('scroll', handleScroll);
+                            }
+                          }, 1500);
+
                           const target = document.querySelector(tab.href);
                           if (target) {
                             target.scrollIntoView({ behavior: "smooth" });
@@ -93,12 +123,7 @@ export function AnimatedTabs({ tabs, backHref, activeTabOverride }: AnimatedTabs
                         isActive ? "text-black" : "text-white/60 hover:text-white"
                       )}
                     >
-                      {isBack && (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <ChevronLeftIcon size={20} />
-                        </div>
-                      )}
-                      <span className={cn(isBack ? "opacity-0" : "opacity-100", "transition-opacity duration-300")}>
+                      <span className="opacity-100 transition-opacity duration-300">
                         {tab.label}
                       </span>
                     </Link>
@@ -108,7 +133,8 @@ export function AnimatedTabs({ tabs, backHref, activeTabOverride }: AnimatedTabs
             </AnimatePresence>
           </div>
         </div>
-      </motion.div>
-    </div>
+      </GlassSurface>
+    </motion.div>
+  </div>
   );
 }

@@ -136,13 +136,13 @@ export default function Navbar() {
   // The spec treats G3 as a standalone site with its own identity rather than a
   // VerspeKtive sub-page, so the shared chrome stands down there — without this,
   // every G3 page renders two navs stacked on each other.
-  if (pathname.startsWith('/admin') || pathname.startsWith('/g3-builders')) {
+  if (pathname.startsWith('/admin')) {
     return null;
   }
 
   // Define pages with black hero sections
   const isProductionsPage = pathname.startsWith("/productions");
-  const isBlackHeroPage = pathname === "/error" || pathname.startsWith("/account") || pathname === "/founder" || pathname === "/tech";
+  const isBlackHeroPage = pathname === "/error" || pathname.startsWith("/account") || pathname === "/founder" || pathname === "/tech" || pathname.startsWith("/g3-builders");
 
   // Enforce theme isolation: remove .dark class when not on productions page
   useEffect(() => {

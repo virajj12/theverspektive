@@ -71,16 +71,18 @@
 
 .g3-wood-surface {
   background-color: var(--g3-wood);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9 0.012' numOctaves='4' seed='7'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.55'/%3E%3C/svg%3E");
-  background-blend-mode: overlay;
-  background-size: 400px 400px;
+  background-image: url("/g3/wood-texture.png");
+  background-blend-mode: luminosity; /* Keeps some of the CSS color tint while showing texture */
+  background-size: cover;
+  background-position: center;
 }
 
 .g3-wood-surface-deep {
   background-color: var(--g3-wood-deep);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85 0.01' numOctaves='4' seed='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.5'/%3E%3C/svg%3E");
+  background-image: url("/g3/wood-texture.png");
   background-blend-mode: multiply;
-  background-size: 400px 400px;
+  background-size: cover;
+  background-position: center;
 }
 
 /* ══════════════════════════════════════════════════════════════
