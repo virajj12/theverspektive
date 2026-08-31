@@ -1,15 +1,5 @@
 "use client";
 
-/**
- * G3 navigation — warm-tinted glass (spec 3), full-screen overlay on mobile
- * with 44px+ tap targets and no nested dropdowns (spec 6).
- *
- * The scroll-aware collapse from spec 3a is included here rather than held
- * for the animation phase: it is structural to the nav, and the spec calls it
- * out as a good fit for the mobile-first priority — it keeps the sticky CTA
- * area uncluttered while staying one tap from anywhere.
- */
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -17,69 +7,87 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const LINKS = [
-  { href: "/g3-builders/projects", label: "Projects" },
-  { href: "/g3-builders/services", label: "Services" },
-  { href: "/g3-builders/process", label: "Process" },
-  { href: "/g3-builders/about", label: "About" },
-  { href: "/g3-builders/contact", label: "Contact" },
+  { href: "#projects", label: "Projects" },
+  { href: "#services", label: "Services" },
+  { href: "#process", label: "Process" },
+  { href: "#about", label: "About" },
+  { href: "#contact", label: "Contact" },
 ];
 
 export default function G3Nav() {
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
   const reduced = useReducedMotion();
+  const [open, setOpen] = useState(false);
+  const [activeHash, setActiveHash] = useState<string>("");
 
-  /**
-   * The overlay is open only while the route it was opened on is still the
-   * current one, so navigating closes it for free. Deriving this beats an
-   * effect that watches `pathname` and calls setState — same behaviour, no
-   * extra render pass, and nothing to keep in sync.
-   */
-  const [openedAt, setOpenedAt] = useState<string | null>(null);
-  const open = openedAt === pathname;
-  const setOpen = (next: boolean) => setOpenedAt(next ? pathname : null);
-
-  // Collapse on scroll-down, expand on scroll-up.
-  useEffect(() => {
-    if (reduced) return;
-    let last = window.scrollY;
-    const onScroll = () => {
-      const y = window.scrollY;
-      if (Math.abs(y - last) > 8) {
-        setCollapsed(y > last && y > 120);
-        last = y;
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [reduced]);
-
-  // Stop the page scrolling behind the overlay (syncing an external system,
-  // which is what effects are actually for).
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveHash(`#${entry.target.id}`);
+          }
+        });
+      },
+      { rootMargin: "-30% 0px -70% 0px" } // Adjust threshold for when sections become active
+    );
+
+    LINKS.forEach((l) => {
+      const id = l.href.substring(1);
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Smooth scroll handler
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("#")) {
+      e.preventDefault();
+      const id = href.substring(1);
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        setOpen(false); // Close mobile menu if open
+      }
+    } else {
+      setOpen(false);
+    }
+  };
 
   return (
     <>
       <motion.header
-        className="g3-glass fixed left-1/2 bottom-6 z-50 flex -translate-x-1/2 items-center gap-2 rounded-full border px-2 py-2"
+        className="g3-glass fixed left-1/2 bottom-24 md:bottom-6 z-[10000] flex -translate-x-1/2 items-center gap-2 rounded-full border px-2 py-2"
         style={{ borderColor: "var(--g3-rule-faint)" }}
-        animate={{ width: collapsed && !open ? 60 : "auto" }}
+        animate={{ width: "auto" }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
         <AnimatePresence initial={false}>
-          {(!collapsed || open) && (
-            <motion.div
-              initial={{ opacity: 0, width: 0 }}
-              animate={{ opacity: 1, width: "auto" }}
-              exit={{ opacity: 0, width: 0 }}
-              transition={{ duration: 0.3 }}
-              className="flex items-center gap-1 overflow-hidden whitespace-nowrap"
-            >
+          <motion.div
+            initial={{ opacity: 0, width: 0 }}
+            animate={{ opacity: 1, width: "auto" }}
+            exit={{ opacity: 0, width: 0 }}
+            transition={{ duration: 0.3 }}
+            className="flex items-center gap-1 overflow-hidden whitespace-nowrap"
+          >
               <Link
                 href="/g3-builders"
+                onClick={(e) => {
+                  if (pathname === "/g3-builders") {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    setOpen(false);
+                  }
+                }}
                 className="px-4 py-2 text-sm font-semibold tracking-tight"
                 style={{ color: "var(--g3-ink)" }}
               >
@@ -88,18 +96,23 @@ export default function G3Nav() {
 
               <nav className="hidden items-center md:flex">
                 {LINKS.map((l) => (
-                  <Link
+                  <a
                     key={l.href}
                     href={l.href}
-                    className="rounded-full px-4 py-2 text-sm transition-colors"
-                    style={{ color: pathname === l.href ? "var(--g3-brass-light)" : "var(--g3-ink-soft)" }}
+                    onClick={(e) => handleLinkClick(e, l.href)}
+                    className="rounded-full px-4 py-2 text-sm transition-colors cursor-pointer"
+                    style={{
+                      color:
+                        activeHash === l.href
+                          ? "var(--g3-brass-light)"
+                          : "var(--g3-ink-soft)",
+                    }}
                   >
                     {l.label}
-                  </Link>
+                  </a>
                 ))}
               </nav>
             </motion.div>
-          )}
         </AnimatePresence>
 
         <button
@@ -113,13 +126,14 @@ export default function G3Nav() {
         </button>
 
         {/* Desktop keeps a direct CTA in the pill. */}
-        <Link
-          href="/g3-builders/contact"
-          className="hidden shrink-0 rounded-full px-5 py-2 text-sm font-semibold md:block"
+        <a
+          href="#contact"
+          onClick={(e) => handleLinkClick(e, "#contact")}
+          className="hidden shrink-0 rounded-full px-5 py-2 text-sm font-semibold md:block cursor-pointer"
           style={{ background: "var(--g3-brass)", color: "#0a0908" }}
         >
           Book a consultation
-        </Link>
+        </a>
       </motion.header>
 
       {/* Full-screen overlay (spec 6) */}
@@ -130,7 +144,7 @@ export default function G3Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 flex flex-col justify-center px-8 md:hidden"
+            className="fixed inset-0 z-[9999] flex flex-col justify-center px-8 md:hidden"
             style={{ background: "var(--g3-black)" }}
           >
             <nav className="flex flex-col gap-2">
@@ -141,16 +155,20 @@ export default function G3Nav() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.05 + i * 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <Link
+                  <a
                     href={l.href}
-                    className="block py-3 text-3xl font-semibold tracking-tight"
+                    onClick={(e) => handleLinkClick(e, l.href)}
+                    className="block py-3 text-3xl font-semibold tracking-tight cursor-pointer"
                     style={{
                       fontFamily: "var(--g3-font-display)",
-                      color: pathname === l.href ? "var(--g3-brass-light)" : "var(--g3-ink)",
+                      color:
+                        activeHash === l.href
+                          ? "var(--g3-brass-light)"
+                          : "var(--g3-ink)",
                     }}
                   >
                     {l.label}
-                  </Link>
+                  </a>
                 </motion.div>
               ))}
             </nav>

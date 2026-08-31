@@ -36,6 +36,7 @@ export default function HeroShrinkReveal({
   const root = useRef<HTMLElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   const copy = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
 
   useG3Scroll(root, (mm) => {
     mm.add(MOTION_OK, () => {
@@ -55,6 +56,7 @@ export default function HeroShrinkReveal({
       // Copy fades slightly ahead of the panel so the type never collides with
       // the shrinking edge.
       tl.to(copy.current, { opacity: 0, y: -40, ease: "none" }, 0);
+      tl.to(logoRef.current, { opacity: 0, x: 40, ease: "none" }, 0);
     });
   });
 
@@ -90,6 +92,20 @@ export default function HeroShrinkReveal({
                 "linear-gradient(to top, rgba(10,9,8,0.95) 8%, rgba(10,9,8,0.45) 45%, rgba(10,9,8,0.7) 100%)",
             }}
           />
+
+          <div
+            className="g3-enter absolute left-6 top-24 h-[25%] w-[60%] md:left-auto md:right-8 md:top-1/2 md:h-[45%] md:w-full md:max-w-[40%] md:-translate-y-1/2 lg:right-16"
+          >
+            <div ref={logoRef} className="relative w-full h-full">
+              <Image
+                src="/G3 White & Grey-01-01.png"
+                alt="G3 Builders Logo"
+                fill
+                className="object-contain object-left md:object-right opacity-80"
+                priority
+              />
+            </div>
+          </div>
 
           {/* Above the fold: CSS entrance, never JS-gated. The <h1> here is
               the LCP element — see the note in g3-theme.css. */}
