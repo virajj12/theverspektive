@@ -57,7 +57,7 @@ const LOCAL_BUSINESS = {
 
 export default function G3Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`g3-theme g3-grain ${jetbrains.variable}`}>
+    <div className={`g3-theme g3-grain relative w-full overflow-x-hidden ${jetbrains.variable}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS) }}

@@ -136,7 +136,7 @@ export default function G3Nav() {
         </a>
       </motion.header>
 
-      {/* Full-screen overlay (spec 6) */}
+      {/* Mobile Menu Backdrop */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -144,10 +144,24 @@ export default function G3Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[9999] flex flex-col justify-center px-8 md:hidden"
+            className="fixed inset-0 z-[9998] bg-black/60 backdrop-blur-sm md:hidden"
+            onClick={() => setOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* 75% Bottom Drawer overlay */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ y: "100%", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: "100%", opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
+            className="fixed bottom-0 left-0 right-0 h-[75vh] z-[9999] flex flex-col justify-start pt-12 px-8 md:hidden border-t border-white/10 shadow-2xl rounded-t-3xl"
             style={{ background: "var(--g3-black)" }}
           >
-            <nav className="flex flex-col gap-2">
+            <nav className="flex flex-col gap-4">
               {LINKS.map((l, i) => (
                 <motion.div
                   key={l.href}

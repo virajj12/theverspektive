@@ -329,30 +329,16 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* Mobile Menu Backdrop */}
+      {/* Mobile Full-Screen Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[44] bg-black/40 backdrop-blur-sm lg:hidden"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Mobile Sidebar Menu (75% width) */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ x: "100%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: "100%", opacity: 0 }}
             transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
             className={clsx(
-              "fixed top-0 bottom-0 right-0 w-[75vw] z-[45] backdrop-blur-2xl flex flex-col pt-12 shadow-2xl border-l border-white/[0.04]",
+              "fixed inset-0 z-[45] backdrop-blur-2xl flex flex-col pt-12",
               isBlackHeroPage ? "bg-[#1d1d1f]/98" : isProductionsPage ? "bg-background/98" : "bg-white/98"
             )}
           >
