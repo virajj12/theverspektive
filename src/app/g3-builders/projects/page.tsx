@@ -8,6 +8,7 @@ import CategoryFilter from "@/components/g3/CategoryFilter";
 import ProjectCard from "@/components/g3/ProjectCard";
 import { Reveal, RevealImage } from "@/components/g3/Reveal";
 import { revealDelay } from "@/components/g3/motion";
+import MouseScaleGallery from "@/components/g3/MouseScaleGallery";
 
 export default async function ProjectsPage({
   searchParams,
@@ -26,17 +27,17 @@ export default async function ProjectsPage({
   for (const c of G3_CATEGORIES) counts[c] = allProjects.filter((p) => p.category === c).length;
 
   return (
-    <div className="bg-[#f4f4f4] min-h-screen pt-32 pb-24">
+    <div className="bg-background min-h-screen pt-32 pb-24 transition-colors duration-300">
       <div className="mx-auto max-w-7xl px-6">
         
         {/* HEADER */}
-        <div className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-black/10 pb-8">
+        <div className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-black/10 dark:border-white/10 pb-8 transition-colors duration-300">
           <div>
             <Reveal>
-              <h1 className="g3-display-xl" style={{ color: "var(--g3-ink)" }}>Portfolio</h1>
+              <h1 className="g3-display-xl text-foreground transition-colors duration-300">Portfolio</h1>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="g3-body mt-4 max-w-xl">
+              <p className="g3-body mt-4 max-w-xl !text-muted-foreground transition-colors duration-300">
                 Explore our selected works across coastal Karnataka, ranging from residential builds to commercial spaces and interior execution.
               </p>
             </Reveal>
@@ -53,24 +54,20 @@ export default async function ProjectsPage({
         {!filteredProjects.length ? (
           <Reveal delay={0.3}>
             <div className="py-32 text-center flex flex-col items-center">
-              <p className="text-2xl font-light opacity-60 mb-6" style={{ color: "var(--g3-ink)" }}>
+              <p className="text-2xl font-light opacity-60 mb-6 text-foreground transition-colors duration-300">
                 {validCategory
                   ? `No ${validCategory.toLowerCase()} projects published yet.`
                   : "Projects are being added — check back shortly."}
               </p>
-              <Link href="/g3-builders" className="g3-link">
+              <Link href="/g3-builders" className="g3-link text-foreground transition-colors duration-300">
                 Return to Home <ChevronRight aria-hidden="true" className="w-4 h-4" />
               </Link>
             </div>
           </Reveal>
         ) : (
-          <div className="grid gap-x-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredProjects.map((p, i) => (
-              <RevealImage key={p.id} delay={revealDelay(i)}>
-                <ProjectCard project={p} />
-              </RevealImage>
-            ))}
-          </div>
+          <Reveal delay={0.4}>
+            <MouseScaleGallery projects={filteredProjects} />
+          </Reveal>
         )}
 
       </div>

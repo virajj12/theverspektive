@@ -30,7 +30,7 @@ export default function StickyMobileCTA() {
         paddingBottom: "env(safe-area-inset-bottom)",
       }}
     >
-      <a href={`tel:${PHONE}`} className={item} style={{ color: "var(--g3-ink-soft)" }}>
+      <a href={`tel:${PHONE}`} className={`${item} text-muted-foreground hover:text-foreground transition-colors duration-300`}>
         <Phone className="h-5 w-5" aria-hidden="true" />
         Call
       </a>
@@ -38,8 +38,7 @@ export default function StickyMobileCTA() {
         href={`https://wa.me/${WHATSAPP}`}
         target="_blank"
         rel="noopener noreferrer"
-        className={item}
-        style={{ color: "var(--g3-ink-soft)" }}
+        className={`${item} text-muted-foreground hover:text-foreground transition-colors duration-300`}
       >
         <MessageCircle className="h-5 w-5" aria-hidden="true" />
         WhatsApp

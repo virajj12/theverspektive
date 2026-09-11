@@ -130,7 +130,7 @@ export default async function G3Home({
               Interior Execution · Exterior Consultancy
             </span>
             <h1
-              className="g3-display-xl mt-6 max-w-4xl"
+              className="g3-display-lg mt-6 max-w-4xl"
               style={{ color: "var(--g3-ink)" }}
             >
               {headline}
@@ -162,11 +162,11 @@ export default async function G3Home({
             <div className="g3-display-xl max-w-3xl" style={{ color: "var(--g3-ink)" }}>
               <MaskText text="Two specialized services. Focused expertise." />
             </div>
-            <ScrollDrivenSlideIn startOffset="-5vw">
+            <div>
               <p className="g3-body mt-6 max-w-2xl text-[var(--g3-ink)]">
                 We focus on what we do best. We provide expert consultancy and planning for your exterior architecture, while fully executing your interior design with our dedicated in-house team.
               </p>
-            </ScrollDrivenSlideIn>
+            </div>
           </div>
 
           <div className="mx-auto mt-20 max-w-6xl px-6">
@@ -181,14 +181,14 @@ export default async function G3Home({
                   style={{ borderColor: "var(--g3-rule-faint)" }}
                 >
                   <div className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:gap-16">
-                    <div>
+                    <ScrollDrivenSlideIn startOffset="-5vw">
                       <div className="g3-meta">
                         <MaskText text={String(i + 1).padStart(2, "0")} />
                       </div>
-                      <div className="g3-display-md mt-3" style={{ color: "var(--g3-ink)" }}>
+                      <div className="g3-display-lg mt-3" style={{ color: "var(--g3-ink)" }}>
                         <MaskText text={s.title} />
                       </div>
-                    </div>
+                    </ScrollDrivenSlideIn>
 
                     <ScrollDrivenSlideIn startOffset="-5vw">
                       {s.summary && (
@@ -220,9 +220,6 @@ export default async function G3Home({
           </div>
         </div>
       </section>
-
-      {/* BREATHING ROOM SPACER */}
-      <div className="h-[25vh] bg-transparent"></div>
 
       {/* MASTER SEQUENCE: PORTFOLIO -> IMMERSIVE IMAGE -> HOW IT WORKS */}
       <MasterSequence projects={filteredProjects}>

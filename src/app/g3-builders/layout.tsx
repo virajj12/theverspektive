@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./g3-theme.css";
+import "wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.css";
 import G3Nav from "@/components/g3/G3Nav";
 import G3Footer from "@/components/g3/G3Footer";
 import StickyMobileCTA from "@/components/g3/StickyMobileCTA";

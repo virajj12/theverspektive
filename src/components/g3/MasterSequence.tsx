@@ -163,7 +163,7 @@ export default function MasterSequence({ projects, children }: MasterSequencePro
 
   if (reduced) {
     return (
-      <div className="w-full">
+      <div id="projects" className="w-full">
         <div className="mx-auto max-w-6xl px-6 py-24">
           <div className="mb-12">{children}</div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -178,6 +178,11 @@ export default function MasterSequence({ projects, children }: MasterSequencePro
 
   return (
     <div ref={containerRef} className="relative z-20 w-full bg-white" style={{ height: "600vh" }}>
+      {/* Anchor for Projects (First half of the scroll) */}
+      <div id="projects" className="absolute top-0 w-full h-[300vh] pointer-events-none" />
+      {/* Anchor for Process (Second half of the scroll) */}
+      <div id="process" className="absolute top-[300vh] w-full h-[300vh] pointer-events-none" />
+
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {/* Explicit white sibling background to ensure mix-blend-difference works reliably */}
         <div className="absolute inset-0 bg-white pointer-events-none" />

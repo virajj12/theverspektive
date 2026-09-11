@@ -37,17 +37,30 @@ export default function G3Nav() {
           }
         });
       },
-      { rootMargin: "-30% 0px -70% 0px" } // Adjust threshold for when sections become active
+      { rootMargin: "-40% 0px -40% 0px" } // 20% slice in the middle of the screen
     );
 
-    LINKS.forEach((l) => {
-      const id = l.href.substring(1);
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
+    const observeLinks = () => {
+      LINKS.forEach((l) => {
+        const id = l.href.substring(1);
+        const element = document.getElementById(id);
+        if (element) observer.observe(element);
+      });
+    };
 
-    return () => observer.disconnect();
-  }, []);
+    // Initial observation
+    observeLinks();
+    
+    // Retry observation after mount in case of Next.js server components streaming
+    const t1 = setTimeout(observeLinks, 500);
+    const t2 = setTimeout(observeLinks, 2000);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      observer.disconnect();
+    };
+  }, [pathname]);
 
   // Smooth scroll handler
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -79,48 +92,45 @@ export default function G3Nav() {
         >
           <div className="flex items-center gap-2">
             <AnimatePresence initial={false}>
-          <motion.div
-            initial={{ opacity: 0, width: 0 }}
-            animate={{ opacity: 1, width: "auto" }}
-            exit={{ opacity: 0, width: 0 }}
-            transition={{ duration: 0.3 }}
-            className="flex items-center gap-1 overflow-hidden whitespace-nowrap"
-          >
-              <Link
-                href="/g3-builders"
-                onClick={(e) => {
-                  if (pathname === "/g3-builders") {
-                    e.preventDefault();
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                    setOpen(false);
-                  }
-                }}
-                className="px-4 py-2 text-sm font-semibold tracking-tight"
-                style={{ color: "var(--g3-ink)" }}
+              <motion.div
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: "auto" }}
+                exit={{ opacity: 0, width: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center gap-1 overflow-hidden whitespace-nowrap"
               >
-                G3
-              </Link>
+                <Link
+                  href="/g3-builders"
+                  onClick={(e) => {
+                    if (pathname === "/g3-builders") {
+                      e.preventDefault();
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                      setOpen(false);
+                    }
+                  }}
+                  className="px-4 py-2 text-sm font-semibold tracking-tight text-foreground transition-colors duration-300"
+                >
+                  G3
+                </Link>
 
-              <nav className="hidden items-center md:flex">
-                {LINKS.map((l) => (
-                  <a
-                    key={l.href}
-                    href={l.href}
-                    onClick={(e) => handleLinkClick(e, l.href)}
-                    className="rounded-full px-4 py-2 text-sm transition-colors cursor-pointer"
-                    style={{
-                      color:
+                <nav className="hidden items-center md:flex">
+                  {LINKS.map((l) => (
+                    <a
+                      key={l.href}
+                      href={l.href}
+                      onClick={(e) => handleLinkClick(e, l.href)}
+                      className={`rounded-full px-4 py-2 text-sm transition-colors duration-300 cursor-pointer ${
                         activeHash === l.href
-                          ? "var(--g3-brass-light)"
-                          : "var(--g3-ink-soft)",
-                    }}
-                  >
-                    {l.label}
-                  </a>
-                ))}
-              </nav>
-            </motion.div>
-        </AnimatePresence>
+                          ? "text-[var(--g3-brass)]"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {l.label}
+                    </a>
+                  ))}
+                </nav>
+              </motion.div>
+            </AnimatePresence>
 
         <button
           onClick={() => setOpen(!open)}

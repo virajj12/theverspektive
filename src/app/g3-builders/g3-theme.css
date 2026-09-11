@@ -42,8 +42,8 @@
   --g3-rule-faint: rgba(184, 144, 91, 0.14);
 
   /* ── Type ── */
-  --g3-font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
-  --g3-font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --g3-font-display: "Wanted Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --g3-font-body: "Wanted Sans Variable", ui-sans-serif, system-ui, sans-serif;
   --g3-font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
 
   /* ── Motion ──
