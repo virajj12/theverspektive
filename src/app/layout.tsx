@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import GlobalLoaderProvider from "@/components/global-loader-provider";
-
+import { ThemeProvider } from "@/components/theme-provider";
 import ScrollToTop from "@/components/scroll-to-top";
 
 const inter = Inter({
@@ -37,14 +37,19 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${outfit.variable} antialiased min-h-screen w-full h-full bg-background text-foreground`}
       >
-        <GlobalLoaderProvider>
-          <div className="flex flex-col min-h-screen w-full">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange={false}
+        >
+          <GlobalLoaderProvider>
             <ScrollToTop />
             <Navbar />
-            <main className="flex-grow flex flex-col w-full">{children}</main>
+            {children}
             <Footer />
-          </div>
-        </GlobalLoaderProvider>
+          </GlobalLoaderProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

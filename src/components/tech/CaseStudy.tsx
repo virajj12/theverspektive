@@ -52,7 +52,7 @@ const HARDENING = [
 
 export default function CaseStudy() {
   return (
-    <section id="case-study" className="section-dark relative overflow-hidden py-28 md:py-40">
+    <section id="case-study" className="relative overflow-hidden py-28 md:py-40 bg-background transition-colors duration-500">
       <div className="mx-auto max-w-6xl px-6">
         <motion.p
           initial={{ opacity: 0, y: 18 }}
@@ -69,7 +69,7 @@ export default function CaseStudy() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-15%" }}
           transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
-          className="text-display-lg max-w-3xl text-[#f5f5f7]"
+          className="text-display-lg max-w-3xl text-foreground"
         >
           The site you&rsquo;re on right now.
         </motion.h2>
@@ -79,7 +79,7 @@ export default function CaseStudy() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-15%" }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.12 }}
-          className="text-body-lg mt-8 max-w-2xl text-[#86868b]"
+          className="text-body-lg mt-8 max-w-2xl text-muted-foreground"
         >
           theverspektive.com is a real platform with real users — a multi-brand
           content system, an authenticated account area, and an admin CMS that
@@ -96,7 +96,7 @@ export default function CaseStudy() {
         transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         className="relative mx-auto mt-20 max-w-6xl px-6"
       >
-        <div className="gradient-border-hover overflow-hidden rounded-2xl border border-white/10 shadow-[0_40px_120px_rgba(0,0,0,0.6)]">
+        <div className="gradient-border-hover overflow-hidden rounded-2xl border border-foreground/10 shadow-[0_40px_120px_rgba(0,0,0,0.6)]">
           <Image
             src="/Productions screenshot.png"
             alt="The VerspeKtive Productions page in the live product"
@@ -115,19 +115,19 @@ export default function CaseStudy() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-12%" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="border-t border-white/10 pt-10"
+          className="border-t border-foreground/10 pt-10"
         >
-          <h3 className="mb-6 text-sm font-medium uppercase tracking-[0.18em] text-[#86868b]">
+          <h3 className="mb-6 text-sm font-medium uppercase tracking-[0.18em] text-muted-foreground">
             Running on
           </h3>
           <div className="flex flex-wrap gap-x-8 gap-y-3">
             {STACK.map((item) => (
-              <span key={item} className="text-headline text-[#f5f5f7]">
+              <span key={item} className="text-headline text-foreground">
                 {item}
               </span>
             ))}
           </div>
-          <p className="mt-6 max-w-2xl text-sm text-[#86868b]">
+          <p className="mt-6 max-w-2xl text-sm text-muted-foreground">
             Razorpay checkout is in progress — the order pipeline and schema are
             in place, payment capture is not yet live.
           </p>
@@ -140,12 +140,12 @@ export default function CaseStudy() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-12%" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="text-display-md max-w-2xl text-[#f5f5f7]"
+            className="text-display-md max-w-2xl text-foreground"
           >
             We&rsquo;d rather show you the part that went wrong.
           </motion.h3>
 
-          <div className="mt-14 grid gap-px overflow-hidden rounded-xl bg-white/10 md:grid-cols-3">
+          <div className="mt-14 grid gap-px overflow-hidden rounded-xl bg-foreground/10 md:grid-cols-3">
             {HARDENING.map((item, i) => (
               <motion.div
                 key={item.phase}
@@ -157,12 +157,12 @@ export default function CaseStudy() {
                   ease: [0.22, 1, 0.36, 1],
                   delay: i * 0.1,
                 }}
-                className="bg-black p-8 md:p-10"
+                className="bg-background p-8 md:p-10"
               >
                 <div className="mb-4 text-sm font-medium uppercase tracking-[0.16em] text-[#2997ff]">
                   {item.phase}
                 </div>
-                <p className="text-[#86868b] leading-relaxed">{item.body}</p>
+                <p className="text-muted-foreground leading-relaxed">{item.body}</p>
               </motion.div>
             ))}
           </div>

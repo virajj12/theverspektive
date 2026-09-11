@@ -35,7 +35,6 @@ export default function HeroShrinkReveal({
 }) {
   const root = useRef<HTMLElement>(null);
   const panel = useRef<HTMLDivElement>(null);
-  const copy = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
 
   useG3Scroll(root, (mm) => {
@@ -53,9 +52,6 @@ export default function HeroShrinkReveal({
       });
 
       tl.to(panel.current, { scale: 0.86, borderRadius: 28, ease: "none" }, 0);
-      // Copy fades slightly ahead of the panel so the type never collides with
-      // the shrinking edge.
-      tl.to(copy.current, { opacity: 0, y: -40, ease: "none" }, 0);
       tl.to(logoRef.current, { opacity: 0, x: 40, ease: "none" }, 0);
     });
   });
@@ -70,7 +66,7 @@ export default function HeroShrinkReveal({
       <div className="g3-hero-sticky sticky top-0 h-[100svh] overflow-hidden">
         <div
           ref={panel}
-          className="relative h-full w-full origin-center overflow-hidden will-change-transform"
+          className="relative h-full w-full origin-center overflow-hidden will-change-transform bg-[var(--g3-black)]"
         >
           {heroImage ? (
             <Image
@@ -82,7 +78,7 @@ export default function HeroShrinkReveal({
               className="object-cover"
             />
           ) : (
-            <div className="g3-wood-surface-deep absolute inset-0" />
+            <div className="g3-surface-black absolute inset-0" />
           )}
 
           <div
@@ -93,42 +89,15 @@ export default function HeroShrinkReveal({
             }}
           />
 
-          <div
-            className="g3-enter absolute left-6 top-24 h-[25%] w-[60%] md:left-auto md:right-8 md:top-1/2 md:h-[45%] md:w-full md:max-w-[40%] md:-translate-y-1/2 lg:right-16"
-          >
-            <div ref={logoRef} className="relative w-full h-full">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div ref={logoRef} className="relative w-[60%] max-w-[450px] aspect-[2/1]">
               <Image
-                src="/G3 White & Grey-01-01.png"
+                src="/G3 B & A LOGO WHITE Crop.png"
                 alt="G3 Builders Logo"
                 fill
-                className="object-contain object-left md:object-right opacity-80"
+                className="object-contain"
                 priority
               />
-            </div>
-          </div>
-
-          {/* Above the fold: CSS entrance, never JS-gated. The <h1> here is
-              the LCP element — see the note in g3-theme.css. */}
-          <div ref={copy} className="absolute inset-x-0 bottom-0">
-            <div className="mx-auto w-full max-w-6xl px-6 pb-20">
-              <span className="g3-enter g3-meta block">
-                Architecture · Interiors · Construction
-              </span>
-              <h1
-                className="g3-enter g3-enter-1 g3-display-xl mt-4 max-w-4xl"
-                style={{ color: "var(--g3-ink)" }}
-              >
-                {headline}
-              </h1>
-              <p className="g3-enter g3-enter-2 g3-body mt-6 max-w-xl">{tagline}</p>
-              <Link
-                href="/g3-builders/contact"
-                className="g3-enter g3-enter-3 mt-9 inline-flex items-center gap-2 rounded-full px-7 py-4 text-base font-semibold"
-                style={{ background: "var(--g3-brass)", color: "#0a0908" }}
-              >
-                Book a consultation
-                <ChevronRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
             </div>
           </div>
         </div>

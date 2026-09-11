@@ -65,7 +65,7 @@ export default function TechContact() {
   }
 
   return (
-    <section id="contact" className="section-dark py-28 md:py-40">
+    <section id="contact" className="py-28 md:py-40 bg-background transition-colors duration-500">
       <div className="mx-auto max-w-3xl px-6">
         <AnimatePresence mode="wait">
           {status === "sent" ? (
@@ -79,8 +79,8 @@ export default function TechContact() {
               <div className="mx-auto mb-8 flex h-14 w-14 items-center justify-center rounded-full border border-[#2997ff]/40 bg-[#2997ff]/10">
                 <Check className="h-6 w-6 text-[#2997ff]" aria-hidden="true" />
               </div>
-              <h2 className="text-display-md mb-4 text-[#f5f5f7]">Got it.</h2>
-              <p className="text-body-lg text-[#86868b]">
+              <h2 className="text-display-md mb-4 text-foreground">Got it.</h2>
+              <p className="text-body-lg text-muted-foreground">
                 We read everything that comes through here. You&rsquo;ll hear back
                 from a person, usually within a couple of days.
               </p>
@@ -93,7 +93,7 @@ export default function TechContact() {
               viewport={{ once: true, margin: "-15%" }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-              <h2 className="text-display-lg mb-12 text-[#f5f5f7]">
+              <h2 className="text-display-lg mb-12 text-foreground">
                 Tell us what you&rsquo;re building.
               </h2>
 
@@ -107,7 +107,7 @@ export default function TechContact() {
                   onChange={(e) => setMessage(e.target.value)}
                   rows={4}
                   placeholder="A booking system for a studio, a portfolio that doesn't look like everyone else's, something else entirely&hellip;"
-                  className="w-full resize-none border-b border-white/20 bg-transparent pb-4 text-lg text-[#f5f5f7] placeholder:text-[#86868b]/70 focus:border-[#2997ff] focus:outline-none"
+                  className="w-full resize-none border-b border-foreground/20 bg-transparent pb-4 text-lg text-foreground placeholder:text-muted-foreground/70 focus:border-[#2997ff] focus:outline-none"
                 />
 
                 <AnimatePresence>
@@ -123,7 +123,7 @@ export default function TechContact() {
                         <div>
                           <label
                             htmlFor="ti-email"
-                            className="mb-2 block text-sm font-medium text-[#86868b]"
+                            className="mb-2 block text-sm font-medium text-muted-foreground"
                           >
                             Email
                           </label>
@@ -133,22 +133,22 @@ export default function TechContact() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full border-b border-white/20 bg-transparent pb-3 text-[#f5f5f7] focus:border-[#2997ff] focus:outline-none"
+                            className="w-full border-b border-foreground/20 bg-transparent pb-3 text-foreground focus:border-[#2997ff] focus:outline-none"
                           />
                         </div>
                         <div>
                           <label
                             htmlFor="ti-name"
-                            className="mb-2 block text-sm font-medium text-[#86868b]"
+                            className="mb-2 block text-sm font-medium text-muted-foreground"
                           >
-                            Name <span className="text-[#86868b]/60">(optional)</span>
+                            Name <span className="text-muted-foreground/60">(optional)</span>
                           </label>
                           <input
                             id="ti-name"
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="w-full border-b border-white/20 bg-transparent pb-3 text-[#f5f5f7] focus:border-[#2997ff] focus:outline-none"
+                            className="w-full border-b border-foreground/20 bg-transparent pb-3 text-foreground focus:border-[#2997ff] focus:outline-none"
                           />
                         </div>
                       </div>
@@ -173,11 +173,11 @@ export default function TechContact() {
                   </button>
 
                   {!revealed && (
-                    <span className="text-sm text-[#86868b]">
+                    <span className="text-sm text-muted-foreground">
                       Or email{" "}
                       <a
                         href="mailto:verspektive@gmail.com"
-                        className="underline underline-offset-4 hover:text-[#f5f5f7]"
+                        className="underline underline-offset-4 hover:text-foreground"
                       >
                         verspektive@gmail.com
                       </a>

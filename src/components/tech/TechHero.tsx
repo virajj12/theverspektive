@@ -25,21 +25,21 @@ export default function TechHero({ headline, ctaLabel }: { headline: string; cta
   const { mode, reducedMotion } = useVMarkMode();
 
   return (
-    <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-black">
+    <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-background transition-colors duration-500">
       {/* The mark sits behind the copy, full-bleed. */}
       <div className="absolute inset-0 z-0">
         {mode === "3d" ? <VMarkScene reducedMotion={reducedMotion} /> : <VMarkFallback />}
       </div>
 
       {/* Legibility scrim — the headline sits over the mark's brightest area. */}
-      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/25 to-black/85" />
+      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-background/70 via-background/25 to-background/85" />
 
       <div className="relative z-20 mx-auto flex max-w-4xl flex-col items-center px-6 text-center">
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-          className="text-display-xl text-[#f5f5f7]"
+          className="text-display-xl text-foreground"
         >
           {headline}
         </motion.h1>
@@ -64,7 +64,7 @@ export default function TechHero({ headline, ctaLabel }: { headline: string; cta
         transition={{ delay: 1.4, duration: 0.8 }}
         className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2"
       >
-        <div className="h-10 w-[1px] bg-gradient-to-b from-transparent via-white/40 to-transparent" />
+        <div className="h-10 w-[1px] bg-gradient-to-b from-transparent via-foreground/40 to-transparent" />
       </motion.div>
     </section>
   );

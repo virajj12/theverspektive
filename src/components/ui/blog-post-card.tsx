@@ -71,10 +71,10 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   const hasFooter = writer || publishedAt;
 
   const content = (
-    <Card className="flex w-full h-full flex-col gap-3 overflow-hidden rounded-[24px] p-3 shadow-lg hover:border-white/30 transition-all duration-300 backdrop-blur-xl bg-black/40">
+    <Card className="flex w-full h-full flex-col gap-3 overflow-hidden rounded-[24px] p-3 shadow-lg hover:border-zinc-300 dark:hover:border-white/30 transition-all duration-300 backdrop-blur-xl bg-white/60 dark:bg-black/40">
       {cover && (
         <CardHeader className="p-0">
-          <div className="relative h-56 w-full glass-card-dark rounded-2xl overflow-hidden p-6 flex items-center justify-center">
+          <div className="relative h-56 w-full glass-card dark:glass-card-dark rounded-2xl overflow-hidden p-6 flex items-center justify-center">
             <Image
               src={cover}
               alt={headline}
@@ -89,7 +89,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
 
       <CardContent className="flex-grow p-4">
         {hasMeta && (
-          <div className="mb-4 flex items-center text-xs text-white/60">
+          <div className="mb-4 flex items-center text-xs text-foreground/60">
             {tag && (
               <Badge variant="secondary" className="px-3 py-1 text-xs">
                 {tag}
@@ -100,12 +100,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           </div>
         )}
 
-        <h2 className="mb-3 text-2xl font-semibold leading-tight text-white">
+        <h2 className="mb-3 text-2xl font-semibold leading-tight text-foreground">
           {headline}
         </h2>
 
         <p
-          className={cn("text-white/60 text-sm leading-relaxed", {
+          className={cn("text-foreground/60 text-sm leading-relaxed", {
             "overflow-hidden text-ellipsis [-webkit-box-orient:vertical] [display:-webkit-box]":
               clampLines && clampLines > 0,
           })}
@@ -121,14 +121,14 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         <CardFooter className="flex items-center justify-between p-4 pt-0">
           {writer && (
             <div>
-              <p className="text-[10px] uppercase tracking-wider text-white/40 mb-1">Role</p>
-              <p className="font-medium text-white/80 text-sm">{writer}</p>
+              <p className="text-[10px] uppercase tracking-wider text-foreground/40 mb-1">Role</p>
+              <p className="font-medium text-foreground/80 text-sm">{writer}</p>
             </div>
           )}
           {publishedAt && (
             <div className={writer ? "text-right" : ""}>
-              <p className="text-[10px] uppercase tracking-wider text-white/40 mb-1">Established</p>
-              <p className="font-medium text-white/80 text-sm">
+              <p className="text-[10px] uppercase tracking-wider text-foreground/40 mb-1">Established</p>
+              <p className="font-medium text-foreground/80 text-sm">
                 {formatPostDate(publishedAt)}
               </p>
             </div>
@@ -152,7 +152,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
               style={{ x: smoothX, y: smoothY }}
               className="absolute top-17 left-17 z-100 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             >
-              <div className="bg-black/90 backdrop-blur-md text-white text-xs px-4 py-2 rounded-full border border-white/20 shadow-2xl tracking-wide whitespace-nowrap -translate-x-1/2 -translate-y-full mt-[-10px]">
+              <div className="bg-black/90 dark:bg-black/90 backdrop-blur-md text-white text-xs px-4 py-2 rounded-full border border-white/20 shadow-2xl tracking-wide whitespace-nowrap -translate-x-1/2 -translate-y-full mt-[-10px]">
                 {tooltipText}
               </div>
             </motion.div>

@@ -65,7 +65,7 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
   };
 
   const hero = (
-    <div className="flex flex-col items-center justify-center text-white bg-transparent relative overflow-hidden w-full h-full px-6 text-center">
+    <div className="flex flex-col items-center justify-center text-foreground bg-transparent relative overflow-hidden w-full h-full px-6 text-center">
       <AnimatedGradient />
       <div className="relative z-10 flex flex-col items-center justify-center w-full">
         <div className="relative w-full max-w-[400px] h-[150px] mx-auto mb-8">
@@ -79,14 +79,14 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
         </div>
         <MaskText
           text="1st Premium Multi-Cam & Podcast & Creator Studio in Tulunadu"
-          className="text-xl md:text-2xl text-white/80 font-medium max-w-3xl leading-relaxed justify-center"
+          className="text-xl md:text-2xl text-foreground/80 font-medium max-w-3xl leading-relaxed justify-center"
         />
       </div>
     </div>
   );
 
   const cover = (
-    <div className="relative w-full h-full flex flex-col items-center justify-center bg-zinc-900 p-6 md:p-16 text-center overflow-hidden">
+    <div className="relative w-full h-full flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 p-6 md:p-16 text-center overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -97,11 +97,11 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
         <MaskText text="About Us" className="text-3xl md:text-5xl font-bold mb-8 justify-center" />
         <MaskText
           text="VerspeKtive Productions is a premium digital media and content production company based in Beluvai, strategically located between Karkala and Moodbidri, Karnataka - dedicated to high-quality visual storytelling and meaningful digital content across platforms."
-          className="text-lg md:text-xl text-white/80 leading-relaxed mb-6 block justify-center"
+          className="text-lg md:text-xl text-foreground/80 leading-relaxed mb-6 block justify-center"
         />
         <MaskText
           text="We bring creativity, professionalism, and cinematic production standards to every project we undertake."
-          className="text-lg md:text-xl text-white/80 leading-relaxed block justify-center"
+          className="text-lg md:text-xl text-foreground/80 leading-relaxed block justify-center"
         />
       </motion.div>
     </div>
@@ -128,10 +128,10 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="text-lg font-medium text-white min-w-[280px] md:min-w-[320px] snap-center shrink-0 h-full"
+                  className="text-lg font-medium text-foreground min-w-[280px] md:min-w-[320px] snap-center shrink-0 h-full"
                 >
                   <BorderGlow className="flex flex-col items-center justify-center gap-4 p-8 w-full h-full" borderRadius={24}>
-                    <service.icon className="w-12 h-12 text-white/80" />
+                    <service.icon className="w-12 h-12 text-foreground/80" />
                     <MaskText text={service.title} className="text-center" />
                   </BorderGlow>
                 </motion.div>
@@ -141,14 +141,14 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
 
           {/* YouTube Showcase Section */}
           <div className="mb-32">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-12 bg-zinc-900/40 p-8 md:p-16 rounded-3xl border border-white/10 min-h-[500px] md:min-h-[600px] relative overflow-hidden">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-12 bg-zinc-100/60 dark:bg-zinc-900/40 p-8 md:p-16 rounded-3xl border border-black/10 dark:border-white/10 min-h-[500px] md:min-h-[600px] relative overflow-hidden">
               <div className="z-10 w-full md:w-1/2 mb-20 md:mb-0 relative">
-                <MaskText text="Featured Portfolio" className="text-3xl md:text-5xl font-semibold mb-6 text-white leading-tight" />
-                <p className="text-lg md:text-xl text-zinc-400 mb-10 max-w-lg leading-relaxed">
+                <MaskText text="Featured Portfolio" className="text-3xl md:text-5xl font-semibold mb-6 text-foreground leading-tight" />
+                <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-lg leading-relaxed">
                   Check out our latest video projects and productions. We bring visions to life with cinematic quality and engaging storytelling.
                 </p>
                 <div className="flex gap-6">
-                  <div className="p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors"><Play className="w-6 h-6" /></div>
+                  <div className="p-4 rounded-full bg-foreground/5 border border-foreground/10 text-foreground hover:bg-foreground/10 transition-colors"><Play className="w-6 h-6" /></div>
                 </div>
               </div>
 
@@ -236,7 +236,7 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
                   className="group flex h-full"
                 >
                   <BorderGlow className="w-full h-full p-4 flex flex-col gap-4" borderRadius={24}>
-                    <div className="relative aspect-video rounded-xl overflow-hidden bg-zinc-900 border border-white/10 shrink-0">
+                    <div className="relative aspect-video rounded-xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10 shrink-0">
                       <Image
                         src={video.thumbnail_url}
                         alt={video.title}
@@ -251,10 +251,10 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
                     </div>
 
                     <div className="flex flex-col flex-1 justify-between px-2 pb-2">
-                      <h3 className="text-lg font-medium leading-snug line-clamp-2 group-hover:text-white transition-colors">
+                      <h3 className="text-lg font-medium leading-snug line-clamp-2 group-hover:text-foreground transition-colors">
                         {video.title}
                       </h3>
-                      <p className="text-sm text-zinc-500 mt-2">
+                      <p className="text-sm text-muted-foreground mt-2">
                         {new Date(video.published_at).toLocaleDateString('en-US', {
                           year: 'numeric',
                           month: 'long',
@@ -280,7 +280,7 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
           </div>
 
           {/* CTA */}
-          <div id="contact" className="bg-zinc-900 text-white rounded-[32px] p-12 md:p-24 text-center">
+          <div id="contact" className="bg-zinc-900 dark:bg-zinc-900 text-white rounded-[32px] p-12 md:p-24 text-center">
             <MaskText text="Ready to create?" className="text-4xl md:text-5xl font-bold mb-6 justify-center" />
             <MaskText
               text="Let's discuss how we can bring your creative vision to life with our premium production standards."

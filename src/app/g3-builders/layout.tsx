@@ -23,14 +23,14 @@ const jetbrains = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "G3 Builders & Architecture",
-    template: "%s · G3 Builders & Architecture",
+    default: "G3 Builders & Architect",
+    template: "%s · G3 Builders & Architect",
   },
   description:
-    "Architecture, interiors and construction delivered end to end. Residential and commercial projects across coastal Karnataka.",
+    "Exterior design consultancy, interior planning and execution delivered end to end. Residential and commercial projects across coastal Karnataka.",
   openGraph: {
-    title: "G3 Builders & Architecture",
-    description: "Architecture, interiors and construction delivered end to end.",
+    title: "G3 Builders & Architect",
+    description: "Exterior design consultancy, interior planning and execution delivered end to end.",
     type: "website",
   },
 };
@@ -42,8 +42,8 @@ export const metadata: Metadata = {
 const LOCAL_BUSINESS = {
   "@context": "https://schema.org",
   "@type": "GeneralContractor",
-  name: "G3 Builders & Architecture",
-  description: "Architecture, interiors and construction delivered end to end.",
+  name: "G3 Builders & Architect",
+  description: "Exterior design consultancy, interior planning and execution delivered end to end.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Moodbidri",
@@ -55,9 +55,12 @@ const LOCAL_BUSINESS = {
   parentOrganization: { "@type": "Organization", name: "VerspeKtive" },
 };
 
+import SmoothScroll from "@/components/g3/SmoothScroll";
+
 export default function G3Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`g3-theme g3-grain relative w-full overflow-x-hidden ${jetbrains.variable}`}>
+    <SmoothScroll>
+      <div className={`g3-theme g3-grain relative w-full overflow-x-clip ${jetbrains.variable}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS) }}
@@ -69,5 +72,6 @@ export default function G3Layout({ children }: { children: React.ReactNode }) {
       <G3Footer />
       <StickyMobileCTA />
     </div>
+    </SmoothScroll>
   );
 }

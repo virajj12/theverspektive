@@ -51,13 +51,19 @@ export function useG3Scroll(
       build(mm);
     }, root);
 
-    // Late-loading images change page height and leave triggers measuring
-    // stale positions; one refresh on window load fixes the common case.
-    const onLoad = () => ScrollTrigger.refresh();
-    window.addEventListener("load", onLoad);
+    // Late-loading images and dynamic content change page height and leave triggers measuring
+    // stale positions. A ResizeObserver ensures we refresh whenever the document height changes.
+    let resizeTimer: NodeJS.Timeout;
+    const observer = new ResizeObserver(() => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 100);
+    });
+    
+    observer.observe(document.body);
 
     return () => {
-      window.removeEventListener("load", onLoad);
+      observer.disconnect();
+      clearTimeout(resizeTimer);
       ctx.revert();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

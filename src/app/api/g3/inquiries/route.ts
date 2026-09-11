@@ -92,11 +92,11 @@ export async function POST(request: Request) {
     if (sent.success) {
       await sendEmail({
         to: d.email,
-        subject: "We've received your enquiry — G3 Builders & Architecture",
+        subject: "We've received your enquiry — G3 Builders & Architect",
         html: `<p>Hi ${esc(d.name)},</p>
-               <p>Thanks for getting in touch with G3 Builders &amp; Architecture.
+               <p>Thanks for getting in touch with G3 Builders &amp; Architect.
                We've received your enquiry and someone will call you shortly.</p>
-               <p>— G3 Builders &amp; Architecture</p>`,
+               <p>Best,<br>The G3 Team</p>`,
       });
       if (id) await db.update(g3_inquiries).set({ notified: true }).where(eq(g3_inquiries.id, id));
     }

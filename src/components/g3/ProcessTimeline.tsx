@@ -41,8 +41,8 @@ export const PROCESS_STAGES = [
     client: "You provide: ownership papers and signatures. We handle the rest.",
   },
   {
-    key: "construction",
-    title: "Construction",
+    key: "execution",
+    title: "Execution",
     duration: "8–18 months",
     what: "Execution with our own site team, staged billing tied to milestones, and weekly progress you can see rather than take on trust.",
     client: "You receive: weekly site updates, milestone billing, quality checks.",

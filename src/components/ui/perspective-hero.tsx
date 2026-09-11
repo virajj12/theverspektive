@@ -21,21 +21,17 @@ export function PerspectiveHero({
   const scale1 = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
   const rotate1 = useTransform(scrollYProgress, [0, 1], [0, -5]);
 
-  const scale2 = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-  const rotate2 = useTransform(scrollYProgress, [0, 1], [5, 0]);
-
   return (
     <>
-      <div ref={container} className="relative h-[200vh]">
+      <div ref={container} className="relative h-[200vh]" style={{ perspective: "1000px" }}>
         <motion.div
-          style={{ scale: scale1 }}
-          className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-background transition-colors duration-300"
+          style={{ scale: scale1, rotateX: rotate1, transformOrigin: "top center" }}
+          className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-background transition-colors duration-300 shadow-[0_0_50px_rgba(0,0,0,0.5)]"
         >
           {hero}
         </motion.div>
         <motion.div
-          style={{ scale: scale2 }}
-          className="relative h-screen w-full z-10 bg-background transition-colors duration-300 overflow-hidden shadow-2xl rounded-t-[2rem] md:rounded-t-[4rem]"
+          className="relative h-screen w-full z-10 bg-background transition-colors duration-300 overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.3)] rounded-t-[2rem] md:rounded-t-[4rem]"
         >
           {cover}
         </motion.div>

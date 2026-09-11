@@ -9,23 +9,41 @@
  * rather than being hidden behind an interaction that can never fire.
  */
 
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import type { G3Project } from "@/lib/g3-data";
 
 export default function ProjectCard({ project, priority = false }: { project: G3Project; priority?: boolean }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
+  
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+
+  // Subtle parallax: move image from -5% to 5% as it scrolls through viewport
+  const y = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
+
   return (
     <Link href={`/g3-builders/projects/${project.slug}`} className="group block">
-      <div className="relative aspect-[4/5] overflow-hidden rounded-xl" style={{ background: "var(--g3-black-raised)" }}>
+      <div ref={ref} className="relative aspect-[4/5] overflow-hidden rounded-xl" style={{ background: "var(--g3-black-raised)" }}>
         {project.cover ? (
-          <Image
-            src={project.cover.url}
-            alt={project.cover.alt || project.title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            priority={priority}
-            className="object-cover transition-transform duration-700 will-change-transform group-hover:scale-[1.04]"
-          />
+          <motion.div 
+            className="absolute inset-[-10%] will-change-transform"
+            style={{ y: reduced ? "0%" : y }}
+          >
+            <Image
+              src={project.cover.url}
+              alt={project.cover.alt || project.title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              priority={priority}
+              className="object-cover transition-transform duration-700 will-change-transform group-hover:scale-[1.04]"
+            />
+          </motion.div>
         ) : (
           <div className="g3-wood-surface absolute inset-0" />
         )}

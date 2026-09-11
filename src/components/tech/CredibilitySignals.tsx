@@ -13,7 +13,7 @@ import { CREDIBILITY } from "./tech-content";
 
 export default function CredibilitySignals() {
   return (
-    <section className="bg-[#f5f5f7] py-24 dark:bg-black md:py-32">
+    <section className="bg-background transition-colors duration-500 py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid gap-14 md:grid-cols-3 md:gap-12">
           {CREDIBILITY.map((item, i) => (
@@ -28,10 +28,10 @@ export default function CredibilitySignals() {
                 delay: i * 0.1,
               }}
             >
-              <h3 className="text-headline mb-4 font-medium text-[#1d1d1f] dark:text-[#f5f5f7]">
+              <h3 className="text-headline mb-4 font-medium text-foreground">
                 {item.title}
               </h3>
-              <p className="leading-relaxed text-[#86868b]">{item.body}</p>
+              <p className="leading-relaxed text-muted-foreground">{item.body}</p>
             </motion.div>
           ))}
         </div>

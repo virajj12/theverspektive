@@ -29,7 +29,7 @@ export async function generateMetadata({
   const { project } = data;
   return {
     title: project.title,
-    description: project.summary || `${project.category} project by G3 Builders & Architecture.`,
+    description: project.summary || `${project.category} project by G3 Builders & Architect.`,
     openGraph: {
       title: project.title,
       description: project.summary || undefined,
@@ -63,7 +63,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
     description: project.summary || undefined,
     image: project.cover?.url,
     dateCreated: project.year ? String(project.year) : undefined,
-    creator: { "@type": "Organization", name: "G3 Builders & Architecture" },
+    creator: { "@type": "Organization", name: "G3 Builders & Architect" },
     locationCreated: project.location ? { "@type": "Place", name: project.location } : undefined,
   };
 

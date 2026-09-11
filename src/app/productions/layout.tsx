@@ -8,8 +8,7 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden bg-black text-white">
-      <style dangerouslySetInnerHTML={{ __html: `html, body { background-color: black !important; }` }} />
+    <div className="relative min-h-screen w-full overflow-x-clip bg-background text-foreground transition-colors duration-300">
       <ProductionsBackButton />
       {children}
       <ProductionsTabs />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTheme } from "next-themes";
 
 interface Particle {
   x: number;
@@ -32,6 +33,8 @@ export function FloatingParticles({
   const particlesRef = useRef<Particle[]>([]);
   const mouseRef = useRef({ x: -1000, y: -1000 });
   const animRef = useRef<number>(0);
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -92,7 +95,9 @@ export function FloatingParticles({
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+        ctx.fillStyle = isDark 
+          ? `rgba(255, 255, 255, ${p.opacity})` 
+          : `rgba(0, 0, 0, ${p.opacity})`;
         ctx.fill();
       }
 
@@ -122,7 +127,7 @@ export function FloatingParticles({
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [count, maxSize, speed]);
+  }, [count, maxSize, speed, isDark]);
 
   return (
     <canvas

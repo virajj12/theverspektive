@@ -10,7 +10,7 @@
 import Link from "next/link";
 import { useReducedMotion } from "framer-motion";
 
-const TAGLINE = "G3 Builders & Architecture — Architecture · Interiors · Construction · Renovation — ";
+const TAGLINE = "G3 Builders & Architect — Exterior Consultancy · Interior Design · Execution — ";
 
 export default function G3Footer() {
   const reduced = useReducedMotion();
@@ -39,10 +39,10 @@ export default function G3Footer() {
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div className="sm:col-span-2">
           <p className="g3-display-md mb-3" style={{ color: "var(--g3-ink)" }}>
-            G3 Builders<br />&amp; Architecture
+            G3 Builders<br />&amp; Architect
           </p>
           <p className="g3-body max-w-sm">
-            Architecture, interiors and construction delivered end to end.
+            Exterior design consultancy, interior planning and execution delivered end to end.
           </p>
         </div>
 

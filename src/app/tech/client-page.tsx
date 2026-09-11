@@ -35,7 +35,7 @@ export default function TechClientPage({
   // /tech is registered in — duplicating it here would race with that effect.
 
   return (
-    <main className="bg-black">
+    <main className="bg-background transition-colors duration-500">
       <TechHero headline={heroHeadline} ctaLabel={heroCta} />
       <AudienceSplit />
       <ServicesTrack />

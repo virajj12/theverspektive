@@ -56,10 +56,10 @@ export default function ClientHome({
           {/* ═══════════════════════════════════════
               HERO 1 — Primary Brand Hero (Full-Screen)
               ═══════════════════════════════════════ */}
-          <section className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-black -z-10">
+          <section className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-background -z-10 transition-colors duration-500">
             {/* Dotted Surface Background */}
             <div className="absolute inset-0 z-0 opacity-60 pointer-events-none">
-              <DottedSurface themeOverride="dark" />
+              <DottedSurface />
             </div>
 
             <motion.div
@@ -74,7 +74,7 @@ export default function ClientHome({
                 alt="VerspeKtive"
                 width={800}
                 height={200}
-                className="w-[220px] sm:w-[320px] md:w-[440px] h-auto object-contain drop-shadow-[0_0px_80px_rgba(0,0,0,0.8)]"
+                className="w-[220px] sm:w-[320px] md:w-[440px] h-auto object-contain drop-shadow-xl dark:drop-shadow-[0_0px_80px_rgba(0,0,0,0.8)] dark:invert-0 invert"
                 priority
               />
             </motion.div>
@@ -91,8 +91,8 @@ export default function ClientHome({
                 animate={{ y: [0, 10, 0] }}
                 transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
               >
-                <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center">
-                  <ChevronDown className="text-white/70 w-5 h-5" />
+                <div className="w-6 h-6 rounded-full border border-foreground/30 flex items-center justify-center">
+                  <ChevronDown className="text-foreground/70 w-5 h-5" />
                 </div>
               </motion.div>
             </motion.div>
@@ -189,7 +189,7 @@ export default function ClientHome({
           {/* ═══════════════════════════════════════
             SCROLL STACK — Secondary Features
             ═══════════════════════════════════════ */}
-          <div className="relative z-10 w-full bg-black">
+          <div className="relative z-10 w-full bg-background transition-colors duration-500">
             <ScrollStack
               useWindowScroll={true}
               itemStackDistance={30}
@@ -197,56 +197,56 @@ export default function ClientHome({
               scaleEndPosition="-40%"
               className="py-12 md:py-24"
             >
-              <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-neutral-800 bg-neutral-900">
+              <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
                 <Image src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2000&auto=format&fit=crop" fill alt="G3 Builders & Architects" className="object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
-                  <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-white mb-6">G3 Builders & Architects</h2>
-                  <Link href="/g3-builders" className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-zinc-200 transition-colors">
+                  <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">G3 Builders & Architects</h2>
+                  <Link href="/g3-builders" className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-full font-medium hover:bg-foreground/90 transition-colors">
                     Explore <ChevronRight className="w-4 h-4" />
                   </Link>
                 </div>
               </ScrollStackItem>
 
-              <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-neutral-800 bg-neutral-900">
+              <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
                 <Image src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2000&auto=format&fit=crop" fill alt="Verspektive Productions" className="object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
-                  <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-white mb-6">Verspektive Productions</h2>
-                  <Link href="/productions" className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-zinc-200 transition-colors">
+                  <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">Verspektive Productions</h2>
+                  <Link href="/productions" className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-full font-medium hover:bg-foreground/90 transition-colors">
                     Explore <ChevronRight className="w-4 h-4" />
                   </Link>
                 </div>
               </ScrollStackItem>
 
-              <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-neutral-800 bg-neutral-900">
+              <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
                 <Image src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2000&auto=format&fit=crop" fill alt="VerspeKtive Apparels" className="object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
-                  <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-white mb-6">VerspeKtive Apparels</h2>
-                  <Link href="/apparels" className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-zinc-200 transition-colors">
+                  <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">VerspeKtive Apparels</h2>
+                  <Link href="/apparels" className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-full font-medium hover:bg-foreground/90 transition-colors">
                     Explore <ChevronRight className="w-4 h-4" />
                   </Link>
                 </div>
               </ScrollStackItem>
 
-              <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-neutral-800 bg-neutral-900">
+              <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
                 <Image src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2000&auto=format&fit=crop" fill alt="VerspeKtive Tech" className="object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
-                  <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-white mb-6">Tech</h2>
-                  <Link href="/tech" className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-zinc-200 transition-colors">
+                  <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">Tech</h2>
+                  <Link href="/tech" className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-full font-medium hover:bg-foreground/90 transition-colors">
                     Explore <ChevronRight className="w-4 h-4" />
                   </Link>
                 </div>
               </ScrollStackItem>
 
-              <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-neutral-800 bg-neutral-900">
+              <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
                 <Image src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=2000&auto=format&fit=crop" fill alt="VerspeKtive Store" className="object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
-                  <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-white mb-6">Store</h2>
-                  <Link href="/store" className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-zinc-200 transition-colors">
+                  <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">Store</h2>
+                  <Link href="/store" className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-full font-medium hover:bg-foreground/90 transition-colors">
                     Explore <ChevronRight className="w-4 h-4" />
                   </Link>
                 </div>

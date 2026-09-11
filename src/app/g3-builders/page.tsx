@@ -17,12 +17,14 @@ import {
 import HeroShrinkReveal from "@/components/g3/HeroShrinkReveal";
 import ProjectCard from "@/components/g3/ProjectCard";
 import CategoryFilter from "@/components/g3/CategoryFilter";
-import StackingProcess from "@/components/g3/StackingProcess";
+import MasterSequence from "@/components/g3/MasterSequence";
 import InquiryForm from "@/components/g3/InquiryForm";
 import TestimonialCarousel from "@/components/g3/TestimonialCarousel";
-import { Reveal, RevealImage } from "@/components/g3/Reveal";
+import { Reveal, RevealLeft, RevealImage } from "@/components/g3/Reveal";
 import { revealDelay } from "@/components/g3/motion";
 import { MaskedSection } from "@/components/g3/MaskedSection";
+import MaskText from "@/components/MaskText";
+import ScrollDrivenSlideIn from "@/components/g3/ScrollDrivenSlideIn";
 
 const PHILOSOPHY = [
   {
@@ -42,40 +44,22 @@ const PHILOSOPHY = [
 const FALLBACK_SERVICES = [
   {
     id: -1,
-    title: "Architecture",
-    slug: "architecture",
-    summary: "Concept through sanction and construction drawings.",
-    body: "Site study, massing, planning and the full drawing set — developed against your budget from the first week rather than value-engineered down after you have fallen for something unaffordable.",
+    title: "Interior Design & Execution",
+    slug: "interior-design-execution",
+    summary: "End-to-end interiors, resolved to the last switch plate and built by our dedicated team.",
+    body: "Comprehensive interior planning, joinery detailing, and material selection, fully executed and delivered by our own dedicated craftsmen.",
     iconUrl: null,
     iconAlt: null,
   },
   {
     id: -2,
-    title: "Interior Design",
-    slug: "interior-design",
-    summary: "Interiors resolved to the last switch plate.",
-    body: "Spatial planning, joinery detailing, material and lighting selection, and procurement support — with drawings your carpenter can actually build from.",
+    title: "Exterior Design Consultancy",
+    slug: "exterior-design-consultancy",
+    summary: "Architectural and exterior planning and design consultancy.",
+    body: "Site study, massing, and the full architectural drawing set—providing expert design and planning while you handle the construction.",
     iconUrl: null,
     iconAlt: null,
-  },
-  {
-    id: -3,
-    title: "Construction Management",
-    slug: "construction-management",
-    summary: "Execution with our own site team.",
-    body: "Contractor coordination, staged billing tied to milestones, quality checks at every pour and finish, and weekly progress you can see rather than take on trust.",
-    iconUrl: null,
-    iconAlt: null,
-  },
-  {
-    id: -4,
-    title: "Renovation",
-    slug: "renovation",
-    summary: "Working with what is already standing.",
-    body: "Structural assessment, phased work that keeps a home liveable where possible, and honest advice about when rebuilding costs less than retrofitting.",
-    iconUrl: null,
-    iconAlt: null,
-  },
+  }
 ];
 
 const PHONE_DISPLAY = "+91 98800 00000";
@@ -125,70 +109,64 @@ export default async function G3Home({
   const counts: Record<string, number> = {};
   for (const c of G3_CATEGORIES) counts[c] = allProjects.filter((p) => p.category === c).length;
 
-  const headline = homePage.content.heroHeadline || "We build what you'll live in for thirty years.";
+  const headline = homePage.content.heroHeadline || "Interior Execution. Exterior Consultancy.";
   const tagline =
     homePage.content.heroTagline ||
-    "Architecture, interiors and construction, delivered end to end by one team.";
+    "Expert exterior design planning, and end-to-end interior design and making delivered by our dedicated team.";
 
   const story =
     aboutPage.content.story ||
-    "G3 Builders & Architecture works across coastal Karnataka on homes, commercial buildings and interiors. We are deliberately small: the people you meet at the first conversation are the same people on site when the concrete is poured.";
+    "G3 Builders & Architect works across coastal Karnataka on homes, commercial buildings and interiors. We are deliberately small: the people you meet at the first conversation are the same people on site when the concrete is poured.";
 
   return (
     <>
       <HeroShrinkReveal heroImage={homePage.heroImage} headline={headline} tagline={tagline} />
 
-      {/* PROJECTS SECTION */}
-      <MaskedSection id="projects" type="circle" className="border-t border-white/5 !z-10">
-        <div className="mx-auto max-w-6xl px-6 pb-24 pt-32 md:pt-40">
+      {/* HERO COPY SECTION */}
+      <MaskedSection id="intro" type="spotlight" className="border-t border-white/5 !z-[5]">
+        <div className="mx-auto max-w-6xl px-6 py-32 md:py-48 text-center flex flex-col items-center">
           <Reveal>
-            <span className="g3-meta">Portfolio</span>
-            <h1 className="g3-display-xl mt-3" style={{ color: "var(--g3-ink)" }}>Projects</h1>
+            <span className="g3-meta block">
+              Interior Execution · Exterior Consultancy
+            </span>
+            <h1
+              className="g3-display-xl mt-6 max-w-4xl"
+              style={{ color: "var(--g3-ink)" }}
+            >
+              {headline}
+            </h1>
           </Reveal>
-
           <Reveal delay={0.1}>
-            <div className="mb-12 mt-8">
-              <Suspense fallback={null}>
-                <CategoryFilter counts={counts} />
-              </Suspense>
-            </div>
+            <p className="g3-body mt-8 max-w-2xl">{tagline}</p>
           </Reveal>
-
-          {filteredProjects.length ? (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredProjects.map((p, i) => (
-                <RevealImage key={p.id} delay={revealDelay(i, 0.06)}>
-                  <ProjectCard project={p} priority={i < 3} />
-                </RevealImage>
-              ))}
-            </div>
-          ) : (
-            <p className="g3-body py-16 text-center">
-              {validCategory
-                ? `No ${validCategory.toLowerCase()} projects published yet.`
-                : "Projects are being added — check back shortly."}
-            </p>
-          )}
+          <Reveal delay={0.2}>
+            <Link
+              href="/g3-builders/contact"
+              className="mt-12 inline-flex items-center gap-2 rounded-full px-8 py-5 text-lg font-semibold transition-transform hover:scale-105"
+              style={{ background: "var(--g3-brass)", color: "#0a0908" }}
+            >
+              Book a consultation
+              <ChevronRight className="h-5 w-5" aria-hidden="true" />
+            </Link>
+          </Reveal>
         </div>
       </MaskedSection>
 
       {/* SERVICES SECTION */}
-      <MaskedSection id="services" type="vertical-blinds" className="border-t border-white/5 !z-20" innerClassName="g3-wood-surface">
+      <section id="services" className="relative w-full border-t border-white/5 !z-10 bg-[#0a0908] g3-wood-surface">
         <div className="pb-24 pt-32 md:pt-40">
           <div className="mx-auto max-w-6xl px-6">
-            <Reveal>
-              <span className="g3-meta">What we do</span>
-              <h1 className="g3-display-xl mt-3 max-w-3xl" style={{ color: "var(--g3-ink)" }}>
-                Four disciplines, one accountable team.
-              </h1>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="g3-body mt-6 max-w-2xl">
-                Most projects go wrong in the gaps between the architect, the interior
-                designer and the contractor. We hold all three, so there are no gaps
-                to fall through.
+            <div className="g3-meta mb-3 text-[var(--g3-ink)]">
+              <MaskText text="What we do" />
+            </div>
+            <div className="g3-display-xl max-w-3xl" style={{ color: "var(--g3-ink)" }}>
+              <MaskText text="Two specialized services. Focused expertise." />
+            </div>
+            <ScrollDrivenSlideIn startOffset="-5vw">
+              <p className="g3-body mt-6 max-w-2xl text-[var(--g3-ink)]">
+                We focus on what we do best. We provide expert consultancy and planning for your exterior architecture, while fully executing your interior design with our dedicated in-house team.
               </p>
-            </Reveal>
+            </ScrollDrivenSlideIn>
           </div>
 
           <div className="mx-auto mt-20 max-w-6xl px-6">
@@ -203,12 +181,16 @@ export default async function G3Home({
                   style={{ borderColor: "var(--g3-rule-faint)" }}
                 >
                   <div className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:gap-16">
-                    <Reveal>
-                      <span className="g3-meta">{String(i + 1).padStart(2, "0")}</span>
-                      <h2 className="g3-display-md mt-3" style={{ color: "var(--g3-ink)" }}>{s.title}</h2>
-                    </Reveal>
+                    <div>
+                      <div className="g3-meta">
+                        <MaskText text={String(i + 1).padStart(2, "0")} />
+                      </div>
+                      <div className="g3-display-md mt-3" style={{ color: "var(--g3-ink)" }}>
+                        <MaskText text={s.title} />
+                      </div>
+                    </div>
 
-                    <Reveal delay={0.08}>
+                    <ScrollDrivenSlideIn startOffset="-5vw">
                       {s.summary && (
                         <p className="mb-4 text-xl" style={{ color: "var(--g3-ink)" }}>{s.summary}</p>
                       )}
@@ -217,7 +199,7 @@ export default async function G3Home({
                       <Link href="#contact" className="g3-link mt-6">
                         Discuss a {s.title.toLowerCase()} project <ChevronRight aria-hidden="true" />
                       </Link>
-                    </Reveal>
+                    </ScrollDrivenSlideIn>
                   </div>
 
                   {related.length > 0 && (
@@ -237,57 +219,41 @@ export default async function G3Home({
             })}
           </div>
         </div>
-      </MaskedSection>
+      </section>
 
-      {/* PROCESS SECTION */}
-      <MaskedSection id="process" type="diagonal" className="border-t border-white/5 !z-30">
-        <div className="pb-24 pt-32 md:pt-40">
-          <div className="mx-auto max-w-6xl px-6">
-            <Reveal>
-              <span className="g3-meta">How it works</span>
-              <h1 className="g3-display-xl mt-3 max-w-3xl" style={{ color: "var(--g3-ink)" }}>
-                Five stages. No surprises in the middle.
-              </h1>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="g3-body mt-6 max-w-2xl">
-                Durations below are typical, not promises — a hillside plot with a
-                tricky approach road takes longer than a flat urban site. We tell you
-                which one you have at the concept stage, not halfway through.
-              </p>
-            </Reveal>
-          </div>
+      {/* BREATHING ROOM SPACER */}
+      <div className="h-[25vh] bg-transparent"></div>
 
-          <div className="mt-16">
-            <StackingProcess />
-          </div>
-
-          <div className="mx-auto max-w-6xl px-6">
-            <Reveal delay={0.15}>
-              <div
-                className="g3-wood-surface mt-16 rounded-xl border p-8 md:p-12"
-                style={{ borderColor: "var(--g3-rule-faint)" }}
-              >
-                <h2 className="g3-display-md mb-4" style={{ color: "var(--g3-ink)" }}>
-                  Start with a conversation
-                </h2>
-                <p className="g3-body mb-7 max-w-xl">
-                  Bring your site documents and a rough budget. We&rsquo;ll tell you
-                  honestly whether what you want fits what you have.
-                </p>
-                <Link
-                  href="#contact"
-                  className="inline-flex items-center gap-2 rounded-full px-7 py-4 text-base font-semibold"
-                  style={{ background: "var(--g3-brass)", color: "#0a0908" }}
-                >
-                  Book a consultation
-                  <ChevronRight className="h-4 w-4" aria-hidden="true" />
-                </Link>
-              </div>
-            </Reveal>
-          </div>
+      {/* MASTER SEQUENCE: PORTFOLIO -> IMMERSIVE IMAGE -> HOW IT WORKS */}
+      <MasterSequence projects={filteredProjects}>
+        <div className="text-center flex flex-col items-center">
+          <span className="g3-meta mb-3 !text-white">Portfolio</span>
+          <Link href="/g3-builders/projects" className="group">
+            <h1 className="g3-display-xl transition-opacity hover:opacity-70 text-white">
+              Projects <sup className="text-lg opacity-50 relative -top-8 group-hover:opacity-100 transition-opacity">({allProjects.length})</sup>
+            </h1>
+          </Link>
         </div>
-      </MaskedSection>
+      </MasterSequence>
+
+      {/* MID-PAGE CTA */}
+      <section className="bg-[#0a0908] text-white py-24 md:py-32 flex justify-center border-t border-white/5 !z-40 relative">
+        <div className="text-center max-w-2xl px-6">
+          <Reveal>
+            <h2 className="text-4xl md:text-5xl font-semibold mb-6">Start with a conversation.</h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="text-xl mb-10 opacity-80 font-light">
+              Bring your site documents and a rough budget. We&rsquo;ll tell you honestly whether what you want fits what you have.
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <Link href="#contact" className="inline-flex items-center gap-2 rounded-full px-8 py-5 text-lg font-semibold transition-transform hover:scale-105" style={{ background: "var(--g3-brass)", color: "#0a0908" }}>
+              Book a consultation <ChevronRight className="h-5 w-5" />
+            </Link>
+          </Reveal>
+        </div>
+      </section>
 
       {/* ABOUT SECTION */}
       <MaskedSection id="about" type="spotlight" className="border-t border-white/5 !z-40" innerClassName="g3-wood-surface">
@@ -408,7 +374,7 @@ export default async function G3Home({
       </MaskedSection>
 
       {/* CONTACT SECTION */}
-      <MaskedSection id="contact" type="curtain" className="border-t border-white/5 !z-50">
+      <section id="contact" className="relative w-full z-50 bg-[#0a0908] border-t border-white/5">
         <div className="pb-24 pt-32 md:pt-40">
           <div className="mx-auto max-w-6xl px-6">
             <Reveal>
@@ -486,7 +452,7 @@ export default async function G3Home({
             </div>
           </div>
         </div>
-      </MaskedSection>
+      </section>
     </>
   );
 }

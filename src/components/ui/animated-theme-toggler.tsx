@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useRef, useState, useCallback } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { flushSync } from "react-dom"
+import { useTheme } from "next-themes"
 
 import { Moon, Sun } from "lucide-react"
 
@@ -14,43 +15,28 @@ type AnimatedThemeTogglerProps = {
 }
 
 export const AnimatedThemeToggler = ({ className }: AnimatedThemeTogglerProps) => {
+  const [mounted, setMounted] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
-  const [darkMode, setDarkMode] = useState(() =>
-    typeof window !== "undefined"
-      ? document.documentElement.classList.contains("dark")
-      : false
-  )
+  const { resolvedTheme, setTheme } = useTheme()
 
-  useEffect(() => {
-    const syncTheme = () =>
-      setDarkMode(document.documentElement.classList.contains("dark"))
+  useEffect(() => setMounted(true), [])
 
-    const observer = new MutationObserver(syncTheme)
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    })
-    return () => observer.disconnect()
-  }, [])
+  const darkMode = resolvedTheme === "dark"
 
   const onToggle = useCallback(async () => {
     if (!buttonRef.current) return
 
+    const newTheme = darkMode ? "light" : "dark"
+
     // Fallback for browsers that don't support View Transitions API
     if (!document.startViewTransition) {
-      const toggled = !darkMode
-      setDarkMode(toggled)
-      document.documentElement.classList.toggle("dark", toggled)
-      localStorage.setItem("theme", toggled ? "dark" : "light")
+      setTheme(newTheme)
       return
     }
 
     await document.startViewTransition(() => {
       flushSync(() => {
-        const toggled = !darkMode
-        setDarkMode(toggled)
-        document.documentElement.classList.toggle("dark", toggled)
-        localStorage.setItem("theme", toggled ? "dark" : "light")
+        setTheme(newTheme)
       })
     }).ready
 
@@ -75,7 +61,22 @@ export const AnimatedThemeToggler = ({ className }: AnimatedThemeTogglerProps) =
         pseudoElement: "::view-transition-new(root)",
       }
     )
-  }, [darkMode])
+  }, [darkMode, setTheme])
+
+  if (!mounted) {
+    return (
+      <button
+        aria-label="Switch theme"
+        className={cn(
+          "flex items-center justify-center p-2 rounded-full outline-none focus:outline-none active:outline-none focus:ring-0 cursor-pointer",
+          className
+        )}
+        type="button"
+      >
+        <span className="w-[16px] h-[16px]" />
+      </button>
+    )
+  }
 
   return (
     <button

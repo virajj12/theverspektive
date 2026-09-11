@@ -5,10 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import GlassSurface from "@/components/ui/GlassSurface";
 
 const LINKS = [
-  { href: "#projects", label: "Projects" },
   { href: "#services", label: "Services" },
+  { href: "#projects", label: "Projects" },
   { href: "#process", label: "Process" },
   { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },
@@ -66,12 +67,18 @@ export default function G3Nav() {
   return (
     <>
       <motion.header
-        className="g3-glass fixed left-1/2 bottom-24 md:bottom-6 z-[10000] flex -translate-x-1/2 items-center gap-2 rounded-full border px-2 py-2"
-        style={{ borderColor: "var(--g3-rule-faint)" }}
+        className="fixed left-1/2 bottom-24 md:bottom-6 z-[10000] flex -translate-x-1/2 items-center rounded-full"
         animate={{ width: "auto" }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
-        <AnimatePresence initial={false}>
+        <GlassSurface
+          width="max-content"
+          height="max-content"
+          borderRadius={9999}
+          className="p-2"
+        >
+          <div className="flex items-center gap-2">
+            <AnimatePresence initial={false}>
           <motion.div
             initial={{ opacity: 0, width: 0 }}
             animate={{ opacity: 1, width: "auto" }}
@@ -134,6 +141,8 @@ export default function G3Nav() {
         >
           Book a consultation
         </a>
+          </div>
+        </GlassSurface>
       </motion.header>
 
       {/* Mobile Menu Backdrop */}

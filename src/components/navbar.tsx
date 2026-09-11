@@ -11,7 +11,7 @@ import clsx from "clsx";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 const navItems = [
-  { name: "G3 Builders & Architecture", href: "/g3-builders" },
+  { name: "G3 Builders & Architect", href: "/g3-builders" },
   { name: "Productions", href: "/productions" },
   { name: "Tech", href: "/tech" },
   { name: "Founder", href: "/founder" },
@@ -19,7 +19,7 @@ const navItems = [
 ];
 
 const megaMenus: Record<string, { title: string, links: { name: string, href: string }[] }[]> = {
-  "G3 Builders & Architecture": [
+  "G3 Builders & Architect": [
     {
       title: "Social",
       links: [{ name: "Instagram", href: "https://instagram.com/projects_by_g3" }]
@@ -140,33 +140,9 @@ export default function Navbar() {
     return null;
   }
 
-  // Define pages with black hero sections
-  const isProductionsPage = pathname.startsWith("/productions");
-  const isBlackHeroPage = pathname === "/error" || pathname.startsWith("/account") || pathname === "/founder" || pathname === "/tech" || pathname.startsWith("/g3-builders");
-
-  // Enforce theme isolation: remove .dark class when not on productions page
-  useEffect(() => {
-    if (!isProductionsPage) {
-      document.documentElement.classList.remove("dark");
-    } else {
-      const savedTheme = localStorage.getItem("theme");
-      // Default to dark mode for productions unless explicitly set to light
-      if (savedTheme !== "light") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    }
-  }, [isProductionsPage]);
-
-  // Toggle dark scrollbar class on HTML element
-  useEffect(() => {
-    if (isBlackHeroPage) {
-      document.documentElement.classList.add("dark-page-scrollbar");
-    } else {
-      document.documentElement.classList.remove("dark-page-scrollbar");
-    }
-  }, [isBlackHeroPage]);
+  // Home page always has a light-style navbar (white text on transparent)
+  const isHomePage = pathname === "/";
+  // All pages are now theme-aware via next-themes; no forced class manipulation
 
   return (
     <>
@@ -174,11 +150,11 @@ export default function Navbar() {
         onMouseLeave={handleMouseLeave}
         className={clsx(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out",
-          isBlackHeroPage
-            ? isScrolled ? "bg-black/90 backdrop-blur-xl border-b border-white/[0.04]" : "bg-black"
-            : isProductionsPage
-              ? isScrolled ? "bg-background/90 backdrop-blur-xl border-b border-black/10 dark:border-white/[0.08]" : "bg-background backdrop-blur-xl"
-              : isScrolled ? "bg-white/90 backdrop-blur-md border-b border-zinc-200" : "bg-white backdrop-blur-xl"
+          isHomePage
+            ? isScrolled ? "bg-white/90 backdrop-blur-xl border-b border-zinc-200" : "bg-white"
+            : isScrolled
+              ? "bg-background/90 backdrop-blur-xl border-b border-black/10 dark:border-white/[0.08]"
+              : "bg-background backdrop-blur-xl"
         )}
       >
         <nav className="max-w-[1024px] mx-auto h-11 flex items-center justify-between px-4 lg:px-0">
@@ -194,9 +170,9 @@ export default function Navbar() {
               height={40}
               priority
               className={clsx(
-                !isBlackHeroPage && !isProductionsPage && "invert",
-                isProductionsPage && "dark:invert-0 invert",
-                "w-7 h-auto transition-all"
+                isHomePage
+                  ? "invert w-7 h-auto transition-all"
+                  : "dark:invert-0 invert w-7 h-auto transition-all"
               )}
             />
           </Link>
@@ -211,8 +187,8 @@ export default function Navbar() {
                 className={clsx(
                   "relative px-3 py-1.5 text-[12px] font-normal tracking-[0.01em] transition-colors duration-200",
                   pathname === item.href
-                    ? isBlackHeroPage ? "text-white" : isProductionsPage ? "text-foreground" : "text-black"
-                    : isBlackHeroPage ? "text-[#d1d1d6] hover:text-white" : isProductionsPage ? "text-muted-foreground hover:text-foreground" : "text-muted-foreground hover:text-black"
+                    ? isHomePage ? "text-black" : "text-foreground"
+                    : isHomePage ? "text-[#86868b] hover:text-black" : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 {item.name}
@@ -222,17 +198,18 @@ export default function Navbar() {
 
           {/* Right Icons */}
           <div className="flex items-center gap-4">
-            {isProductionsPage && (
-              <AnimatedThemeToggler
-                className="flex text-muted-foreground hover:text-foreground transition-colors duration-200"
-              />
-            )}
+            <AnimatedThemeToggler
+              className={clsx(
+                "flex transition-colors duration-200",
+                isHomePage ? "text-[#86868b] hover:text-black" : "text-muted-foreground hover:text-foreground"
+              )}
+            />
             <Link
               href="/account"
               aria-label="Account"
               className={clsx(
                 "hidden lg:flex transition-colors duration-200",
-                isBlackHeroPage ? "text-[#d1d1d6] hover:text-white" : isProductionsPage ? "text-muted-foreground hover:text-foreground" : "text-muted-foreground hover:text-black"
+                isHomePage ? "text-[#86868b] hover:text-black" : "text-muted-foreground hover:text-foreground"
               )}
             >
               <User className="w-[16px] h-[16px]" />
@@ -242,7 +219,7 @@ export default function Navbar() {
             <button
               className={clsx(
                 "lg:hidden relative z-50 transition-colors duration-200",
-                isBlackHeroPage || isMobileMenuOpen ? "text-[#d1d1d6] hover:text-white" : isProductionsPage ? "text-muted-foreground hover:text-foreground" : "text-muted-foreground hover:text-black"
+                isMobileMenuOpen ? "text-white hover:text-white" : isHomePage ? "text-[#86868b] hover:text-black" : "text-muted-foreground hover:text-foreground"
               )}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
@@ -268,7 +245,9 @@ export default function Navbar() {
               transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
               className={clsx(
                 "absolute top-[44px] left-0 right-0 overflow-hidden shadow-lg",
-                isBlackHeroPage ? "bg-black/90 backdrop-blur-xl border-b border-white/[0.04]" : isProductionsPage ? "bg-background/90 backdrop-blur-xl border-b border-black/10 dark:border-white/[0.08]" : "bg-white/90 backdrop-blur-md border-b border-zinc-200"
+                isHomePage
+                  ? "bg-white/90 backdrop-blur-xl border-b border-zinc-200"
+                  : "bg-background/90 backdrop-blur-xl border-b border-black/10 dark:border-white/[0.08]"
               )}
             >
               <div className="max-w-[1024px] mx-auto px-4 lg:px-0 py-10">
@@ -277,7 +256,7 @@ export default function Navbar() {
                     <div key={idx} className="flex flex-col gap-4 min-w-[120px]">
                       <h4 className={clsx(
                         "text-[11px] font-semibold tracking-wider uppercase",
-                        isBlackHeroPage ? "text-[#86868b]" : "text-muted-foreground"
+                        isHomePage ? "text-[#86868b]" : "text-muted-foreground"
                       )}>
                         {section.title}
                       </h4>
@@ -290,7 +269,7 @@ export default function Navbar() {
                                 onClick={() => setActiveMegaMenu(null)}
                                 className={clsx(
                                   "text-[13px] font-medium transition-colors duration-200 block",
-                                  isBlackHeroPage ? "text-[#d1d1d6] hover:text-white" : isProductionsPage ? "text-foreground/80 hover:text-foreground" : "text-[#1d1d1f] hover:text-[#000]"
+                                  isHomePage ? "text-[#1d1d1f] hover:text-black" : "text-foreground/80 hover:text-foreground"
                                 )}
                               >
                                 {link.name}
@@ -301,7 +280,7 @@ export default function Navbar() {
                       ) : (
                         <span className={clsx(
                           "text-[13px] italic",
-                          isBlackHeroPage ? "text-[#86868b]" : "text-muted-foreground"
+                          isHomePage ? "text-[#86868b]" : "text-muted-foreground"
                         )}>
                           {section.title === "Coming Soon" ? "Coming soon..." : ""}
                         </span>
@@ -339,7 +318,7 @@ export default function Navbar() {
             transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
             className={clsx(
               "fixed inset-0 z-[45] backdrop-blur-2xl flex flex-col pt-12",
-              isBlackHeroPage ? "bg-[#1d1d1f]/98" : isProductionsPage ? "bg-background/98" : "bg-white/98"
+              "bg-[#1d1d1f]/98"
             )}
           >
             <div className="flex-1 flex flex-col px-12 pt-8 overflow-y-auto">
@@ -359,10 +338,10 @@ export default function Navbar() {
                     href={item.href}
                     className={clsx(
                       "block text-[28px] font-semibold tracking-tight py-3 border-b transition-colors duration-200",
-                      isBlackHeroPage ? "border-white/[0.08]" : isProductionsPage ? "border-black/10 dark:border-white/[0.08]" : "border-black/[0.08]",
+                      "border-white/[0.08]",
                       pathname === item.href
-                        ? (isBlackHeroPage ? "text-white" : isProductionsPage ? "text-foreground" : "text-black")
-                        : (isBlackHeroPage ? "text-[#86868b] hover:text-white" : isProductionsPage ? "text-muted-foreground hover:text-foreground" : "text-muted-foreground hover:text-black")
+                        ? "text-white"
+                        : "text-[#86868b] hover:text-white"
                     )}
                   >
                     {item.name}

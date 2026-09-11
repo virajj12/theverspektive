@@ -20,14 +20,14 @@ export default function AudienceSplit() {
   const panels = [TRACKS.business, TRACKS.personal];
 
   return (
-    <section id="audience" className="section-dark relative py-28 md:py-40">
+    <section id="audience" className="relative py-28 md:py-40 bg-background transition-colors duration-500">
       <div className="mx-auto max-w-6xl px-6">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-15%" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-[#86868b]"
+          className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground"
         >
           Who we&rsquo;re building for
         </motion.p>
@@ -37,7 +37,7 @@ export default function AudienceSplit() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-15%" }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
-          className="text-display-md max-w-2xl text-[#f5f5f7]"
+          className="text-display-md max-w-2xl text-foreground"
         >
           Two very different problems. Pick yours.
         </motion.h2>
@@ -96,11 +96,11 @@ export default function AudienceSplit() {
                   {isActive ? "Selected" : `0${i + 1}`}
                 </span>
 
-                <span className="text-display-md mt-4 block text-[#f5f5f7]">
+                <span className="text-display-md mt-4 block text-foreground">
                   {panel.label}
                 </span>
 
-                <span className="text-body-lg mt-5 block max-w-sm text-[#86868b]">
+                <span className="text-body-lg mt-5 block max-w-sm text-muted-foreground">
                   {panel.pitch}
                 </span>
               </motion.button>
@@ -113,7 +113,7 @@ export default function AudienceSplit() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-10 text-sm text-[#86868b]"
+          className="mt-10 text-sm text-muted-foreground"
         >
           {track
             ? "Showing what that involves below."

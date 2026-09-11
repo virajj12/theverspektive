@@ -76,14 +76,14 @@ export default function ProcessSequence() {
     <section
       id="process"
       ref={root}
-      className="section-gray relative overflow-hidden py-24 md:h-screen md:py-0"
+      className="relative overflow-hidden py-24 md:h-screen md:py-0 bg-background transition-colors duration-500"
     >
       <div className="md:flex md:h-full md:flex-col md:justify-center">
         <div className="mx-auto mb-14 w-full max-w-6xl px-6 md:mb-20">
           <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-[#2997ff]">
             How it goes
           </p>
-          <h2 className="text-display-md max-w-2xl text-[#f5f5f7]">
+          <h2 className="text-display-md max-w-2xl text-foreground">
             Four steps, and you can see the work at every one.
           </h2>
         </div>
@@ -95,17 +95,17 @@ export default function ProcessSequence() {
           {PROCESS.map((item, i) => (
             <div
               key={item.step}
-              className="process-step relative shrink-0 border-t border-white/15 pt-8 md:w-[clamp(340px,32vw,460px)] md:border-t-0 md:border-l md:pl-10 md:pr-16 md:pt-0"
+              className="process-step relative shrink-0 border-t border-foreground/15 pt-8 md:w-[clamp(340px,32vw,460px)] md:border-t-0 md:border-l md:pl-10 md:pr-16 md:pt-0"
             >
               <div className="mb-6 font-mono text-sm tracking-widest text-[#2997ff]">
                 {item.step}
               </div>
-              <h3 className="text-display-md mb-5 text-[#f5f5f7]">{item.title}</h3>
-              <p className="text-body-lg max-w-sm text-[#86868b]">{item.body}</p>
+              <h3 className="text-display-md mb-5 text-foreground">{item.title}</h3>
+              <p className="text-body-lg max-w-sm text-muted-foreground">{item.body}</p>
 
               {/* Connector — only meaningful in the horizontal arrangement. */}
               {i < PROCESS.length - 1 && (
-                <div className="absolute right-6 top-2 hidden h-[1px] w-10 bg-white/20 md:block" />
+                <div className="absolute right-6 top-2 hidden h-[1px] w-10 bg-foreground/20 md:block" />
               )}
             </div>
           ))}

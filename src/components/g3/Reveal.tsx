@@ -46,6 +46,33 @@ export function Reveal({
   );
 }
 
+/** Left-to-right entrance motion variant. */
+export function RevealLeft({
+  children,
+  delay = 0,
+  as = "div",
+  className,
+}: {
+  children: ReactNode;
+  delay?: number;
+  as?: "div" | "section" | "li" | "span";
+  className?: string;
+}) {
+  const reduced = useReducedMotion();
+  const MotionTag = motion[as];
+
+  return (
+    <MotionTag
+      className={className}
+      initial={reduced ? { opacity: 0 } : { opacity: 0, x: -50 }}
+      whileInView={reduced ? { opacity: 1 } : { opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-12%" }}
+      transition={{ duration: 0.85, ease: G3_EASE, delay }}
+    >
+      {children}
+    </MotionTag>
+  );
+}
 /** Image variant — settles from slightly enlarged rather than clip-revealing. */
 export function RevealImage({
   children,

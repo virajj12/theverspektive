@@ -105,14 +105,14 @@ export function ContactEmailDropdown({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="w-64 rounded-2xl bg-[#1d1d1f]/90 backdrop-blur-xl border border-white/10 shadow-2xl p-2 overflow-hidden"
+            className="w-64 rounded-2xl bg-white/90 dark:bg-[#1d1d1f]/90 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-2xl p-2 overflow-hidden"
           >
             <div className="flex flex-col gap-1">
               <a
                 href={getGmailLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-white hover:bg-white/10 rounded-xl transition-colors"
+                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-foreground hover:bg-black/5 dark:hover:bg-white/10 rounded-xl transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 <div className="w-5 flex justify-center text-red-500">
@@ -127,7 +127,7 @@ export function ContactEmailDropdown({
                 href={getOutlookLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-white hover:bg-white/10 rounded-xl transition-colors"
+                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-foreground hover:bg-black/5 dark:hover:bg-white/10 rounded-xl transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 <div className="w-5 flex justify-center text-blue-500">
@@ -138,7 +138,7 @@ export function ContactEmailDropdown({
 
               <a
                 href={`mailto:${email}`}
-                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-white hover:bg-white/10 rounded-xl transition-colors"
+                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-foreground hover:bg-black/5 dark:hover:bg-white/10 rounded-xl transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 <div className="w-5 flex justify-center text-zinc-400">
@@ -149,7 +149,7 @@ export function ContactEmailDropdown({
 
               <button
                 onClick={handleCopy}
-                className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-white hover:bg-white/10 rounded-xl transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-foreground hover:bg-black/5 dark:hover:bg-white/10 rounded-xl transition-colors"
               >
                 <div className="w-5 flex justify-center text-zinc-400">
                   {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
@@ -168,7 +168,7 @@ export function ContactEmailDropdown({
       <div className="relative inline-block text-left" ref={dropdownRef}>
         <button
           onClick={handleOpen}
-          className={className || "inline-flex items-center justify-center gap-2 bg-white text-black hover:bg-zinc-100 px-8 py-4 rounded-full font-semibold text-lg transition-transform hover:scale-105"}
+          className={className || "inline-flex items-center justify-center gap-2 bg-foreground text-background hover:bg-foreground/90 px-8 py-4 rounded-full font-semibold text-lg transition-transform hover:scale-105"}
         >
           {children || (
             <>

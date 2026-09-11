@@ -134,7 +134,7 @@ export default function FounderClientPage() {
   const shadowOpacity = useTransform(storyScroll, [0.75, 1], [0, 1]);
 
   return (
-    <BeamsBackground className="founder-cursor-page text-white overflow-clip" intensity="medium">
+    <BeamsBackground className="founder-cursor-page text-foreground overflow-clip" intensity="medium">
       <CursorFollower />
 
       <div ref={storyWrapperRef} className="relative">
@@ -158,7 +158,7 @@ export default function FounderClientPage() {
 
             <motion.div
               style={{ opacity: shadowOpacity }}
-              className="absolute inset-x-0 bottom-0 h-[25vh] bg-gradient-to-t from-neutral-950 to-transparent pointer-events-none"
+              className="absolute inset-x-0 bottom-0 h-[25vh] bg-gradient-to-t from-background to-transparent pointer-events-none"
             />
           </div>
         </div>
@@ -173,7 +173,7 @@ export default function FounderClientPage() {
             className="relative w-full min-h-screen flex items-center justify-center overflow-hidden"
           >
             {/* Subtle radial gradient */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.03)_0%,_transparent_70%)] pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(128,128,128,0.15)_0%,_transparent_70%)] dark:bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.03)_0%,_transparent_70%)] pointer-events-none" />
 
             <motion.div
               style={{ opacity: heroOpacity, scale: heroScale }}
@@ -198,11 +198,9 @@ export default function FounderClientPage() {
                   <motion.h1
                     variants={fadeUp}
                     custom={1}
-                    className="text-display-hero text-white mb-4"
+                    className="text-5xl md:text-7xl font-bold tracking-tight mb-8"
                   >
-                    Vikhil
-                    <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-white/90">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground/90 to-foreground/90">
                       V Salian
                     </span>
                   </motion.h1>
@@ -210,7 +208,7 @@ export default function FounderClientPage() {
                   <motion.p
                     variants={fadeUp}
                     custom={2}
-                    className="text-lg md:text-xl text-white/50 font-light tracking-wide mb-8"
+                    className="text-lg md:text-xl text-muted-foreground font-light tracking-wide mb-8"
                   >
                     Managing Director {/* Architect · Filmmaker · Visionary */}
                   </motion.p>
@@ -225,7 +223,7 @@ export default function FounderClientPage() {
                       href="https://www.instagram.com/the_verspektive"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="cursor-can-hover w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:text-white hover:border-white/40 transition-all duration-300"
+                      className="cursor-can-hover w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground hover:border-foreground/40 transition-all duration-300"
                     >
                       <InstagramIcon className="w-4 h-4" />
                     </a>
@@ -233,12 +231,12 @@ export default function FounderClientPage() {
                       href="https://www.youtube.com/@verspektive_productions"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="cursor-can-hover w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:text-white hover:border-white/40 transition-all duration-300"
+                      className="cursor-can-hover w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground hover:border-foreground/40 transition-all duration-300"
                     >
                       <YoutubeIcon className="w-4 h-4" />
                     </a>
                     <MailDropdown email="verspektive@gmail.com">
-                      <div className="cursor-can-hover w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:text-white hover:border-white/40 transition-all duration-300">
+                      <div className="cursor-can-hover w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground hover:border-foreground/40 transition-all duration-300">
                         <Mail className="w-4 h-4" />
                       </div>
                     </MailDropdown>
@@ -254,14 +252,14 @@ export default function FounderClientPage() {
               transition={{ delay: 1.5, duration: 1 }}
               className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
             >
-              <span className="text-[10px] tracking-[0.25em] uppercase text-white/30">
+              <span className="text-[10px] tracking-[0.25em] uppercase text-foreground/30">
                 Scroll
               </span>
               <motion.div
                 animate={{ y: [0, 8, 0] }}
                 transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
               >
-                <ChevronDown className="w-4 h-4 text-white/30" />
+                <ChevronDown className="w-4 h-4 text-foreground/30" />
               </motion.div>
             </motion.div>
           </section>
@@ -275,9 +273,9 @@ export default function FounderClientPage() {
 
             <div className="max-w-6xl mx-auto px-6 relative z-20">
               <div className="flex flex-col items-start w-full lg:w-[70%] xl:w-[65%]">
-                <TiltCard className="w-full glass-card-dark p-8 lg:p-12 rounded-[24px] backdrop-blur-md">
+                <TiltCard className="w-full glass-card p-8 lg:p-12 rounded-[24px] backdrop-blur-md">
                   {/* Mobile Portrait */}
-                  <div className="lg:hidden mb-8 relative aspect-[4/5] rounded-[24px] overflow-hidden glass-card-dark p-1 max-w-[300px] mx-auto">
+                  <div className="lg:hidden mb-8 relative aspect-[4/5] rounded-[24px] overflow-hidden glass-card p-1 max-w-[300px] mx-auto">
                     <Image
                       src="/Vikhil.jpg"
                       alt="Vikhil V Salian"
@@ -296,7 +294,7 @@ export default function FounderClientPage() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-10%" }}
                       transition={{ duration: 0.8 }}
-                      className="text-sm font-medium tracking-[0.15em] uppercase text-white/40"
+                      className="text-sm font-medium tracking-[0.15em] uppercase text-foreground/40"
                     >
                       The Story
                     </motion.p>
@@ -304,15 +302,15 @@ export default function FounderClientPage() {
                     <div className="space-y-5">
                       <MaskText
                         text="Vikhil V Salian is the Managing Director, Principal Designer and Illumination Expert of G3 Builders & Architects, Founder and Creative Head of VerspeKtive Productions, and the Host of TIO Originals."
-                        className="text-xl md:text-2xl font-light text-white/90 leading-relaxed"
+                        className="text-xl md:text-2xl font-light text-foreground/90 leading-relaxed"
                       />
                       <MaskText
                         text="An Architect by profession, he brings together creativity, design thinking, and technical expertise to produce content that is both visually compelling and meaningful."
-                        className="text-lg text-white/60 leading-relaxed"
+                        className="text-lg text-foreground/60 leading-relaxed"
                       />
                       <MaskText
                         text="Driven by a passion for storytelling and innovation, Vikhil founded VerspeKtive Productions with the vision of building a premium digital media company that delivers world-class production quality while creating conversations that educate, inspire, and entertain."
-                        className="text-lg text-white/60 leading-relaxed"
+                        className="text-lg text-foreground/60 leading-relaxed"
                       />
                     </div>
 
@@ -331,11 +329,11 @@ export default function FounderClientPage() {
                           custom={0}
                           className="h-full"
                         >
-                          <TiltCard className="glass-card-dark p-4 lg:p-5 text-center h-full">
-                            <p className="text-2xl lg:text-3xl font-bold text-white mb-1">
+                          <TiltCard className="glass-card p-4 lg:p-5 text-center h-full">
+                            <p className="text-2xl lg:text-3xl font-bold text-foreground mb-1">
                               {stat.value}
                             </p>
-                            <p className="text-xs lg:text-sm text-white/40">
+                            <p className="text-xs lg:text-sm text-foreground/40">
                               {stat.label}
                             </p>
                           </TiltCard>
@@ -365,10 +363,10 @@ export default function FounderClientPage() {
             transition={{ duration: 0.9, ease: "easeOut" }}
             className="text-center mb-16 lg:mb-20"
           >
-            <p className="text-sm font-medium tracking-[0.15em] uppercase text-white/40 mb-3">
+            <p className="text-sm font-medium tracking-[0.15em] uppercase text-foreground/40 mb-3">
               Building Brands
             </p>
-            <h2 className="text-display-hero text-white">Ventures</h2>
+            <h2 className="text-display-hero text-foreground">Ventures</h2>
           </motion.div>
 
           {/* Venture Cards Grid */}
@@ -410,7 +408,7 @@ export default function FounderClientPage() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-sm font-medium tracking-[0.15em] uppercase text-white/40 mb-12"
+            className="text-sm font-medium tracking-[0.15em] uppercase text-foreground/40 mb-12"
           >
             The Vision
           </motion.p>
@@ -423,10 +421,10 @@ export default function FounderClientPage() {
             transition={{ duration: 1, ease: "easeOut" }}
             className="relative"
           >
-            <span className="absolute -top-8 left-1/2 -translate-x-1/2 text-6xl text-white/10 font-serif leading-none select-none">
+            <span className="absolute -top-8 left-1/2 -translate-x-1/2 text-6xl text-foreground/10 font-serif leading-none select-none">
               &ldquo;
             </span>
-            <p className="text-2xl md:text-3xl lg:text-4xl font-light text-white/80 leading-snug italic max-w-4xl mx-auto">
+            <p className="text-2xl md:text-3xl lg:text-4xl font-light text-foreground/80 leading-snug italic max-w-4xl mx-auto">
               Building a premium digital media company that delivers world-class
               production quality while creating conversations that educate,
               inspire, and entertain.
@@ -473,17 +471,17 @@ export default function FounderClientPage() {
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
-            <p className="text-sm font-medium tracking-[0.15em] uppercase text-white/40 mb-4">
+            <p className="text-sm font-medium tracking-[0.15em] uppercase text-foreground/40 mb-4">
               Get In Touch
             </p>
-            <h2 className="text-display-lg text-white mb-4">
+            <h2 className="text-display-lg text-foreground mb-4">
               Let&apos;s create something
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white/90 to-white/90">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground/90 to-foreground/90">
                 together.
               </span>
             </h2>
-            <p className="text-white/40 text-lg mb-10 max-w-lg mx-auto">
+            <p className="text-muted-foreground text-lg mb-10 max-w-lg mx-auto">
               Have a project in mind or just want to say hello? Reach out
               through any of these channels.
             </p>
@@ -515,7 +513,7 @@ export default function FounderClientPage() {
               href="https://www.youtube.com/@verspektive_productions"
               target="_blank"
               rel="noopener noreferrer"
-              className="cursor-can-hover glass-card-dark px-6 py-3 flex items-center gap-2.5 text-white/70 hover:text-white transition-colors"
+              className="cursor-can-hover glass-card px-6 py-3 flex items-center gap-2.5 text-foreground/70 hover:text-foreground transition-colors"
             >
               <YoutubeIcon className="w-4 h-4" />
               <span className="text-sm font-medium">YouTube</span>
@@ -523,7 +521,7 @@ export default function FounderClientPage() {
 
             <motion.div variants={fadeUp} custom={2}>
               <MailDropdown email="verspektive@gmail.com">
-                <div className="cursor-can-hover glass-card-dark px-6 py-3 flex items-center gap-2.5 text-white/70 hover:text-white transition-colors">
+                <div className="cursor-can-hover glass-card px-6 py-3 flex items-center gap-2.5 text-foreground/70 hover:text-foreground transition-colors">
                   <Mail className="w-4 h-4" />
                   <span className="text-sm font-medium">verspektive@gmail.com</span>
                 </div>
@@ -537,7 +535,7 @@ export default function FounderClientPage() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.5, duration: 1 }}
-            className="text-xs text-white/20 mt-16"
+            className="text-xs text-foreground/20 mt-16"
           >
             © {new Date().getFullYear()} VerspeKtive. All rights reserved.
           </motion.p>

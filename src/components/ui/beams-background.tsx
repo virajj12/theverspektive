@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
 
 interface AnimatedGradientBackgroundProps {
     className?: string;
@@ -48,6 +49,8 @@ export function BeamsBackground({
     const beamsRef = useRef<Beam[]>([]);
     const animationFrameRef = useRef<number>(0);
     const MINIMUM_BEAMS = 20;
+    const { resolvedTheme } = useTheme();
+    const isDark = resolvedTheme === "dark";
 
     const opacityMap = {
         subtle: 0.7,
@@ -165,12 +168,13 @@ export function BeamsBackground({
                 cancelAnimationFrame(animationFrameRef.current);
             }
         };
-    }, [intensity]);
+    }, [intensity, isDark]);
 
     return (
         <div
             className={cn(
-                "relative min-h-screen w-full overflow-hidden bg-neutral-950",
+                "relative min-h-screen w-full overflow-hidden transition-colors duration-500",
+                "bg-[#f5f5f7] dark:bg-neutral-950",
                 className
             )}
         >
@@ -181,7 +185,10 @@ export function BeamsBackground({
             />
 
             <motion.div
-                className="fixed inset-0 bg-neutral-950/5 pointer-events-none z-0"
+                className={cn(
+                    "fixed inset-0 pointer-events-none z-0",
+                    "bg-white/5 dark:bg-neutral-950/5"
+                )}
                 animate={{
                     opacity: [0.05, 0.15, 0.05],
                 }}

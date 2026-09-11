@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════
-   G3 Builders & Architecture — Design Tokens
+   G3 Builders & Architect — Design Tokens
    Spec section 3: "Black & Wood"
 
    Everything is scoped under .g3-theme rather than :root. G3 is a
@@ -12,12 +12,12 @@
   /* ── Surfaces ──
      Near-black, never pure #000 — keeps a hint of warmth so it sits
      correctly beside the wood tones instead of going blue against them. */
-  --g3-black: #0a0908;
-  --g3-black-raised: #121110;
+  --g3-black: #161616; /* matte black */
+  --g3-black-raised: #212121;
 
   /* Deep walnut / espresso, used as section and card fills. */
-  --g3-wood: #1e140e;
-  --g3-wood-deep: #3e2723;
+  --g3-wood: #dfab55; /* lighter, more golden oak wood shade */
+  --g3-wood-deep: #b07f35;
 
   /* Warm off-white for contrast sections and forms — not pure white,
      which would read as a different brand family. */
@@ -112,11 +112,12 @@
 .g3-surface-raised  { background-color: var(--g3-black-raised); color: var(--g3-ink); }
 .g3-surface-bone    { background-color: var(--g3-bone); color: var(--g3-ink-dark); }
 
-/* Warm-tinted glass nav (spec 3: rgba(10,9,8,0.7), not neutral gray). */
+/* Glass surface UI */
 .g3-glass {
-  background: rgba(10, 9, 8, 0.7);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
 }
 
 /* Brass hairline divider. */

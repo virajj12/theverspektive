@@ -13,13 +13,17 @@ export function MaskedSection({
   type,
   className,
   innerClassName,
-  id
+  id,
+  disablePin,
+  pinDistance = 1
 }: {
   children: React.ReactNode;
   type: MaskAnimationType;
   className?: string;
   innerClassName?: string;
   id?: string;
+  disablePin?: boolean;
+  pinDistance?: number;
 }) {
   const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -31,17 +35,20 @@ export function MaskedSection({
       // Pin this section when it has finished scrolling into view,
       // so the NEXT section can scroll up OVER it.
       // We don't use pinSpacing so the next section physically overlaps it.
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: () => {
-          if (!sectionRef.current) return "top top";
-          return sectionRef.current.offsetHeight > window.innerHeight
-            ? "bottom bottom"
-            : "top top";
-        },
-        pin: true,
-        pinSpacing: false,
-      });
+      if (!disablePin) {
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: () => {
+            if (!sectionRef.current) return "top top";
+            return sectionRef.current.offsetHeight > window.innerHeight
+              ? "bottom bottom"
+              : "top top";
+          },
+          end: () => "+=" + (window.innerHeight * pinDistance),
+          pin: true,
+          pinSpacing: false,
+        });
+      }
 
       // The mask animation for THIS section as it scrolls up over the PREVIOUS pinned section
       const tl = gsap.timeline({
