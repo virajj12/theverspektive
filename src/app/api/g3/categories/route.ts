@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { db } from "@/db";
+import { getRequestContext } from "@cloudflare/next-on-pages";
+import { drizzle } from "drizzle-orm/d1";
 import { g3_projects } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { G3_CATEGORIES } from "@/lib/g3-constants";
@@ -8,14 +9,14 @@ export const runtime = 'edge';
 
 export async function PATCH(request: Request) {
   try {
-    const body = await request.json();
+    const body = (await request.json()) as any;
     const { oldName, newName, action } = body;
 
     if (!oldName) {
       return NextResponse.json({ error: "Missing oldName" }, { status: 400 });
     }
 
-    const d = db();
+    const d = drizzle(getRequestContext().env.DB);
 
     if (action === "rename") {
       if (!newName || typeof newName !== "string" || !newName.trim()) {
