@@ -82,20 +82,23 @@ export default function HeroShrinkReveal({
           )}
 
           <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to top, rgba(10,9,8,0.95) 8%, rgba(10,9,8,0.45) 45%, rgba(10,9,8,0.7) 100%)",
-            }}
+            className="absolute inset-0 bg-gradient-to-t from-[#fcfcfc]/95 via-[#fcfcfc]/45 to-[#fcfcfc]/70 dark:from-[#0a0908]/95 dark:via-[#0a0908]/45 dark:to-[#0a0908]/70"
           />
 
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div ref={logoRef} className="relative w-[60%] max-w-[450px] aspect-[2/1]">
+            <div ref={logoRef} className="relative w-[45%] max-w-[340px] aspect-[2/1]">
               <Image
-                src="/G3 B & A LOGO WHITE Crop.png"
+                src="/G3 B & A LOGO BLACK.png"
                 alt="G3 Builders Logo"
                 fill
-                className="object-contain"
+                className="object-contain dark:hidden"
+                priority
+              />
+              <Image
+                src="/G3 B & A LOGO WHITE.png"
+                alt="G3 Builders Logo"
+                fill
+                className="object-contain hidden dark:block"
                 priority
               />
             </div>

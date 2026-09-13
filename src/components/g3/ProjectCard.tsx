@@ -56,11 +56,11 @@ export default function ProjectCard({ project, priority = false }: { project: G3
 
         <div className="absolute inset-x-0 bottom-0 p-5">
           <span className="g3-meta">{project.category}</span>
-          <h3 className="mt-1.5 text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--g3-font-display)", color: "var(--g3-ink)" }}>
+          <h3 className="mt-1.5 text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--g3-font-display)", color: "#f5f1ea" }}>
             {project.title}
           </h3>
           {(project.location || project.year) && (
-            <p className="mt-0.5 text-sm" style={{ color: "var(--g3-ink-faint)" }}>
+            <p className="mt-0.5 text-sm" style={{ color: "rgba(245, 241, 234, 0.45)" }}>
               {[project.location, project.year].filter(Boolean).join(" · ")}
             </p>
           )}

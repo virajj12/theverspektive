@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { UploadCloud, Save } from "lucide-react";
 import TeamManager from "@/components/admin/team-manager";
+import ProjectsManager from "@/components/admin/g3/ProjectsManager";
+import ParallaxManager from "@/components/admin/g3/ParallaxManager";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("homepage");
@@ -722,11 +724,22 @@ function ProductionsAdmin() {
 
 function G3BuildersAdmin() {
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-6">G3 Builders Config</h2>
-      <p className="text-zinc-500 mb-8">Manage the content and teams for G3 Builders.</p>
-      
-      <TeamManager slug="g3-builders" />
+    <div className="space-y-12">
+      <div>
+        <h2 className="text-2xl font-bold mb-6">G3 Builders Config</h2>
+        <p className="text-zinc-500 mb-8">Manage the content and teams for G3 Builders.</p>
+        <TeamManager slug="g3-builders" />
+      </div>
+
+      <div className="border-t border-zinc-200 pt-8">
+        <h2 className="text-xl font-bold mb-6">Projects</h2>
+        <ProjectsManager />
+      </div>
+
+      <div className="border-t border-zinc-200 pt-8">
+        <h2 className="text-xl font-bold mb-6">Parallax Images</h2>
+        <ParallaxManager />
+      </div>
     </div>
   );
 }

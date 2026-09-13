@@ -151,10 +151,10 @@ export default function Navbar() {
         className={clsx(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out",
           isHomePage
-            ? isScrolled ? "bg-white/90 backdrop-blur-xl border-b border-zinc-200" : "bg-white"
+            ? isScrolled ? "bg-white/80 backdrop-blur-xl border-b border-zinc-200" : "bg-white/80 backdrop-blur-xl"
             : isScrolled
-              ? "bg-background/90 backdrop-blur-xl border-b border-black/10 dark:border-white/[0.08]"
-              : "bg-background backdrop-blur-xl"
+              ? "bg-background/80 backdrop-blur-xl border-b border-black/10 dark:border-white/[0.08]"
+              : "bg-background/80 backdrop-blur-xl"
         )}
       >
         <nav className="max-w-[1024px] mx-auto h-11 flex items-center justify-between px-4 lg:px-0">
@@ -219,7 +219,11 @@ export default function Navbar() {
             <button
               className={clsx(
                 "lg:hidden relative z-50 transition-colors duration-200",
-                isMobileMenuOpen ? "text-white hover:text-white" : isHomePage ? "text-[#86868b] hover:text-black" : "text-muted-foreground hover:text-foreground"
+                isMobileMenuOpen 
+                  ? "text-black hover:text-black dark:text-white dark:hover:text-white" 
+                  : isHomePage 
+                    ? "text-[#86868b] hover:text-black" 
+                    : "text-muted-foreground hover:text-foreground"
               )}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
@@ -318,7 +322,7 @@ export default function Navbar() {
             transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
             className={clsx(
               "fixed inset-0 z-[45] backdrop-blur-2xl flex flex-col pt-12",
-              "bg-[#1d1d1f]/98"
+              "bg-white/80 dark:bg-black/80"
             )}
           >
             <div className="flex-1 flex flex-col px-12 pt-8 overflow-y-auto">
@@ -338,10 +342,10 @@ export default function Navbar() {
                     href={item.href}
                     className={clsx(
                       "block text-[28px] font-semibold tracking-tight py-3 border-b transition-colors duration-200",
-                      "border-white/[0.08]",
+                      "border-black/10 dark:border-white/[0.08]",
                       pathname === item.href
-                        ? "text-white"
-                        : "text-[#86868b] hover:text-white"
+                        ? "text-black dark:text-white"
+                        : "text-gray-500 hover:text-black dark:text-[#86868b] dark:hover:text-white"
                     )}
                   >
                     {item.name}

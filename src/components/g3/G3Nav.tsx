@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronUp } from "lucide-react";
 import GlassSurface from "@/components/ui/GlassSurface";
 
 const LINKS = [
@@ -55,10 +55,18 @@ export default function G3Nav() {
     const t1 = setTimeout(observeLinks, 500);
     const t2 = setTimeout(observeLinks, 2000);
 
+    const handleScroll = () => {
+      if (window.scrollY < 100) {
+        setActiveHash("");
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
       observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [pathname]);
 
@@ -80,7 +88,7 @@ export default function G3Nav() {
   return (
     <>
       <motion.header
-        className="fixed left-1/2 bottom-24 md:bottom-6 z-[10000] flex -translate-x-1/2 items-center rounded-full"
+        className="fixed left-1/2 bottom-24 md:bottom-6 z-[44] flex -translate-x-1/2 items-center rounded-full"
         animate={{ width: "auto" }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
@@ -97,7 +105,7 @@ export default function G3Nav() {
                 animate={{ opacity: 1, width: "auto" }}
                 exit={{ opacity: 0, width: 0 }}
                 transition={{ duration: 0.3 }}
-                className="flex items-center gap-1 overflow-hidden whitespace-nowrap"
+                className="flex items-center gap-1 overflow-hidden whitespace-nowrap bg-zinc-950/80 backdrop-blur-md border border-white/10 shadow-inner p-1 rounded-full mr-2"
               >
                 <Link
                   href="/g3-builders"
@@ -106,28 +114,49 @@ export default function G3Nav() {
                       e.preventDefault();
                       window.scrollTo({ top: 0, behavior: "smooth" });
                       setOpen(false);
+                      setActiveHash("");
                     }
                   }}
-                  className="px-4 py-2 text-sm font-semibold tracking-tight text-foreground transition-colors duration-300"
+                  className={`relative z-10 flex items-center justify-center h-9 w-9 shrink-0 rounded-full transition-colors duration-300 ${
+                    activeHash === "" ? "text-black" : "text-zinc-400 hover:text-white"
+                  }`}
+                  aria-label="Back to top"
                 >
-                  G3
+                  {activeHash === "" && (
+                    <motion.div
+                      layoutId="activeG3NavPill"
+                      className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm"
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    />
+                  )}
+                  <ChevronUp className="h-5 w-5" />
                 </Link>
 
                 <nav className="hidden items-center md:flex">
-                  {LINKS.map((l) => (
-                    <a
-                      key={l.href}
-                      href={l.href}
-                      onClick={(e) => handleLinkClick(e, l.href)}
-                      className={`rounded-full px-4 py-2 text-sm transition-colors duration-300 cursor-pointer ${
-                        activeHash === l.href
-                          ? "text-[var(--g3-brass)]"
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
-                    >
-                      {l.label}
-                    </a>
-                  ))}
+                  {LINKS.map((l) => {
+                    const isActive = activeHash === l.href;
+                    return (
+                      <a
+                        key={l.href}
+                        href={l.href}
+                        onClick={(e) => handleLinkClick(e, l.href)}
+                        className={`relative z-10 rounded-full px-5 py-2 text-sm transition-colors duration-300 cursor-pointer ${
+                          isActive
+                            ? "text-black font-medium"
+                            : "text-zinc-400 hover:text-white"
+                        }`}
+                      >
+                        {isActive && (
+                          <motion.div
+                            layoutId="activeG3NavPill"
+                            className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm"
+                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                          />
+                        )}
+                        {l.label}
+                      </a>
+                    );
+                  })}
                 </nav>
               </motion.div>
             </AnimatePresence>
@@ -137,7 +166,7 @@ export default function G3Nav() {
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full md:hidden"
-          style={{ background: "var(--g3-brass)", color: "#0a0908" }}
+          style={{ background: "var(--g3-ink)", color: "var(--g3-black)" }}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
@@ -147,7 +176,7 @@ export default function G3Nav() {
           href="#contact"
           onClick={(e) => handleLinkClick(e, "#contact")}
           className="hidden shrink-0 rounded-full px-5 py-2 text-sm font-semibold md:block cursor-pointer"
-          style={{ background: "var(--g3-brass)", color: "#0a0908" }}
+          style={{ background: "var(--g3-ink)", color: "var(--g3-black)" }}
         >
           Book a consultation
         </a>
@@ -163,7 +192,7 @@ export default function G3Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[9998] bg-black/60 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-[42] bg-black/60 backdrop-blur-sm md:hidden"
             onClick={() => setOpen(false)}
           />
         )}
@@ -177,7 +206,7 @@ export default function G3Nav() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: "100%", opacity: 0 }}
             transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-            className="fixed bottom-0 left-0 right-0 h-[75vh] z-[9999] flex flex-col justify-start pt-12 px-8 md:hidden border-t border-white/10 shadow-2xl rounded-t-3xl"
+            className="fixed bottom-0 left-0 right-0 h-[75vh] z-[43] flex flex-col justify-start pt-12 px-8 md:hidden border-t border-white/10 shadow-2xl rounded-t-3xl"
             style={{ background: "var(--g3-black)" }}
           >
             <nav className="flex flex-col gap-4">

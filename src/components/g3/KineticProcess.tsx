@@ -36,7 +36,7 @@ export default function KineticProcess() {
   });
 
   return (
-    <section ref={rootRef} className="relative w-full overflow-hidden bg-[#0a0908]" style={{ color: "var(--g3-wood)" }}>
+    <section ref={rootRef} className="relative w-full overflow-hidden bg-[var(--g3-black)]" style={{ color: "var(--g3-wood)" }}>
       {/* 
         This is the inner container that will move horizontally. 
         It flexes its children in a row and its total width will exceed the viewport.
@@ -68,7 +68,7 @@ export default function KineticProcess() {
                 {s.what}
               </p>
               <div className="border-t border-white/20 pt-6">
-                <span className="g3-meta block mb-2 opacity-60">Deliverables & Responsibilities</span>
+                <span className="g3-meta !text-white block mb-2 opacity-60">Deliverables & Responsibilities</span>
                 <p className="text-lg opacity-80">{s.client}</p>
               </div>
             </div>

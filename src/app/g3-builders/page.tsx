@@ -81,12 +81,9 @@ export default async function G3Home({
   searchParams: Promise<{ category?: string }>;
 }) {
   const { category } = await searchParams;
-  const validCategory =
-    category && (G3_CATEGORIES as readonly string[]).includes(category) ? category : undefined;
-
+  
   const [
     allProjects,
-    filteredProjects,
     team,
     homePage,
     aboutPage,
@@ -95,7 +92,6 @@ export default async function G3Home({
     testimonials
   ] = await Promise.all([
     getProjects(),
-    getProjects(validCategory),
     getTeam(),
     getPageContent("home"),
     getPageContent("about"),
@@ -104,10 +100,14 @@ export default async function G3Home({
     getTestimonials()
   ]);
 
+  const dynamicCategories = Array.from(new Set([...G3_CATEGORIES, ...allProjects.map(p => p.category)]));
+  const validCategory = category && dynamicCategories.includes(category) ? category : undefined;
+  const filteredProjects = validCategory ? allProjects.filter(p => p.category === validCategory) : allProjects;
+
   const services = fromDbServices.length ? fromDbServices : FALLBACK_SERVICES;
 
   const counts: Record<string, number> = {};
-  for (const c of G3_CATEGORIES) counts[c] = allProjects.filter((p) => p.category === c).length;
+  for (const c of dynamicCategories) counts[c] = allProjects.filter((p) => p.category === c).length;
 
   const headline = homePage.content.heroHeadline || "Interior Execution. Exterior Consultancy.";
   const tagline =
@@ -123,8 +123,8 @@ export default async function G3Home({
       <HeroShrinkReveal heroImage={homePage.heroImage} headline={headline} tagline={tagline} />
 
       {/* HERO COPY SECTION */}
-      <MaskedSection id="intro" type="spotlight" className="border-t border-white/5 !z-[5]">
-        <div className="mx-auto max-w-6xl px-6 py-32 md:py-48 text-center flex flex-col items-center">
+      <MaskedSection id="intro" type="none" className="border-t border-[var(--g3-rule-faint)] !z-[5]" innerClassName="bg-[var(--g3-black)] flex flex-col justify-center">
+        <div className="mx-auto max-w-6xl px-6 py-20 text-center flex flex-col items-center">
           <Reveal>
             <span className="g3-meta block">
               Interior Execution · Exterior Consultancy
@@ -137,13 +137,13 @@ export default async function G3Home({
             </h1>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="g3-body mt-8 max-w-2xl">{tagline}</p>
+            <p className="g3-body mt-8 max-w-2xl text-center">{tagline}</p>
           </Reveal>
           <Reveal delay={0.2}>
             <Link
               href="/g3-builders/contact"
               className="mt-12 inline-flex items-center gap-2 rounded-full px-8 py-5 text-lg font-semibold transition-transform hover:scale-105"
-              style={{ background: "var(--g3-brass)", color: "#0a0908" }}
+              style={{ background: "var(--g3-ink)", color: "var(--g3-black)" }}
             >
               Book a consultation
               <ChevronRight className="h-5 w-5" aria-hidden="true" />
@@ -153,14 +153,15 @@ export default async function G3Home({
       </MaskedSection>
 
       {/* SERVICES SECTION */}
-      <section id="services" className="relative w-full border-t border-white/5 !z-10 bg-[#0a0908] g3-wood-surface">
+      <section id="services" className="relative w-full border-t border-[var(--g3-rule-faint)] !z-10 bg-[var(--g3-black)] g3-wood-surface">
         <div className="pb-24 pt-32 md:pt-40">
           <div className="mx-auto max-w-6xl px-6">
             <div className="g3-meta mb-3 text-[var(--g3-ink)]">
               <MaskText text="What we do" />
             </div>
-            <div className="g3-display-xl max-w-3xl" style={{ color: "var(--g3-ink)" }}>
-              <MaskText text="Two specialized services. Focused expertise." />
+            <div className="g3-display-lg max-w-4xl" style={{ color: "var(--g3-ink)" }}>
+              <div><MaskText text="Two specialized services." /></div>
+              <div><MaskText text="Focused expertise." /></div>
             </div>
             <div>
               <p className="g3-body mt-6 max-w-2xl text-[var(--g3-ink)]">
@@ -234,7 +235,7 @@ export default async function G3Home({
       </MasterSequence>
 
       {/* MID-PAGE CTA */}
-      <section className="bg-[#0a0908] text-white py-24 md:py-32 flex justify-center border-t border-white/5 !z-40 relative">
+      <section className="bg-[var(--g3-black)] text-[var(--g3-ink)] py-24 md:py-32 flex justify-center border-t border-[var(--g3-rule-faint)] !z-40 relative">
         <div className="text-center max-w-2xl px-6">
           <Reveal>
             <h2 className="text-4xl md:text-5xl font-semibold mb-6">Start with a conversation.</h2>
@@ -245,7 +246,7 @@ export default async function G3Home({
             </p>
           </Reveal>
           <Reveal delay={0.2}>
-            <Link href="#contact" className="inline-flex items-center gap-2 rounded-full px-8 py-5 text-lg font-semibold transition-transform hover:scale-105" style={{ background: "var(--g3-brass)", color: "#0a0908" }}>
+            <Link href="#contact" className="inline-flex items-center gap-2 rounded-full px-8 py-5 text-lg font-semibold transition-transform hover:scale-105" style={{ background: "var(--g3-ink)", color: "var(--g3-black)" }}>
               Book a consultation <ChevronRight className="h-5 w-5" />
             </Link>
           </Reveal>
@@ -253,25 +254,25 @@ export default async function G3Home({
       </section>
 
       {/* ABOUT SECTION */}
-      <MaskedSection id="about" type="spotlight" className="border-t border-white/5 !z-40" innerClassName="g3-wood-surface">
-        <div className="pb-24 pt-32 md:pt-40">
+      <MaskedSection id="about" type="none" className="border-t border-[var(--g3-rule-faint)] !z-40" innerClassName="g3-wood-surface flex flex-col justify-center">
+        <div className="py-20 text-center">
           <div className="mx-auto max-w-6xl px-6">
             <Reveal>
               <span className="g3-meta">About</span>
-              <h1 className="g3-display-xl mt-3 max-w-3xl" style={{ color: "var(--g3-ink)" }}>
+              <h1 className="g3-display-xl mt-3 mx-auto max-w-3xl" style={{ color: "var(--g3-ink)" }}>
                 Small enough to care. Equipped to deliver.
               </h1>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="g3-body mt-8 max-w-2xl">{story}</p>
+              <p className="g3-body mt-8 mx-auto max-w-2xl text-center">{story}</p>
             </Reveal>
           </div>
 
-          {stats.projects > 0 && (
-            <section
-              className="g3-wood-surface mt-20 border-y"
-              style={{ borderColor: "var(--g3-rule-faint)" }}
-            >
+            {stats.projects > 0 && (
+              <section
+                className="g3-wood-surface mt-20 border-y"
+                style={{ borderColor: "var(--g3-rule-faint)" }}
+              >
               <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-6 py-14 md:grid-cols-4">
                 {[
                   [stats.projects, "Projects delivered"],
@@ -282,7 +283,7 @@ export default async function G3Home({
                   <Reveal key={label as string} delay={revealDelay(i)}>
                     <p
                       className="g3-display-md"
-                      style={{ fontFamily: "var(--g3-font-mono)", color: "var(--g3-brass-light)" }}
+                      style={{ fontFamily: "var(--g3-font-mono)", color: "var(--g3-ink)", opacity: 0.9 }}
                     >
                       {value}
                     </p>
@@ -330,9 +331,9 @@ export default async function G3Home({
                   <RevealImage key={m.id} delay={revealDelay(i)}>
                     <div
                       className="overflow-hidden rounded-xl border"
-                      style={{ borderColor: "var(--g3-rule-faint)", background: "var(--g3-black-raised)" }}
+                      style={{ borderColor: "var(--g3-rule-faint)", background: "var(--g3-card-bg, var(--g3-black-raised))" }}
                     >
-                      <div className="relative aspect-[4/5]" style={{ background: "var(--g3-wood)" }}>
+                      <div className="relative aspect-[4/5]" style={{ background: "var(--g3-photo-bg, var(--g3-black))" }}>
                         {m.photoUrl && (
                           <Image
                             src={m.photoUrl}
@@ -371,7 +372,7 @@ export default async function G3Home({
       </MaskedSection>
 
       {/* CONTACT SECTION */}
-      <section id="contact" className="relative w-full z-50 bg-[#0a0908] border-t border-white/5">
+      <section id="contact" className="relative w-full z-40 bg-[var(--g3-black)] border-t border-[var(--g3-rule-faint)]">
         <div className="pb-24 pt-32 md:pt-40">
           <div className="mx-auto max-w-6xl px-6">
             <Reveal>
@@ -402,7 +403,7 @@ export default async function G3Home({
                         className="flex items-center gap-3 rounded-lg border px-4 py-3.5 transition-colors"
                         style={{ borderColor: "var(--g3-rule-faint)", color: "var(--g3-ink)" }}
                       >
-                        <Phone className="h-4 w-4 shrink-0" style={{ color: "var(--g3-brass)" }} aria-hidden="true" />
+                        <Phone className="h-4 w-4 shrink-0" style={{ color: "var(--g3-ink)" }} aria-hidden="true" />
                         {PHONE_DISPLAY}
                       </a>
                       <a
@@ -412,7 +413,7 @@ export default async function G3Home({
                         className="flex items-center gap-3 rounded-lg border px-4 py-3.5 transition-colors"
                         style={{ borderColor: "var(--g3-rule-faint)", color: "var(--g3-ink)" }}
                       >
-                        <MessageCircle className="h-4 w-4 shrink-0" style={{ color: "var(--g3-brass)" }} aria-hidden="true" />
+                        <MessageCircle className="h-4 w-4 shrink-0" style={{ color: "var(--g3-ink)" }} aria-hidden="true" />
                         WhatsApp us
                       </a>
                       <a
@@ -420,7 +421,7 @@ export default async function G3Home({
                         className="flex items-center gap-3 rounded-lg border px-4 py-3.5 transition-colors"
                         style={{ borderColor: "var(--g3-rule-faint)", color: "var(--g3-ink)" }}
                       >
-                        <Mail className="h-4 w-4 shrink-0" style={{ color: "var(--g3-brass)" }} aria-hidden="true" />
+                        <Mail className="h-4 w-4 shrink-0" style={{ color: "var(--g3-ink)" }} aria-hidden="true" />
                         {EMAIL}
                       </a>
                     </div>
@@ -431,7 +432,7 @@ export default async function G3Home({
                   <div>
                     <p className="g3-meta mb-3">Office</p>
                     <p className="flex items-start gap-3 g3-body">
-                      <MapPin className="mt-1 h-4 w-4 shrink-0" style={{ color: "var(--g3-brass)" }} aria-hidden="true" />
+                      <MapPin className="mt-1 h-4 w-4 shrink-0" style={{ color: "var(--g3-ink)" }} aria-hidden="true" />
                       Moodbidri, Dakshina Kannada<br />Karnataka, India
                     </p>
                   </div>
@@ -439,7 +440,7 @@ export default async function G3Home({
                   <div>
                     <p className="g3-meta mb-3">Hours</p>
                     <p className="flex items-start gap-3 g3-body">
-                      <Clock className="mt-1 h-4 w-4 shrink-0" style={{ color: "var(--g3-brass)" }} aria-hidden="true" />
+                      <Clock className="mt-1 h-4 w-4 shrink-0" style={{ color: "var(--g3-ink)" }} aria-hidden="true" />
                       Monday&ndash;Saturday, 9:30am&ndash;6:30pm<br />
                       Site visits by appointment
                     </p>

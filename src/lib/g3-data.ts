@@ -60,7 +60,7 @@ function toImage(row: {
 export async function getProjects(category?: string): Promise<G3Project[]> {
   try {
     const d = db();
-    const where = category && G3_CATEGORIES.includes(category as typeof G3_CATEGORIES[number])
+    const where = category
       ? and(eq(g3_projects.published, true), eq(g3_projects.category, category))
       : eq(g3_projects.published, true);
 

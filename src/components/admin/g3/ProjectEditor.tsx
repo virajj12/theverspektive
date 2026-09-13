@@ -53,6 +53,7 @@ export default function ProjectEditor({ projectId }: { projectId: number }) {
   const [error, setError] = useState("");
   const [picker, setPicker] = useState<null | "cover" | "gallery">(null);
   const [dragIdx, setDragIdx] = useState<number | null>(null);
+  const [customCategory, setCustomCategory] = useState(false);
 
   const load = useCallback(async () => {
     // `loading` starts true, so no setState here — refreshes update in place
@@ -159,8 +160,8 @@ export default function ProjectEditor({ projectId }: { projectId: number }) {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between gap-4">
-        <Link href="/admin/g3/projects" className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-800">
-          <ArrowLeft className="h-4 w-4" /> All projects
+        <Link href="/admin" className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-800">
+          <ArrowLeft className="h-4 w-4" /> Dashboard
         </Link>
         <div className="flex items-center gap-3">
           {saved && <span className="flex items-center gap-1 text-sm text-green-600"><Check className="h-4 w-4" /> Saved</span>}
@@ -186,10 +187,52 @@ export default function ProjectEditor({ projectId }: { projectId: number }) {
 
         <label>
           <span className="mb-1 block text-xs font-medium text-zinc-500">Category</span>
-          <select value={project.category} onChange={(e) => field("category", e.target.value)}
-            className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm">
-            {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
-          </select>
+          <div className="flex gap-2">
+            {customCategory ? (
+              <div className="flex w-full items-center gap-2">
+                <input
+                  autoFocus
+                  placeholder="New category name..."
+                  value={project.category}
+                  onChange={(e) => field("category", e.target.value)}
+                  className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCustomCategory(false);
+                    if (!project.category) field("category", CATEGORIES[0]);
+                  }}
+                  className="text-xs text-zinc-500 hover:text-zinc-900"
+                >
+                  Done
+                </button>
+              </div>
+            ) : (
+              <select
+                value={CATEGORIES.includes(project.category) ? project.category : (project.category ? project.category : CATEGORIES[0])}
+                onChange={(e) => {
+                  if (e.target.value === "__NEW__") {
+                    setCustomCategory(true);
+                    field("category", ""); // clear to let them type
+                  } else {
+                    field("category", e.target.value);
+                  }
+                }}
+                className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm"
+              >
+                {!CATEGORIES.includes(project.category) && project.category && (
+                  <option value={project.category}>{project.category}</option>
+                )}
+                {CATEGORIES.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+                <option value="__NEW__">+ Create new...</option>
+              </select>
+            )}
+          </div>
         </label>
 
         <label>

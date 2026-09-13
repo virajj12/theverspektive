@@ -12,19 +12,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Phone, MessageCircle, CalendarCheck } from "lucide-react";
+import { useGlobalLoader } from "@/components/global-loader-provider";
 
 const PHONE = "+919880000000";
 const WHATSAPP = "919880000000";
 
 export default function StickyMobileCTA() {
   const pathname = usePathname();
-  if (pathname === "/g3-builders/contact") return null;
+  const { loading } = useGlobalLoader();
+  
+  if (pathname === "/g3-builders/contact" || loading) return null;
 
   const item = "flex flex-1 flex-col items-center justify-center gap-1 py-3 text-[11px] font-medium";
 
   return (
     <div
-      className="g3-glass fixed inset-x-0 bottom-0 z-40 flex border-t md:hidden"
+      className="g3-glass fixed inset-x-0 bottom-0 z-[41] flex border-t md:hidden"
       style={{
         borderColor: "var(--g3-rule-faint)",
         paddingBottom: "env(safe-area-inset-bottom)",
@@ -46,7 +49,7 @@ export default function StickyMobileCTA() {
       <Link
         href="/g3-builders/contact"
         className={item}
-        style={{ background: "var(--g3-brass)", color: "#0a0908" }}
+        style={{ background: "var(--g3-brass)", color: "var(--g3-black)" }}
       >
         <CalendarCheck className="h-5 w-5" aria-hidden="true" />
         Enquire

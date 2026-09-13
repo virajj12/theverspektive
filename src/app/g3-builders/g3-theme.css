@@ -9,45 +9,38 @@
    ══════════════════════════════════════════════════════════════ */
 
 .g3-theme {
-  /* ── Surfaces ──
-     Near-black, never pure #000 — keeps a hint of warmth so it sits
-     correctly beside the wood tones instead of going blue against them. */
-  --g3-black: #161616; /* matte black */
-  --g3-black-raised: #212121;
+  background-color: var(--g3-black);
+  /* ── Surfaces ── */
+  --g3-black: #fcfcfc; /* Crisp warm off-white for light mode */
+  --g3-black-raised: #f0f0f0; /* Slightly darker shade for alternating surfaces in light mode */
 
   /* Deep walnut / espresso, used as section and card fills. */
-  --g3-wood: #dfab55; /* lighter, more golden oak wood shade */
+  --g3-wood: #dfab55; 
   --g3-wood-deep: #b07f35;
 
-  /* Warm off-white for contrast sections and forms — not pure white,
-     which would read as a different brand family. */
-  --g3-bone: #f5f1ea;
+  /* Warm off-white for contrast sections and forms */
+  --g3-bone: #161616; /* Inverted for light mode contrast sections */
 
-  /* ── Accent ──
-     Burnished brass. Reads as fine joinery hardware, not corporate blue. */
-  --g3-brass: #b8905b;
-  --g3-brass-light: #c9a66b;
+  /* ── Accent ── */
+  --g3-brass: #1a1512; /* Fallback to dark ink if used */
+  --g3-brass-light: #1a1512;
 
-  /* ── Text ──
-     Body copy is softened off-white; stark white on near-black is
-     fatiguing over long scrolls. */
-  --g3-ink: #f5f1ea;
-  --g3-ink-soft: rgba(245, 241, 234, 0.72);
-  --g3-ink-faint: rgba(245, 241, 234, 0.45);
-  --g3-ink-dark: #1a1512; /* for use on .g3-surface-bone */
+  /* ── Text ── */
+  --g3-ink: #1a1512; /* Deep charcoal text for light mode */
+  --g3-ink-soft: rgba(26, 21, 18, 0.72);
+  --g3-ink-faint: rgba(26, 21, 18, 0.45);
+  --g3-ink-dark: #f5f1ea; /* Inverted for bone sections */
 
-  /* ── Rules ──
-     Thin brass hairlines as dividers — furniture inlay, not blueprint grid. */
-  --g3-rule: rgba(184, 144, 91, 0.32);
-  --g3-rule-faint: rgba(184, 144, 91, 0.14);
+  /* ── Rules ── */
+  --g3-rule: rgba(26, 21, 18, 0.15); /* Darker hairlines in light mode */
+  --g3-rule-faint: rgba(26, 21, 18, 0.08);
 
   /* ── Type ── */
   --g3-font-display: "Wanted Sans Variable", ui-sans-serif, system-ui, sans-serif;
   --g3-font-body: "Wanted Sans Variable", ui-sans-serif, system-ui, sans-serif;
   --g3-font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
 
-  /* ── Motion ──
-     Strong ease-out, never bouncy (spec 3a: "power3.out/power4.out feel"). */
+  /* ── Motion ── */
   --g3-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --g3-ease-strong: cubic-bezier(0.19, 1, 0.22, 1);
 
@@ -70,19 +63,59 @@
    ══════════════════════════════════════════════════════════════ */
 
 .g3-wood-surface {
-  background-color: var(--g3-wood);
-  background-image: url("/g3/wood-texture.png");
-  background-blend-mode: luminosity; /* Keeps some of the CSS color tint while showing texture */
-  background-size: cover;
-  background-position: center;
+  background-color: var(--g3-black-raised);
+  --g3-ink: #1a1512;
+  --g3-ink-soft: rgba(26, 21, 18, 0.72);
+  --g3-ink-faint: rgba(26, 21, 18, 0.45);
+  --g3-rule-faint: rgba(26, 21, 18, 0.14);
+  --g3-card-bg: var(--g3-bone);
+  --g3-photo-bg: rgba(26, 21, 18, 0.05);
+  color: var(--g3-ink);
 }
 
 .g3-wood-surface-deep {
-  background-color: var(--g3-wood-deep);
-  background-image: url("/g3/wood-texture.png");
-  background-blend-mode: multiply;
-  background-size: cover;
-  background-position: center;
+  background-color: var(--g3-bone);
+  --g3-ink: #f5f1ea;
+  --g3-ink-soft: rgba(245, 241, 234, 0.72);
+  --g3-ink-faint: rgba(245, 241, 234, 0.45);
+  --g3-rule-faint: rgba(245, 241, 234, 0.14); /* Monochromatic rule instead of brass */
+  --g3-card-bg: #212121;
+  --g3-photo-bg: rgba(245, 241, 234, 0.05);
+  color: var(--g3-ink);
+}
+
+.dark .g3-theme {
+  --g3-black: #000000;
+  --g3-black-raised: #111111;
+  --g3-bone: #f5f1ea;
+  --g3-ink: #f5f1ea;
+  --g3-ink-soft: rgba(245, 241, 234, 0.72);
+  --g3-ink-faint: rgba(245, 241, 234, 0.45);
+  --g3-ink-dark: #1a1512;
+  --g3-rule: rgba(245, 241, 234, 0.32); /* Pure monochrome stark contrast */
+  --g3-rule-faint: rgba(245, 241, 234, 0.14);
+}
+
+.dark .g3-wood-surface {
+  background-color: var(--g3-black-raised);
+  --g3-ink: #f5f1ea;
+  --g3-ink-soft: rgba(245, 241, 234, 0.72);
+  --g3-ink-faint: rgba(245, 241, 234, 0.45);
+  --g3-rule-faint: rgba(184, 144, 91, 0.14);
+  --g3-card-bg: var(--g3-black);
+  --g3-photo-bg: rgba(245, 241, 234, 0.05);
+  color: var(--g3-ink);
+}
+
+.dark .g3-wood-surface-deep {
+  background-color: var(--g3-black);
+  --g3-ink: #f5f1ea;
+  --g3-ink-soft: rgba(245, 241, 234, 0.72);
+  --g3-ink-faint: rgba(245, 241, 234, 0.45);
+  --g3-rule-faint: rgba(184, 144, 91, 0.14);
+  --g3-card-bg: var(--g3-black-raised);
+  --g3-photo-bg: rgba(245, 241, 234, 0.05);
+  color: var(--g3-ink);
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -171,10 +204,11 @@
 .g3-meta {
   font-family: var(--g3-font-mono);
   font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
+  font-weight: 600; /* Bolder for brutalist look */
+  letter-spacing: 0.25em; /* Wider spacing */
   text-transform: uppercase;
-  color: var(--g3-brass);
+  color: var(--g3-ink);
+  opacity: 0.6; /* Rely on opacity rather than color for visual hierarchy */
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -191,13 +225,13 @@
   transition: color 0.25s var(--g3-ease), gap 0.25s var(--g3-ease);
 }
 
-.g3-link:hover { color: var(--g3-brass-light); gap: 0.65em; }
+.g3-link:hover { opacity: 0.6; gap: 0.65em; }
 .g3-link svg { width: 0.85em; height: 0.85em; transition: transform 0.25s var(--g3-ease); }
 .g3-link:hover svg { transform: translateX(2px); }
 
 /* Touch devices have no hover — keep the affordance visible (spec 6). */
 @media (hover: none) {
-  .g3-link { color: var(--g3-brass-light); }
+  .g3-link { opacity: 0.7; }
 }
 
 /* ══════════════════════════════════════════════════════════════

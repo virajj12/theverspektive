@@ -16,15 +16,14 @@ export default async function ProjectsPage({
   searchParams: Promise<{ category?: string }>;
 }) {
   const { category } = await searchParams;
-  const validCategory = category && (G3_CATEGORIES as readonly string[]).includes(category) ? category : undefined;
-
-  const [allProjects, filteredProjects] = await Promise.all([
-    getProjects(),
-    getProjects(validCategory),
-  ]);
+  const allProjects = await getProjects();
+  const dynamicCategories = Array.from(new Set([...G3_CATEGORIES, ...allProjects.map(p => p.category)]));
+  
+  const validCategory = category && dynamicCategories.includes(category) ? category : undefined;
+  const filteredProjects = validCategory ? allProjects.filter(p => p.category === validCategory) : allProjects;
 
   const counts: Record<string, number> = {};
-  for (const c of G3_CATEGORIES) counts[c] = allProjects.filter((p) => p.category === c).length;
+  for (const c of dynamicCategories) counts[c] = allProjects.filter((p) => p.category === c).length;
 
   return (
     <div className="bg-background min-h-screen pt-32 pb-24 transition-colors duration-300">

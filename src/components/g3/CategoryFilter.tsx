@@ -49,8 +49,8 @@ export default function CategoryFilter({ counts }: { counts: Record<string, numb
             /* min-h-11 = 44px, spec 6's minimum tap target. py-2 alone gave 37px. */
             className={`flex min-h-11 items-center rounded-full border px-4 py-2 text-sm transition-colors ${
               on 
-                ? "border-[var(--g3-brass)] bg-[var(--g3-brass)] text-[#0a0908]" 
-                : "border-black/10 dark:border-white/10 bg-transparent text-muted-foreground hover:text-foreground"
+                ? "border-[var(--g3-ink)] bg-[var(--g3-ink)] text-[var(--g3-black)]" 
+                : "border-[var(--g3-rule)] bg-transparent text-[var(--g3-ink-soft)] hover:text-[var(--g3-ink)] hover:border-[var(--g3-ink-faint)]"
             }`}
           >
             {opt.label}

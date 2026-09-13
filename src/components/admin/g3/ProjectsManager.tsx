@@ -11,7 +11,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { Plus, GripVertical, Star, Eye, EyeOff, Trash2, Loader2 } from "lucide-react";
+import { Plus, GripVertical, Star, Eye, EyeOff, Trash2, Loader2, Edit2, FolderCog, X } from "lucide-react";
 
 interface Project {
   id: number;
@@ -35,7 +35,15 @@ export default function ProjectsManager() {
   const [creating, setCreating] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newCategory, setNewCategory] = useState(CATEGORIES[0]);
+  const [customCategory, setCustomCategory] = useState(false);
   const [dragId, setDragId] = useState<number | null>(null);
+
+  // Category Manager State
+  const [managingCategories, setManagingCategories] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<string | null>(null);
+  const [editCategoryName, setEditCategoryName] = useState("");
+
+  const dynamicCategories = Array.from(new Set([...CATEGORIES, ...projects.map(p => p.category)]));
 
   const load = useCallback(async () => {
     // `loading` starts true, so no setState here — refreshes update in place
@@ -114,6 +122,27 @@ export default function ProjectsManager() {
     await Promise.all(next.map((p, i) => (p.sort_order === i ? null : patch(p.id, { sortOrder: i }))));
   }
 
+  async function handleCategoryAction(action: "rename" | "delete", oldName: string, newName?: string) {
+    if (action === "delete" && !confirm(`Delete category "${oldName}"? All projects in this category will be moved to "${CATEGORIES[0]}".`)) {
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/g3/categories", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ oldName, newName, action }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to update category");
+      
+      setEditingCategory(null);
+      await load();
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "Failed to update category");
+    }
+  }
+
   return (
     <div>
       {/* Create */}
@@ -126,13 +155,50 @@ export default function ProjectsManager() {
             placeholder="New project title…"
             className="flex-1 rounded-lg border border-zinc-300 px-3 py-2 text-sm"
           />
-          <select
-            value={newCategory}
-            onChange={(e) => setNewCategory(e.target.value)}
-            className="rounded-lg border border-zinc-300 px-3 py-2 text-sm"
-          >
-            {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
-          </select>
+          {customCategory ? (
+            <div className="flex flex-1 sm:flex-none items-center gap-2">
+              <input
+                autoFocus
+                placeholder="New category..."
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}
+                className="w-full sm:w-auto rounded-lg border border-zinc-300 px-3 py-2 text-sm"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  setCustomCategory(false);
+                  if (!newCategory) setNewCategory(CATEGORIES[0]);
+                }}
+                className="text-xs text-zinc-500 hover:text-zinc-900"
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <select
+              value={dynamicCategories.includes(newCategory) ? newCategory : (newCategory ? newCategory : CATEGORIES[0])}
+              onChange={(e) => {
+                if (e.target.value === "__NEW__") {
+                  setCustomCategory(true);
+                  setNewCategory("");
+                } else {
+                  setNewCategory(e.target.value);
+                }
+              }}
+              className="rounded-lg border border-zinc-300 px-3 py-2 text-sm"
+            >
+              {!dynamicCategories.includes(newCategory) && newCategory && (
+                <option value={newCategory}>{newCategory}</option>
+              )}
+              {dynamicCategories.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+              <option value="__NEW__">+ Create new...</option>
+            </select>
+          )}
           <button
             onClick={create}
             disabled={creating || !newTitle.trim()}
@@ -142,7 +208,15 @@ export default function ProjectsManager() {
             Add
           </button>
         </div>
-        <p className="mt-2 text-xs text-zinc-500">New projects start as drafts — publish when the gallery is ready.</p>
+        <div className="mt-4 flex items-center justify-between">
+          <p className="text-xs text-zinc-500">New projects start as drafts — publish when the gallery is ready.</p>
+          <button 
+            onClick={() => setManagingCategories(true)}
+            className="flex items-center gap-1.5 text-xs text-zinc-600 hover:text-zinc-900"
+          >
+            <FolderCog className="h-4 w-4" /> Manage Types
+          </button>
+        </div>
       </div>
 
       {error && <div className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
@@ -197,6 +271,74 @@ export default function ProjectsManager() {
             </li>
           ))}
         </ul>
+      )}
+
+      {/* Category Manager Modal */}
+      {managingCategories && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-zinc-900">Manage Project Types</h3>
+              <button onClick={() => setManagingCategories(false)} className="text-zinc-400 hover:text-zinc-700">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            
+            <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
+              {dynamicCategories.map(c => (
+                <div key={c} className="flex items-center justify-between rounded-lg border border-zinc-200 p-3">
+                  {editingCategory === c ? (
+                    <div className="flex flex-1 items-center gap-2">
+                      <input 
+                        autoFocus
+                        value={editCategoryName}
+                        onChange={(e) => setEditCategoryName(e.target.value)}
+                        className="flex-1 rounded border border-zinc-300 px-2 py-1 text-sm"
+                      />
+                      <button 
+                        onClick={() => handleCategoryAction("rename", c, editCategoryName)}
+                        className="rounded bg-zinc-900 px-3 py-1 text-xs text-white"
+                      >
+                        Save
+                      </button>
+                      <button 
+                        onClick={() => setEditingCategory(null)}
+                        className="text-xs text-zinc-500"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <span className="font-medium text-sm text-zinc-700">{c}</span>
+                      <div className="flex items-center gap-2">
+                        <button 
+                          onClick={() => {
+                            setEditingCategory(c);
+                            setEditCategoryName(c);
+                          }}
+                          className="text-zinc-400 hover:text-zinc-700"
+                          title="Rename"
+                        >
+                          <Edit2 className="h-4 w-4" />
+                        </button>
+                        {!CATEGORIES.includes(c) && (
+                          <button 
+                            onClick={() => handleCategoryAction("delete", c)}
+                            className="text-zinc-400 hover:text-red-600"
+                            title="Delete type"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

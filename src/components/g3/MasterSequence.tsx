@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform, useReducedMotion, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion, useMotionValueEvent, useMotionValue, useSpring, MotionValue } from "framer-motion";
 import type { G3Project } from "@/lib/g3-data";
 import ProjectCard from "./ProjectCard";
 import { PROCESS_STAGES } from "./ProcessTimeline";
@@ -48,9 +48,13 @@ const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=800&q=80",
 ];
 
-function ParallaxImage({ src, pos, progress, index }: { src: string; pos: Position; progress: any; index: number }) {
+function ParallaxImage({ src, pos, progress, index, mouseX }: { src: string; pos: Position; progress: any; index: number; mouseX?: MotionValue<number> }) {
   // Phase 1 is [0, 0.2] of the global MasterSequence scroll
   const y = useTransform(progress, [0, 0.2], pos.yRange);
+  
+  // Hover parallax based on mouse X. Inverted direction (negative factor).
+  const factor = ((index % 3) + 1) * -15; // -15, -30, or -45px max offset
+  const x = mouseX ? useTransform(mouseX, (v: number) => v * factor) : 0;
 
   return (
     <motion.div
@@ -58,6 +62,7 @@ function ParallaxImage({ src, pos, progress, index }: { src: string; pos: Positi
       style={{
         zIndex: pos.zIndex,
         y,
+        x,
       }}
     >
       <Image src={src} alt="Architecture portfolio" fill className="object-cover" />
@@ -91,7 +96,7 @@ function KineticStageContent({ s, isActive }: { s: any, isActive: boolean }) {
       </div>
       {s.client && (
         <div className="border-t border-white/20 pt-3 md:pt-4">
-          <span className="g3-meta text-[10px] md:text-xs block mb-1 md:mb-2 opacity-60">Deliverables & Responsibilities</span>
+          <span className="g3-meta !text-white text-[10px] md:text-xs block mb-1 md:mb-2 opacity-60">Deliverables & Responsibilities</span>
           <div className="text-sm md:text-base opacity-80 min-h-[60px]">
             {isActive && <MaskText text={s.client} />}
           </div>
@@ -122,9 +127,26 @@ export default function MasterSequence({ projects, children }: MasterSequencePro
     offset: ["start start", "end end"]
   });
 
+  const { scrollYProgress: entranceProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "start start"]
+  });
+
+  // --- MOUSE TRACKING FOR PARALLAX ---
+  const rawMouseX = useMotionValue(0);
+  const smoothMouseX = useSpring(rawMouseX, { stiffness: 50, damping: 20 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    // Calculate mouse position relative to center of screen (-1 to 1)
+    if (reduced) return;
+    const x = (e.clientX / window.innerWidth) * 2 - 1;
+    rawMouseX.set(x);
+  };
+
   // --- PHASE 1: PORTFOLIO OPACITY ---
   const portfolioOpacity = useTransform(scrollYProgress, [0.18, 0.23], [1, 0]);
   const titleOpacity = useTransform(scrollYProgress, [0.22, 0.28], [1, 0]);
+  const titleY = useTransform(entranceProgress, [0, 1], ["-30vh", "0vh"]);
 
   // --- PHASE 2: IMMERSIVE IMAGE TAKEOVER ---
   // The image starts as a "card" at the center but end, and is part of the parallax.
@@ -177,15 +199,20 @@ export default function MasterSequence({ projects, children }: MasterSequencePro
   }
 
   return (
-    <div ref={containerRef} className="relative z-20 w-full bg-white" style={{ height: "600vh" }}>
+    <div 
+      ref={containerRef} 
+      className="relative z-20 w-full bg-[var(--g3-black)]" 
+      style={{ height: "600vh" }}
+      onMouseMove={handleMouseMove}
+    >
       {/* Anchor for Projects (First half of the scroll) */}
       <div id="projects" className="absolute top-0 w-full h-[300vh] pointer-events-none" />
       {/* Anchor for Process (Second half of the scroll) */}
       <div id="process" className="absolute top-[300vh] w-full h-[300vh] pointer-events-none" />
 
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* Explicit white sibling background to ensure mix-blend-difference works reliably */}
-        <div className="absolute inset-0 bg-white pointer-events-none" />
+        {/* Explicit sibling background to ensure mix-blend-difference works reliably */}
+        <div className="absolute inset-0 bg-[var(--g3-black)] pointer-events-none" />
         
         <style dangerouslySetInnerHTML={{ __html: `
           /* MOBILE (Default) */
@@ -253,7 +280,7 @@ export default function MasterSequence({ projects, children }: MasterSequencePro
             const src = projects[i] ? ((projects[i] as any).coverImage || projects[i].cover?.url || FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]) : FALLBACK_IMAGES[i % FALLBACK_IMAGES.length];
             return (
               <div key={i} className="pointer-events-auto">
-                <ParallaxImage src={src} pos={pos} progress={scrollYProgress} index={i} />
+                <ParallaxImage src={src} pos={pos} progress={scrollYProgress} index={i} mouseX={smoothMouseX} />
               </div>
             );
           })}
@@ -261,7 +288,7 @@ export default function MasterSequence({ projects, children }: MasterSequencePro
 
         <motion.div 
           className="absolute inset-0 z-30 pointer-events-none flex flex-col items-center pt-[30vh] mix-blend-difference text-white"
-          style={{ opacity: titleOpacity }}
+          style={{ opacity: titleOpacity, y: titleY }}
         >
           <div className="pointer-events-auto">
             {children}

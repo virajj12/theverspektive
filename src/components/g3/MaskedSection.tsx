@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useG3Scroll, MOTION_OK_ANY } from "./use-g3-scroll";
 import { cn } from "@/lib/utils";
 
-export type MaskAnimationType = "circle" | "vertical-blinds" | "diagonal" | "spotlight" | "curtain";
+export type MaskAnimationType = "circle" | "vertical-blinds" | "diagonal" | "spotlight" | "curtain" | "none";
 
 export function MaskedSection({
   children,
@@ -81,13 +81,15 @@ export function MaskedSection({
           gsap.set(contentRef.current, { clipPath: "inset(0 0 100% 0)" });
           tl.to(contentRef.current, { clipPath: "inset(0 0 0 0)", ease: "power2.inOut" });
           break;
+        case "none":
+          break;
       }
     });
   });
 
   return (
     <section ref={sectionRef} id={id} className={cn("relative w-full", className)}>
-      <div ref={contentRef} className={cn("w-full min-h-screen will-change-transform", innerClassName || "bg-[#0a0908]")}>
+      <div ref={contentRef} className={cn("w-full min-h-screen will-change-transform", innerClassName || "bg-[var(--g3-black)]")}>
         {children}
       </div>
     </section>
