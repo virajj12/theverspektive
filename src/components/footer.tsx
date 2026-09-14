@@ -9,20 +9,17 @@ const footerSections = [
   {
     title: "Explore",
     links: [
-      { name: "G3 Builders", href: "/g3-builders" },
+      { name: "G3 Builders", href: "https://projectsbyg3.vercel.app/" },
       { name: "Productions", href: "/productions" },
-      { name: "Studios", href: "/studios" },
-      { name: "Talk it Out", href: "/talk-it-out" },
-      { name: "Taste it Out", href: "/taste-it-out" },
+      { name: "Talk it Out", href: "/productions/tio-originals/talk-it-out" },
     ],
   },
   {
     title: "About",
     links: [
-      { name: "Vikhil V Salian", href: "/team" },
+      { name: "Vikhil V Salian", href: "/founder" },
       { name: "VerspeKtive", href: "/" },
       { name: "Careers", href: "#" },
-      { name: "Team", href: "/team" },
     ],
   },
   {

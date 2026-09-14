@@ -42,7 +42,7 @@ function ElasticGallery() {
       title: "G3 Builders & Architects",
       src: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2000&auto=format&fit=crop",
       alt: "G3 Builders & Architects",
-      href: "/g3-builders",
+      href: "https://projectsbyg3.vercel.app/",
     },
     {
       id: "05",

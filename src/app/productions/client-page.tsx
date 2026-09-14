@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Film, Video, MonitorPlay, Mic, Play } from "lucide-react";
@@ -20,8 +20,11 @@ interface Video {
   created_at: string;
 }
 import { PerspectiveHero } from "@/components/ui/perspective-hero";
+import { useTheme } from "next-themes";
 
 export default function ProductionsClient({ initialVideos, teams = [], youtubeApiVideos = [] }: { initialVideos: Video[], teams?: any[], youtubeApiVideos?: any[] }) {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const [visibleCount, setVisibleCount] = useState(6);
   const [visibleRecentCount, setVisibleRecentCount] = useState(6);
 
@@ -53,6 +56,10 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
   const visibleVideos = initialVideos.slice(0, visibleCount);
   const hasMore = visibleCount < initialVideos.length;
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const handleShowMore = () => {
     setVisibleCount((prev) => prev + 6);
   };
@@ -66,14 +73,36 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
 
   const hero = (
     <div className="flex flex-col items-center justify-center text-foreground bg-transparent relative overflow-hidden w-full h-full px-6 text-center">
-      <AnimatedGradient />
+      <AnimatedGradient 
+        config={
+          mounted && resolvedTheme === "light"
+            ? {
+                preset: "custom",
+                color1: "#ffffff",
+                color2: "#66B3FF",
+                color3: "#f4f4f5",
+                rotation: -50,
+                proportion: 1,
+                scale: 0.01,
+                speed: 30,
+                distortion: 0,
+                swirl: 50,
+                swirlIterations: 16,
+                softness: 47,
+                offset: -299,
+                shape: "Checks",
+                shapeSize: 45,
+              }
+            : { preset: "Prism" }
+        }
+      />
       <div className="relative z-10 flex flex-col items-center justify-center w-full">
         <div className="relative w-full max-w-[400px] h-[150px] mx-auto mb-8">
           <Image
             src="/555-01.png"
             alt="VerspeKtive Productions"
             fill
-            className="object-contain"
+            className="object-contain dark:invert-0 invert"
             priority
           />
         </div>
@@ -235,7 +264,11 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
                   rel="noopener noreferrer"
                   className="group flex h-full"
                 >
-                  <BorderGlow className="w-full h-full p-4 flex flex-col gap-4" borderRadius={24}>
+                  <BorderGlow 
+                    className="w-full h-full p-4 flex flex-col gap-4" 
+                    borderRadius={24}
+                    backgroundColor={!mounted ? '#120F17' : (resolvedTheme === 'light' ? '#ffffff' : '#120F17')}
+                  >
                     <div className="relative aspect-video rounded-xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10 shrink-0">
                       <Image
                         src={video.thumbnail_url}
@@ -279,20 +312,7 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
             )}
           </div>
 
-          {/* CTA */}
-          <div id="contact" className="bg-zinc-900 dark:bg-zinc-900 text-white rounded-[32px] p-12 md:p-24 text-center">
-            <MaskText text="Ready to create?" className="text-4xl md:text-5xl font-bold mb-6 justify-center" />
-            <MaskText
-              text="Let's discuss how we can bring your creative vision to life with our premium production standards."
-              className="text-xl text-white/80 mb-10 max-w-2xl mx-auto justify-center"
-            />
-            <ContactEmailDropdown
-              email="verspektive@gmail.com"
-              className="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-semibold text-lg transition-transform hover:scale-105"
-            >
-              Contact Us <ArrowRight className="w-5 h-5" />
-            </ContactEmailDropdown>
-          </div>
+
         </div>
       </PerspectiveHero>
     </div>

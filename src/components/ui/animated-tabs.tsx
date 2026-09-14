@@ -74,7 +74,7 @@ export function AnimatedTabs({ tabs, backHref, activeTabOverride }: AnimatedTabs
                     {isActive && (
                       <motion.div
                         layoutId="active-pill"
-                        className="absolute inset-0 bg-white rounded-full z-10"
+                        className="absolute inset-0 bg-black dark:bg-white rounded-full z-10"
                         transition={{ type: "spring", stiffness: 500, damping: 35 }}
                       />
                     )}
@@ -120,7 +120,9 @@ export function AnimatedTabs({ tabs, backHref, activeTabOverride }: AnimatedTabs
                       className={cn(
                         "relative flex h-full items-center justify-center cursor-pointer text-sm font-medium whitespace-nowrap z-20 transition-colors duration-300",
                         "px-5",
-                        isActive ? "text-black" : "text-white/60 hover:text-white"
+                        isActive 
+                          ? "text-white dark:text-black" 
+                          : "text-black/60 hover:text-black dark:text-white/60 dark:hover:text-white"
                       )}
                     >
                       <span className="opacity-100 transition-opacity duration-300">

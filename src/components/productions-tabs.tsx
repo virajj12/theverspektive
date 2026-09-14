@@ -56,10 +56,11 @@ export function ProductionsTabs() {
         tioTabs.push({ id: "taste-it-out", label: "Taste it out", href: "/productions/tio-originals/taste-it-out", iconOnlyWhenActiveBack: true });
       }
     } else {
-      tioTabs.push({ id: "talk-it-out", label: "Talk it out", href: "/productions/tio-originals/talk-it-out", grouped: false });
+      tioTabs.push({ id: "talk-it-out", label: "Talk It Out", href: "/productions/tio-originals/talk-it-out", grouped: false });
       if (ENABLE_TASTE_IT_OUT) {
-        tioTabs.push({ id: "taste-it-out", label: "Taste it out", href: "/productions/tio-originals/taste-it-out", grouped: false });
+        tioTabs.push({ id: "taste-it-out", label: "Taste It Out", href: "/productions/tio-originals/taste-it-out", grouped: false });
       }
+      tioTabs.push({ id: "coming-soon", label: "Coming Soon", href: "#", grouped: false, className: "opacity-50 cursor-not-allowed pointer-events-none" });
     }
 
     // Determine the active tab ID to pass to AnimatedTabs
@@ -75,10 +76,7 @@ export function ProductionsTabs() {
   }
 
   if (pathname === "/productions/verspektive-studios") {
-    const studiosTabs = [
-      { id: "verspektive-studios", label: "VerspeKtive Studios", href: "/productions/verspektive-studios", iconOnlyWhenActiveBack: true }
-    ];
-    return <AnimatedTabs tabs={studiosTabs} backHref="/productions" />;
+    return null;
   }
 
   return <AnimatedTabs tabs={MAIN_TABS} backHref="/productions" />;

@@ -11,7 +11,7 @@ import clsx from "clsx";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 const navItems = [
-  { name: "G3 Builders & Architects", href: "/g3-builders" },
+  { name: "G3 Builders & Architects", href: "https://projectsbyg3.vercel.app/" },
   { name: "Productions", href: "/productions" },
   { name: "Tech", href: "/tech" },
   { name: "Founder", href: "/founder" },
@@ -29,9 +29,9 @@ const megaMenus: Record<string, { title: string, links: { name: string, href: st
     {
       title: "Explore",
       links: [
-        { name: "Talk It Out", href: "/productions/talk-it-out" },
-        { name: "Taste It Out", href: "/productions/taste-it-out" },
-        { name: "Verspektive Studios", href: "/productions/verspektive-studios" }
+        { name: "Talk It Out", href: "/productions/tio-originals/talk-it-out" },
+        { name: "Verspektive Studios", href: "/productions/verspektive-studios" },
+        { name: "Coming Soon", href: "#" }
       ]
     },
     {
@@ -198,12 +198,14 @@ export default function Navbar() {
 
           {/* Right Icons */}
           <div className="flex items-center gap-4">
-            <AnimatedThemeToggler
-              className={clsx(
-                "flex transition-colors duration-200",
-                isHomePage ? "text-[#86868b] hover:text-black" : "text-muted-foreground hover:text-foreground"
-              )}
-            />
+            {pathname !== "/productions/verspektive-studios" && (
+              <AnimatedThemeToggler
+                className={clsx(
+                  "flex transition-colors duration-200",
+                  isHomePage ? "text-[#86868b] hover:text-black" : "text-muted-foreground hover:text-foreground"
+                )}
+              />
+            )}
             <Link
               href="/account"
               aria-label="Account"

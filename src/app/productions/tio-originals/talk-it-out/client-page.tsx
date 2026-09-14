@@ -63,19 +63,19 @@ export default function TalkItOutClient({ playlists = [], playlistVideos = {} }:
 
   const talkHero = (
     <div className="flex flex-col items-center justify-center text-foreground bg-background transition-colors duration-300 w-full h-full px-6 text-center">
-      <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white tracking-tight">Talk It Out</h1>
+      <h1 className="text-5xl md:text-7xl font-bold mb-6 text-foreground tracking-tight">Talk It Out</h1>
       <MaskText
         text="A series of profound conversations."
-        className="text-xl md:text-2xl text-white/80 font-medium max-w-3xl leading-relaxed justify-center"
+        className="text-xl md:text-2xl text-foreground/80 font-medium max-w-3xl leading-relaxed justify-center"
       />
     </div>
   );
 
   const talkAboutCover = (
-    <div className="relative w-full h-full flex flex-col items-center justify-center bg-zinc-900 p-6 md:p-16 text-center">
+    <div className="relative w-full h-full flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 p-6 md:p-16 text-center transition-colors duration-300">
       <div className="max-w-4xl">
-        <h2 className="text-3xl md:text-5xl font-bold mb-8 text-white">About Talk It Out</h2>
-        <p className="text-lg md:text-xl text-white/80 leading-relaxed">
+        <h2 className="text-3xl md:text-5xl font-bold mb-8 text-foreground">About Talk It Out</h2>
+        <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
           Talk It Out is a platform for meaningful, unfiltered discussions. We invite guests from various walks of life to share their perspectives, challenges, and stories. Dive into deep conversations that explore the human experience.
         </p>
       </div>
@@ -83,7 +83,7 @@ export default function TalkItOutClient({ playlists = [], playlistVideos = {} }:
   );
 
   return (
-    <div className="flex flex-col min-h-screen bg-black text-white pb-32">
+    <div className="flex flex-col min-h-screen bg-background text-foreground transition-colors duration-300 pb-32">
       <div id="talk-it-out" className="relative scroll-m-20">
         <PerspectiveHero hero={talkHero} cover={talkAboutCover}>
           <div className="container mx-auto px-6 md:px-12 py-12 md:py-24 max-w-[1400px] relative z-10">
@@ -104,14 +104,14 @@ export default function TalkItOutClient({ playlists = [], playlistVideos = {} }:
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {[1, 2, 3].map((i) => (
                           <div key={`skeleton-${i}`} className="group flex flex-col gap-4">
-                            <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900 border border-white/10">
+                            <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10">
                               <div className="absolute inset-0 flex items-center justify-center text-zinc-500">
                                 <Play className="w-8 h-8" />
                               </div>
                             </div>
                             <div>
-                              <div className="h-6 bg-zinc-900 rounded w-3/4 mb-2"></div>
-                              <div className="h-4 bg-zinc-900/50 rounded w-1/2"></div>
+                              <div className="h-6 bg-zinc-200 dark:bg-zinc-900 rounded w-3/4 mb-2"></div>
+                              <div className="h-4 bg-zinc-200 dark:bg-zinc-900/50 rounded w-1/2"></div>
                             </div>
                           </div>
                         ))}
@@ -127,7 +127,7 @@ export default function TalkItOutClient({ playlists = [], playlistVideos = {} }:
                               rel="noopener noreferrer"
                               className="group flex flex-col gap-4"
                             >
-                              <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-900 border border-white/10">
+                              <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10">
                                 <Image 
                                   src={video.thumbnail_url} 
                                   alt={video.title} 
@@ -141,7 +141,7 @@ export default function TalkItOutClient({ playlists = [], playlistVideos = {} }:
                                 </div>
                               </div>
                               <div>
-                                <h3 className="text-lg font-medium leading-snug line-clamp-2 group-hover:text-white/80 transition-colors">{video.title}</h3>
+                                <h3 className="text-lg font-medium leading-snug line-clamp-2 group-hover:text-black/80 dark:group-hover:text-white/80 transition-colors">{video.title}</h3>
                                 <p className="text-sm text-zinc-500 mt-2">
                                   {new Date(video.published_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                                 </p>
@@ -154,7 +154,7 @@ export default function TalkItOutClient({ playlists = [], playlistVideos = {} }:
                           <div className="flex justify-center mt-12">
                             <button
                               onClick={() => handleShowMore(playlist.id)}
-                              className="px-8 py-3 rounded-full bg-zinc-900 hover:bg-zinc-800 border border-white/10 font-medium transition-colors"
+                              className="px-8 py-3 rounded-full bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 border border-black/10 dark:border-white/10 font-medium transition-colors text-foreground"
                             >
                               Show More
                             </button>
