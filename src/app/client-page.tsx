@@ -1,13 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronRight, ChevronDown } from "lucide-react";
-import HeroSection from "@/components/HeroSection";
+import { ChevronRight } from "lucide-react";
 import ScrollStack, { ScrollStackItem } from "@/components/ui/ScrollStack";
-import MaskText from "@/components/MaskText";
 import { useGlobalLoader } from "@/components/global-loader-provider";
 import dynamic from "next/dynamic";
 
@@ -28,20 +26,10 @@ export default function ClientHome({
   heroTagline,
   heroImage,
 }: ClientHomeProps) {
-  const heroRef = useRef<HTMLElement>(null);
   const { loading } = useGlobalLoader();
 
   const { scrollY } = useScroll();
   const logoY = useTransform(scrollY, [0, 1000], [0, -800]);
-
-
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ['start end', 'end start']
-  });
-
-  const bgY = useTransform(scrollYProgress, [0, 1], ["-40%", "40%"]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
 
   useEffect(() => {
     // Force scroll to top on reload to prevent awkward mid-scroll states
@@ -68,7 +56,7 @@ export default function ClientHome({
               style={{ y: logoY }}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: loading ? 1.0 : 0, ease: "easeOut" }}
+              transition={{ duration: 0.6, delay: loading ? 0.6 : 0, ease: "easeOut" }}
               className="relative z-10"
             >
               <Image
@@ -76,6 +64,7 @@ export default function ClientHome({
                 alt="VerspeKtive"
                 width={800}
                 height={200}
+                sizes="(max-width: 640px) 220px, (max-width: 768px) 320px, 440px"
                 className="w-[220px] sm:w-[320px] md:w-[440px] h-auto object-contain drop-shadow-xl dark:drop-shadow-[0_0px_80px_rgba(0,0,0,0.8)] dark:invert-0 invert"
                 priority
               />
@@ -84,93 +73,7 @@ export default function ClientHome({
 
           </section>
 
-          {/* ═══════════════════════════════════════
-              HERO 2 — Vikhil Section (Replacing Productions)
-              ═══════════════════════════════════════ */}
-          {/* Dummy element for unused heroRef to prevent Framer Motion hydration error */}
-          <div ref={heroRef as any} style={{ display: 'none' }} />
 
-          {false && (
-            <section className="relative z-10 w-full min-h-[50vh] md:min-h-screen flex overflow-hidden bg-black shadow-[0_-30px_60px_rgba(0,0,0,0.8)]">
-              {/* Top gradient shadow for seamless transition over black sticky header */}
-              <div className="absolute inset-x-0 top-0 h-32 md:h-48 bg-gradient-to-b from-black via-black/80 to-transparent z-10 pointer-events-none" />
-              {/* Background image */}
-              {heroImage && (
-                <div className="absolute inset-0 z-0 bg-black overflow-hidden">
-                  <motion.div style={{ y: bgY }} className="absolute inset-x-0 -top-[30%] h-[160%] w-full">
-                    <Image
-                      src={heroImage}
-                      alt={heroHeadline}
-                      fill
-                      sizes="100vw"
-                      className="object-cover opacity-40"
-                    />
-                  </motion.div>
-                  <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/60 to-transparent" />
-                </div>
-              )}
-
-              {/* Foreground Content */}
-              <div className="relative z-10 w-full flex-grow flex items-center min-h-[50vh] md:min-h-screen max-w-[1440px] mx-auto px-6 md:px-12">
-
-                {/* Text Content */}
-                <motion.div
-                  style={{ y: textY }}
-                  className="relative z-20 max-w-xl md:w-1/2 flex flex-col items-start justify-center text-left pt-24 pb-32 md:py-0"
-                >
-                  <motion.h3
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-2xl md:text-3xl lg:text-4xl font-light text-white/80 mb-2"
-                  >
-                    The Founder
-                  </motion.h3>
-                  <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.1 }}
-                    className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-4 tracking-tight"
-                  >
-                    Vikhil V Salian
-                  </motion.h1>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                  >
-                    <Link
-                      href="/team#founder"
-                      className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-zinc-200 transition-colors"
-                    >
-                      Meet the Founder <ChevronRight className="w-4 h-4" />
-                    </Link>
-                  </motion.div>
-                </motion.div>
-
-                {/* Vikhil Transparent Image */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                  className="absolute bottom-0 right-[-10%] md:-right-[5%] lg:-right-[2%] z-10 w-[90%] sm:w-[70%] md:w-[65%] lg:w-[60%]"
-                >
-                  <Image
-                    src="/Vikhil transparent.png"
-                    alt="Vikhil V Salian"
-                    width={1000}
-                    height={1000}
-                    className="w-full h-auto max-h-[95vh] object-contain object-bottom pointer-events-none"
-                    priority
-                  />
-                </motion.div>
-              </div>
-            </section>
-          )}
 
           {/* ═══════════════════════════════════════
             SCROLL STACK — Secondary Features
@@ -184,7 +87,7 @@ export default function ClientHome({
               className="py-12 md:py-24"
             >
               <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
-                <Image src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2000&auto=format&fit=crop" fill alt="G3 Builders & Architects" className="object-cover" />
+                <Image src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2000&auto=format&fit=crop" fill alt="G3 Builders & Architects" className="object-cover" loading="lazy" sizes="100vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
                   <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">G3 Builders & Architects</h2>
@@ -195,7 +98,7 @@ export default function ClientHome({
               </ScrollStackItem>
 
               <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
-                <Image src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2000&auto=format&fit=crop" fill alt="Verspektive Productions" className="object-cover" />
+                <Image src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2000&auto=format&fit=crop" fill alt="Verspektive Productions" className="object-cover" loading="lazy" sizes="100vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
                   <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">Verspektive Productions</h2>
@@ -206,7 +109,7 @@ export default function ClientHome({
               </ScrollStackItem>
 
               <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
-                <Image src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2000&auto=format&fit=crop" fill alt="VerspeKtive Apparels" className="object-cover" />
+                <Image src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2000&auto=format&fit=crop" fill alt="VerspeKtive Apparels" className="object-cover" loading="lazy" sizes="100vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
                   <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">VerspeKtive Apparels</h2>
@@ -217,7 +120,7 @@ export default function ClientHome({
               </ScrollStackItem>
 
               <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
-                <Image src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2000&auto=format&fit=crop" fill alt="VerspeKtive Tech" className="object-cover" />
+                <Image src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2000&auto=format&fit=crop" fill alt="VerspeKtive Tech" className="object-cover" loading="lazy" sizes="100vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
                   <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">Tech</h2>
@@ -228,7 +131,7 @@ export default function ClientHome({
               </ScrollStackItem>
 
               <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
-                <Image src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=2000&auto=format&fit=crop" fill alt="VerspeKtive Store" className="object-cover" />
+                <Image src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=2000&auto=format&fit=crop" fill alt="VerspeKtive Store" className="object-cover" loading="lazy" sizes="100vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
                   <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">Store</h2>

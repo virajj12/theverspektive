@@ -6,20 +6,20 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
   const [phase, setPhase] = useState<"animating" | "logo-fading" | "fading-out">("animating");
 
   useEffect(() => {
-    // Start logo fade out after 600ms
+    // Start logo fade out after 400ms
     const logoFadeOutTimer = setTimeout(() => {
       setPhase("logo-fading");
-    }, 600);
+    }, 400);
 
-    // Start background fade out after logo has faded (600ms + 400ms)
+    // Start background fade out after logo has faded (400ms + 200ms)
     const backgroundFadeOutTimer = setTimeout(() => {
       setPhase("fading-out");
-    }, 1000);
+    }, 600);
 
-    // Completely unmount after background fades out (1000ms + 600ms)
+    // Completely unmount after background fades out (600ms + 400ms)
     const removeTimer = setTimeout(() => {
       onComplete();
-    }, 1600);
+    }, 1000);
 
     return () => {
       clearTimeout(logoFadeOutTimer);
@@ -53,14 +53,14 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
       </style>
       {/* Background Layer */}
       <div
-        className={`fixed inset-0 z-[99] bg-black pointer-events-none transition-opacity duration-1000 ease-in-out ${
+        className={`fixed inset-0 z-[99] bg-black pointer-events-none transition-opacity duration-400 ease-in-out ${
           phase === "fading-out" ? "opacity-0" : "opacity-100"
         }`}
       />
       
       {/* Logo Layer */}
       <div
-        className={`fixed inset-0 z-[100] flex items-center justify-center pointer-events-none transition-opacity duration-500 ease-in-out ${
+        className={`fixed inset-0 z-[100] flex items-center justify-center pointer-events-none transition-opacity duration-200 ease-in-out ${
           phase === "logo-fading" || phase === "fading-out" ? "opacity-0" : "opacity-100"
         }`}
       >
