@@ -9,7 +9,11 @@ import HeroSection from "@/components/HeroSection";
 import ScrollStack, { ScrollStackItem } from "@/components/ui/ScrollStack";
 import MaskText from "@/components/MaskText";
 import { useGlobalLoader } from "@/components/global-loader-provider";
-import { DottedSurface } from "@/components/ui/dotted-surface";
+import dynamic from "next/dynamic";
+
+const AnimatedBackground = dynamic(() => import("@/components/AnimatedBackground"), {
+  ssr: false,
+});
 
 // GSAP replaced by Framer Motion
 
@@ -57,10 +61,8 @@ export default function ClientHome({
               HERO 1 — Primary Brand Hero (Full-Screen)
               ═══════════════════════════════════════ */}
           <section className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-background -z-10 transition-colors duration-500">
-            {/* Dotted Surface Background */}
-            <div className="absolute inset-0 z-0 opacity-60 pointer-events-none">
-              <DottedSurface />
-            </div>
+            {/* Dynamically loaded Animated Background */}
+            <AnimatedBackground />
 
             <motion.div
               style={{ y: logoY }}
@@ -79,23 +81,7 @@ export default function ClientHome({
               />
             </motion.div>
 
-            {/* Scroll Indication */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: !loading ? 1 : 0 }}
-              transition={{ duration: 1, delay: 0.8 }}
-              className="absolute bottom-30 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-70"
-            >
-              {/* <span className="text-white text-[10px] tracking-[0.2em] uppercase mb-4">Scroll Up</span> */}
-              <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-              >
-                <div className="w-6 h-6 rounded-full border border-foreground/30 flex items-center justify-center">
-                  <ChevronDown className="text-foreground/70 w-5 h-5" />
-                </div>
-              </motion.div>
-            </motion.div>
+
           </section>
 
           {/* ═══════════════════════════════════════
