@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useG3Scroll, MOTION_OK_ANY } from "./use-g3-scroll";
 import { cn } from "@/lib/utils";
 
-export type MaskAnimationType = "circle" | "vertical-blinds" | "diagonal" | "spotlight" | "curtain" | "none";
+export type MaskAnimationType = "circle" | "vertical-blinds" | "diagonal" | "spotlight" | "curtain" | "shrink-reveal" | "none";
 
 export function MaskedSection({
   children,
@@ -81,8 +81,29 @@ export function MaskedSection({
           gsap.set(contentRef.current, { clipPath: "inset(0 0 100% 0)" });
           tl.to(contentRef.current, { clipPath: "inset(0 0 0 0)", ease: "power2.inOut" });
           break;
+        case "shrink-reveal":
         case "none":
           break;
+      }
+
+      if (!disablePin && type === "shrink-reveal") {
+        gsap.to(contentRef.current, {
+          scale: 0.86,
+          borderRadius: 28,
+          transformOrigin: "top center",
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: () => {
+              if (!sectionRef.current) return "top top";
+              return sectionRef.current.offsetHeight > window.innerHeight
+                ? "bottom bottom"
+                : "top top";
+            },
+            end: () => "+=" + (window.innerHeight * pinDistance),
+            scrub: true,
+          }
+        });
       }
     });
   });

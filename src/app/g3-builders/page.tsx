@@ -14,7 +14,7 @@ import {
   getTeam,
   G3_CATEGORIES
 } from "@/lib/g3-data";
-import HeroShrinkReveal from "@/components/g3/HeroShrinkReveal";
+import Hero from "@/components/g3/Hero";
 import ProjectCard from "@/components/g3/ProjectCard";
 import CategoryFilter from "@/components/g3/CategoryFilter";
 import MasterSequence from "@/components/g3/MasterSequence";
@@ -120,40 +120,11 @@ export default async function G3Home({
 
   return (
     <>
-      <HeroShrinkReveal heroImage={homePage.heroImage} headline={headline} tagline={tagline} />
+      <Hero heroImage={homePage.heroImage} headline={headline} tagline={tagline} />
 
-      {/* HERO COPY SECTION */}
-      <MaskedSection id="intro" type="none" className="border-t border-[var(--g3-rule-faint)] !z-[5]" innerClassName="bg-[var(--g3-black)] flex flex-col justify-center">
-        <div className="mx-auto max-w-6xl px-6 py-20 text-center flex flex-col items-center">
-          <Reveal>
-            <span className="g3-meta block">
-              Interior Execution · Exterior Consultancy
-            </span>
-            <h1
-              className="g3-display-lg mt-6 max-w-4xl"
-              style={{ color: "var(--g3-ink)" }}
-            >
-              {headline}
-            </h1>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="g3-body mt-8 max-w-2xl text-center">{tagline}</p>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <Link
-              href="/g3-builders/contact"
-              className="mt-12 inline-flex items-center gap-2 rounded-full px-8 py-5 text-lg font-semibold transition-transform hover:scale-105"
-              style={{ background: "var(--g3-ink)", color: "var(--g3-black)" }}
-            >
-              Book a consultation
-              <ChevronRight className="h-5 w-5" aria-hidden="true" />
-            </Link>
-          </Reveal>
-        </div>
-      </MaskedSection>
 
-      {/* SERVICES SECTION */}
-      <section id="services" className="relative w-full border-t border-[var(--g3-rule-faint)] !z-10 bg-[var(--g3-black)] g3-wood-surface">
+
+      <MaskedSection id="services" type="shrink-reveal" className="relative w-full border-t border-[var(--g3-rule-faint)] !z-10" innerClassName="bg-[var(--g3-black)] g3-wood-surface">
         <div className="pb-24 pt-32 md:pt-40">
           <div className="mx-auto max-w-6xl px-6">
             <div className="g3-meta mb-3 text-[var(--g3-ink)]">
@@ -220,7 +191,7 @@ export default async function G3Home({
             })}
           </div>
         </div>
-      </section>
+      </MaskedSection>
 
       {/* MASTER SEQUENCE: PORTFOLIO -> IMMERSIVE IMAGE -> HOW IT WORKS */}
       <MasterSequence projects={filteredProjects}>

@@ -97,6 +97,9 @@ export default function G3Nav() {
           height="max-content"
           borderRadius={9999}
           className="p-2"
+          opacity={0.35}
+          brightness={40}
+          blur={12}
         >
           <div className="flex items-center gap-2">
             <AnimatePresence initial={false}>
@@ -105,7 +108,7 @@ export default function G3Nav() {
                 animate={{ opacity: 1, width: "auto" }}
                 exit={{ opacity: 0, width: 0 }}
                 transition={{ duration: 0.3 }}
-                className="flex items-center gap-1 overflow-hidden whitespace-nowrap bg-zinc-950/80 backdrop-blur-md border border-white/10 shadow-inner p-1 rounded-full mr-2"
+                className="flex items-center gap-1 overflow-hidden whitespace-nowrap bg-white/40 dark:bg-black/40 backdrop-blur-lg border border-black/10 dark:border-white/10 shadow-inner p-1 rounded-full mr-2"
               >
                 <Link
                   href="/g3-builders"
@@ -118,14 +121,14 @@ export default function G3Nav() {
                     }
                   }}
                   className={`relative z-10 flex items-center justify-center h-9 w-9 shrink-0 rounded-full transition-colors duration-300 ${
-                    activeHash === "" ? "text-black" : "text-zinc-400 hover:text-white"
+                    activeHash === "" ? "text-white dark:text-black" : "text-zinc-600 hover:text-black dark:text-zinc-400 dark:hover:text-white"
                   }`}
                   aria-label="Back to top"
                 >
                   {activeHash === "" && (
                     <motion.div
                       layoutId="activeG3NavPill"
-                      className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm"
+                      className="absolute inset-0 bg-black dark:bg-white rounded-full -z-10 shadow-sm"
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
                     />
                   )}
@@ -142,14 +145,14 @@ export default function G3Nav() {
                         onClick={(e) => handleLinkClick(e, l.href)}
                         className={`relative z-10 rounded-full px-5 py-2 text-sm transition-colors duration-300 cursor-pointer ${
                           isActive
-                            ? "text-black font-medium"
-                            : "text-zinc-400 hover:text-white"
+                            ? "text-white dark:text-black font-medium"
+                            : "text-zinc-600 hover:text-black dark:text-zinc-400 dark:hover:text-white"
                         }`}
                       >
                         {isActive && (
                           <motion.div
                             layoutId="activeG3NavPill"
-                            className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm"
+                            className="absolute inset-0 bg-black dark:bg-white rounded-full -z-10 shadow-sm"
                             transition={{ type: "spring", stiffness: 500, damping: 30 }}
                           />
                         )}
