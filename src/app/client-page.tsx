@@ -68,7 +68,7 @@ export default function ClientHome({
               style={{ y: logoY }}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: loading ? 1.8 : 0, ease: "easeOut" }}
+              transition={{ duration: 0.8, delay: loading ? 1.0 : 0, ease: "easeOut" }}
               className="relative z-10"
             >
               <Image

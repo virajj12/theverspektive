@@ -6,20 +6,20 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
   const [phase, setPhase] = useState<"animating" | "logo-fading" | "fading-out">("animating");
 
   useEffect(() => {
-    // Start logo fade out after 1 second
+    // Start logo fade out after 600ms
     const logoFadeOutTimer = setTimeout(() => {
       setPhase("logo-fading");
-    }, 1000);
+    }, 600);
 
-    // Start background fade out after logo has completely faded out (1s + 0.5s)
+    // Start background fade out after logo has faded (600ms + 400ms)
     const backgroundFadeOutTimer = setTimeout(() => {
       setPhase("fading-out");
-    }, 1500);
+    }, 1000);
 
-    // Completely unmount after background fades out (1.5s + 1s)
+    // Completely unmount after background fades out (1000ms + 600ms)
     const removeTimer = setTimeout(() => {
       onComplete();
-    }, 2600);
+    }, 1600);
 
     return () => {
       clearTimeout(logoFadeOutTimer);
@@ -47,7 +47,7 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
           }
           
           .logo-continuous-anim {
-            animation: continuousGrowAndFadeIn 3.5s linear forwards;
+            animation: continuousGrowAndFadeIn 2s linear forwards;
           }
         `}
       </style>

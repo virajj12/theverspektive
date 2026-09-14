@@ -366,8 +366,13 @@ export default function FractalGlass({
     const H = el.clientHeight;
 
     const isMobile = window.innerWidth < 768;
-    const renderer = new THREE.WebGLRenderer({ antialias: !isMobile });
-    renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 2));
+    const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio, 1.5);
+    const renderer = new THREE.WebGLRenderer({
+      antialias: false,
+      powerPreference: "low-power",
+      alpha: false,
+    });
+    renderer.setPixelRatio(dpr);
     renderer.setSize(W, H);
     renderer.domElement.setAttribute("aria-hidden", "true");
     el.appendChild(renderer.domElement);
@@ -393,7 +398,6 @@ export default function FractalGlass({
       uTheme: { value: theme === "light" ? 1.0 : 0.0 },
     };
     uniformsRef.current = uniforms;
-    let isDisposed = false;
 
     const geo = new THREE.PlaneGeometry(2, 2);
     const mat = new THREE.ShaderMaterial({ vertexShader, fragmentShader, uniforms });
@@ -408,21 +412,31 @@ export default function FractalGlass({
     };
     const onMouse = (e: MouseEvent) => setTarget(e.clientX, e.clientY);
     const onTouch = (e: TouchEvent) => setTarget(e.touches[0].clientX, e.touches[0].clientY);
-    window.addEventListener("mousemove", onMouse);
+    window.addEventListener("mousemove", onMouse, { passive: true });
     window.addEventListener("touchmove", onTouch, { passive: true });
 
+    // Debounced resize to avoid layout thrashing
+    let resizeTimer: ReturnType<typeof setTimeout>;
     const onResize = () => {
-      const w = el.clientWidth, h = el.clientHeight;
-      renderer.setSize(w, h);
-      uniforms.uResolution.value.set(w, h);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        const w = el.clientWidth, h = el.clientHeight;
+        renderer.setSize(w, h);
+        uniforms.uResolution.value.set(w, h);
+      }, 150);
     };
     window.addEventListener("resize", onResize);
 
     const start = performance.now();
+    // 30fps on mobile, ~60fps on desktop
+    const frameInterval = isMobile ? 1000 / 30 : 1000 / 60;
+    let lastFrameTime = 0;
 
     const loop = createSuspendedRaf({
       root: el,
-      onFrame: () => {
+      onFrame: (time: number) => {
+        if (time - lastFrameTime < frameInterval) return;
+        lastFrameTime = time;
         current.x += (target.x - current.x) * 0.04;
         current.y += (target.y - current.y) * 0.04;
         uniforms.uMouse.value.set(current.x, current.y);
@@ -433,9 +447,9 @@ export default function FractalGlass({
     loop.start();
 
     return () => {
-      isDisposed = true;
       uniformsRef.current = null;
       loop.destroy();
+      clearTimeout(resizeTimer);
       window.removeEventListener("mousemove", onMouse);
       window.removeEventListener("touchmove", onTouch);
       window.removeEventListener("resize", onResize);
@@ -476,21 +490,7 @@ export default function FractalGlass({
         ...(bgColor ? { background: bgColor } : null),
       }}
     >
-      {prefersReducedMotion && (
-        <div
-          aria-live="polite"
-          className="pointer-events-none fixed bottom-4 right-4 z-40 w-fit max-w-65 rounded-md border border-white/15 bg-white/5 p-3 text-center backdrop-blur-sm max-md:hidden"
-        >
-          <h2 className="text-sm leading-none text-white">
-            The glass keeps shifting.
-          </h2>
-          <p className="mt-2 text-xs leading-5 text-white/65">
-            Fractal Glass distorts the image based on cursor and touch
-            position in real time. Since the distortion is driven entirely
-            by motion, reduced motion can&apos;t be applied here.
-          </p>
-        </div>
-      )}
+
     </div>
   );
 }
