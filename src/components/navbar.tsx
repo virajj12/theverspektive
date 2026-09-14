@@ -11,7 +11,7 @@ import clsx from "clsx";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 const navItems = [
-  { name: "G3 Builders & Architect", href: "/g3-builders" },
+  { name: "G3 Builders & Architects", href: "/g3-builders" },
   { name: "Productions", href: "/productions" },
   { name: "Tech", href: "/tech" },
   { name: "Founder", href: "/founder" },
@@ -19,7 +19,7 @@ const navItems = [
 ];
 
 const megaMenus: Record<string, { title: string, links: { name: string, href: string }[] }[]> = {
-  "G3 Builders & Architect": [
+  "G3 Builders & Architects": [
     {
       title: "Social",
       links: [{ name: "Instagram", href: "https://instagram.com/projects_by_g3" }]

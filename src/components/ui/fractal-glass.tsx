@@ -246,12 +246,17 @@ const fragmentShader = `
 
  varying vec2 vUv;
 
- vec3 palette(float t) {
-     return mix(
-       vec3(0.1, 0.2, 0.5),
-       vec3(0.8, 0.4, 0.9),
-       0.5 + 0.5 * sin(t)
-     );
+ vec3 palette(float t, float theme) {
+     vec3 darkColor1 = vec3(0.1, 0.2, 0.5);
+     vec3 darkColor2 = vec3(0.8, 0.4, 0.9);
+     
+     vec3 lightColor1 = vec3(0.6, 0.75, 1.0);
+     vec3 lightColor2 = vec3(0.95, 0.75, 1.0);
+     
+     vec3 c1 = mix(darkColor1, lightColor1, theme);
+     vec3 c2 = mix(darkColor2, lightColor2, theme);
+     
+     return mix(c1, c2, 0.5 + 0.5 * sin(t));
  }
 
  float wave(vec2 uv, float freq, float phase) {
@@ -316,9 +321,10 @@ const fragmentShader = `
    float dist = abs(y - waveLine);
    float g = glow(dist, uGlow);
 
-   vec3 col = palette(waveLine + y);
+   vec3 col = palette(waveLine + y, uTheme);
    vec3 bg = mix(vec3(0.02, 0.02, 0.05), vec3(1.0), uTheme);
-   col = mix(bg, col, g * 1.5);
+   float intensity = mix(1.5, 1.2, uTheme);
+   col = mix(bg, col, g * intensity);
 
    gl_FragColor = vec4(col, 1.0);
  }
@@ -338,7 +344,7 @@ interface FractalGlassProps {
 }
 export default function FractalGlass({
   speed = 1.0,
-  glow = 15.0,
+  glow = 4.0,
   theme = "dark",
   bgColor,
   stripesFrequency = 40,
@@ -438,6 +444,23 @@ export default function FractalGlass({
       geo.dispose();
       if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement);
     };
+  }, []); // Run only once on mount
+
+  useEffect(() => {
+    if (uniformsRef.current) {
+      uniformsRef.current.uSpeed.value = speed;
+      uniformsRef.current.uGlow.value = glow;
+      uniformsRef.current.uTheme.value = theme === "light" ? 1.0 : 0.0;
+      uniformsRef.current.uGlassStrength.value = glassStrength;
+      uniformsRef.current.uGlassSmoothness.value = glassSmoothness;
+      uniformsRef.current.uParallaxStrength.value = parallaxStrength;
+      uniformsRef.current.uDistortionMultiplier.value = distortionMultiplier;
+      uniformsRef.current.uEdgePadding.value = edgePadding;
+
+      const isMobile = window.innerWidth < 768;
+      const actualStripes = isMobile ? Math.max(10, Math.floor(stripesFrequency / 3)) : stripesFrequency;
+      uniformsRef.current.uStripesFrequency.value = actualStripes;
+    }
   }, [speed, glow, theme, stripesFrequency, glassStrength, glassSmoothness, parallaxStrength, distortionMultiplier, edgePadding]);
 
   return (
