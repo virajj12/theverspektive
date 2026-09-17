@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import SmoothScroll from "@/components/g3/SmoothScroll";
 
 export const metadata: Metadata = {
   title: "Vikhil V Salian - Founder | VerspeKtive",
@@ -7,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return <SmoothScroll>{children}</SmoothScroll>;
 }
