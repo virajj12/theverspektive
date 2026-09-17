@@ -11,8 +11,8 @@ import clsx from "clsx";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 const navItems = [
-  { name: "G3 Builders & Architects", href: "https://projectsbyg3.vercel.app/" },
-  { name: "Productions", href: "/productions" },
+  { name: "G3 Builders & Architects", href: "https://projectsbyg3.com/" },
+  { name: "VerspeKtive Productions", href: "/productions" },
   { name: "Tech", href: "/tech" },
   { name: "Founder", href: "/founder" },
   { name: "Store", href: "/store" },
@@ -221,10 +221,10 @@ export default function Navbar() {
             <button
               className={clsx(
                 "lg:hidden relative z-50 transition-colors duration-200",
-                isMobileMenuOpen 
-                  ? "text-black hover:text-black dark:text-white dark:hover:text-white" 
-                  : isHomePage 
-                    ? "text-[#86868b] hover:text-black" 
+                isMobileMenuOpen
+                  ? "text-black hover:text-black dark:text-white dark:hover:text-white"
+                  : isHomePage
+                    ? "text-[#86868b] hover:text-black"
                     : "text-muted-foreground hover:text-foreground"
               )}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

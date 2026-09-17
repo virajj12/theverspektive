@@ -34,14 +34,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className="w-full h-full">
+      <head>
+        <link rel="preload" href="/VB-01.png" as="image" />
+      </head>
       <body
         suppressHydrationWarning
         className={`${inter.variable} ${outfit.variable} antialiased min-h-screen w-full h-full bg-background text-foreground`}
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
+          defaultTheme="system"
+          enableSystem={true}
           disableTransitionOnChange={false}
         >
           <GlobalLoaderProvider>

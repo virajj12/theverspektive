@@ -23,7 +23,7 @@ export function ProductionsBackButton() {
     <div className="fixed top-14 left-4 z-40 md:top-20 md:left-8">
       <Link
         href={backHref}
-        className="flex h-10 w-10 items-center justify-center text-white mix-blend-difference transition-transform hover:scale-110"
+        className="flex h-10 w-10 items-center justify-center text-black dark:text-white transition-transform hover:scale-110"
         aria-label="Go back"
       >
         <ChevronLeft className="h-6 w-6" />

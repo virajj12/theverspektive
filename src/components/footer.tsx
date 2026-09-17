@@ -9,7 +9,7 @@ const footerSections = [
   {
     title: "Explore",
     links: [
-      { name: "G3 Builders", href: "https://projectsbyg3.vercel.app/" },
+      { name: "G3 Builders", href: "https://projectsbyg3.com/" },
       { name: "Productions", href: "/productions" },
       { name: "Talk it Out", href: "/productions/tio-originals/talk-it-out" },
     ],

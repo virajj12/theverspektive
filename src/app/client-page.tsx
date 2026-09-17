@@ -49,8 +49,8 @@ export default function ClientHome({
               HERO 1 — Primary Brand Hero (Full-Screen)
               ═══════════════════════════════════════ */}
           <section className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden bg-background -z-10 transition-colors duration-500">
-            {/* Dynamically loaded Animated Background */}
-            <AnimatedBackground />
+            {/* Dynamically loaded AnimatedBackground — delayed to prevent blocking the loader */}
+            {!loading && <AnimatedBackground />}
 
             <motion.div
               style={{ y: logoY }}

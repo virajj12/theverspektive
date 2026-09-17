@@ -315,7 +315,7 @@ export function CursorFollower() {
         ref={jellyRef}
         id="jelly-id"
         className={cn(
-          "jelly-blob fixed left-0 top-0 border-2 border-white pointer-events-none will-change-transform"
+          "jelly-blob fixed left-0 top-0 pointer-events-none will-change-transform"
         )}
         style={{
           width: CURSOR_DIAMETER,

@@ -7,7 +7,6 @@ import { useTheme } from "next-themes";
 
 interface AnimatedGradientBackgroundProps {
     className?: string;
-    children?: React.ReactNode;
     intensity?: "subtle" | "medium" | "strong";
 }
 
@@ -33,7 +32,7 @@ function createBeam(width: number, height: number): Beam {
         length: height * 2.5,
         angle: angle,
         speed: 0.6 + Math.random() * 1.2,
-        opacity: 0.12 + Math.random() * 0.16,
+        opacity: 0.2 + Math.random() * 0.2,
         hue: 190 + Math.random() * 70,
         pulse: Math.random() * Math.PI * 2,
         pulseSpeed: 0.02 + Math.random() * 0.03,
@@ -43,12 +42,12 @@ function createBeam(width: number, height: number): Beam {
 export function BeamsBackground({
     className,
     intensity = "strong",
-    children
 }: AnimatedGradientBackgroundProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const beamsRef = useRef<Beam[]>([]);
     const animationFrameRef = useRef<number>(0);
-    const MINIMUM_BEAMS = 20;
+    // Optimization: reduce minimum beams for performance
+    const MINIMUM_BEAMS = 8;
     const { resolvedTheme } = useTheme();
     const isDark = resolvedTheme === "dark";
 
@@ -66,7 +65,8 @@ export function BeamsBackground({
         if (!ctx) return;
 
         const updateCanvasSize = () => {
-            const dpr = window.devicePixelRatio || 1;
+            // Optimization: Cap pixel ratio to 1.5 to prevent massive 3000x6000 canvases on high-DPI phones
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
             canvas.width = window.innerWidth * dpr;
             canvas.height = window.innerHeight * dpr;
             canvas.style.width = `${window.innerWidth}px`;
@@ -96,7 +96,7 @@ export function BeamsBackground({
             beam.width = 100 + Math.random() * 100;
             beam.speed = 0.5 + Math.random() * 0.4;
             beam.hue = 190 + (index * 70) / totalBeams;
-            beam.opacity = 0.2 + Math.random() * 0.1;
+            beam.opacity = 0.25 + Math.random() * 0.2;
             return beam;
         }
 
@@ -113,25 +113,26 @@ export function BeamsBackground({
 
             const gradient = ctx.createLinearGradient(0, 0, 0, beam.length);
 
-            // Enhanced gradient with multiple color stops
-            gradient.addColorStop(0, `hsla(${beam.hue}, 85%, 65%, 0)`);
+            // Enhanced gradient with multiple color stops (boosted saturation, dynamic lightness for light mode)
+            const l = isDark ? 75 : 55;
+            gradient.addColorStop(0, `hsla(${beam.hue}, 100%, ${l}%, 0)`);
             gradient.addColorStop(
                 0.1,
-                `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity * 0.5})`
+                `hsla(${beam.hue}, 100%, ${l}%, ${pulsingOpacity * 0.5})`
             );
             gradient.addColorStop(
                 0.4,
-                `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity})`
+                `hsla(${beam.hue}, 100%, ${l}%, ${pulsingOpacity})`
             );
             gradient.addColorStop(
                 0.6,
-                `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity})`
+                `hsla(${beam.hue}, 100%, ${l}%, ${pulsingOpacity})`
             );
             gradient.addColorStop(
                 0.9,
-                `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity * 0.5})`
+                `hsla(${beam.hue}, 100%, ${l}%, ${pulsingOpacity * 0.5})`
             );
-            gradient.addColorStop(1, `hsla(${beam.hue}, 85%, 65%, 0)`);
+            gradient.addColorStop(1, `hsla(${beam.hue}, 100%, ${l}%, 0)`);
 
             ctx.fillStyle = gradient;
             ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length);
@@ -142,7 +143,8 @@ export function BeamsBackground({
             if (!canvas || !ctx) return;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.filter = "blur(35px)";
+            // Optimization: removed ctx.filter = "blur(35px)" from the hot render loop.
+            // The canvas element itself has a CSS filter applied instead, which is hardware accelerated.
 
             const totalBeams = beamsRef.current.length;
             beamsRef.current.forEach((beam, index) => {
@@ -173,38 +175,33 @@ export function BeamsBackground({
     return (
         <div
             className={cn(
-                "relative min-h-screen w-full overflow-hidden transition-colors duration-500",
-                "bg-[#f5f5f7] dark:bg-neutral-950",
+                "fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden transition-colors duration-500",
+                "bg-[#FAFAFA] dark:bg-neutral-950",
                 className
             )}
         >
             <canvas
                 ref={canvasRef}
-                className="fixed inset-0 pointer-events-none z-0"
-                style={{ filter: "blur(15px)" }}
+                className="absolute inset-0 w-full h-full"
+                // CSS filter is hardware accelerated and MUCH faster than canvas ctx.filter every frame
+                style={{ filter: "blur(25px)" }}
             />
 
+            {/* Overlay to soften the beams, NO backdrop-filter: blur() as it destroys compositor performance */}
             <motion.div
                 className={cn(
-                    "fixed inset-0 pointer-events-none z-0",
-                    "bg-white/5 dark:bg-neutral-950/5"
+                    "absolute inset-0 pointer-events-none",
+                    "bg-white/10 dark:bg-neutral-950/5"
                 )}
                 animate={{
-                    opacity: [0.05, 0.15, 0.05],
+                    opacity: [0.3, 0.5, 0.3],
                 }}
                 transition={{
                     duration: 10,
                     ease: "easeInOut",
                     repeat: Number.POSITIVE_INFINITY,
                 }}
-                style={{
-                    backdropFilter: "blur(50px)",
-                }}
             />
-
-            <div className="relative z-10 w-full">
-                {children}
-            </div>
         </div>
     );
 }

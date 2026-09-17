@@ -125,18 +125,20 @@ export function TiltCard({
       onMouseLeave={onLeave}
       style={{ transform, transformStyle: "preserve-3d" }}
       className={cn(
-        "relative overflow-hidden will-change-transform",
+        "relative will-change-transform",
         className,
       )}
     >
       {children}
 
       {glare && enabled ? (
-        <motion.div
-          aria-hidden
-          style={{ background: glareBg }}
-          className="pointer-events-none absolute inset-0 opacity-15"
-        />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[inherit]">
+          <motion.div
+            aria-hidden
+            style={{ background: glareBg }}
+            className="absolute inset-0 opacity-15"
+          />
+        </div>
       ) : null}
     </motion.div>
   );
