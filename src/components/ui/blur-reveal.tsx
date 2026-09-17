@@ -92,7 +92,7 @@ export function BlurReveal({
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: scrollRange as [string, string],
+    offset: scrollRange as any,
   });
 
   // Normalize input into blocks
