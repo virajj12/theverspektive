@@ -16,7 +16,7 @@ const PROTECTED_MUTATION_PATTERNS = [
   { path: "/api/auth/update-profile", methods: ["POST"] },
 ];
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const method = request.method;
   const response = NextResponse.next();
