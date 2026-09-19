@@ -13,6 +13,8 @@ export const metadata = {
 export default async function TalkItOutPage() {
   let playlists: { id: string, title: string, playlistId: string }[] = [];
   let playlistVideos: Record<string, any[]> = {};
+  let heroTitle = "Talk It Out";
+  let heroSubtitle = "Talk It Out — the flagship podcast series produced by VerspeKtive Productions.";
 
   try {
     let env: any = null;
@@ -24,15 +26,18 @@ export default async function TalkItOutPage() {
 
     if (env && env.DB) {
       const db = getDb(env.DB);
-      const playlistsConfig = await db.select().from(pages).where(
-        and(eq(pages.slug, "talk-it-out"), eq(pages.section_key, "playlists"))
-      );
       
-      if (playlistsConfig.length > 0 && playlistsConfig[0].value) {
-        try {
-          playlists = JSON.parse(playlistsConfig[0].value);
-        } catch (e) {}
-      }
+      const contentConfig = await db.select().from(pages).where(eq(pages.slug, "talk-it-out"));
+      
+      contentConfig.forEach((item) => {
+        if (item.section_key === "playlists" && item.value) {
+          try {
+            playlists = JSON.parse(item.value);
+          } catch (e) {}
+        }
+        if (item.section_key === "heroTitle" && item.value) heroTitle = item.value;
+        if (item.section_key === "heroSubtitle" && item.value) heroSubtitle = item.value;
+      });
     }
 
     // Default playlists if none configured
@@ -74,5 +79,5 @@ export default async function TalkItOutPage() {
     console.error("Failed to load playlists or YouTube API data", error);
   }
 
-  return <TalkItOutClient playlists={playlists} playlistVideos={playlistVideos} />;
+  return <TalkItOutClient playlists={playlists} playlistVideos={playlistVideos} heroTitle={heroTitle} heroSubtitle={heroSubtitle} />;
 }

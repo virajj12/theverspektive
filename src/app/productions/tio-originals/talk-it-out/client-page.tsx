@@ -7,7 +7,7 @@ import { useTabsStore } from "@/store/tabs-store";
 import { PerspectiveHero } from "@/components/ui/perspective-hero";
 import MaskText from "@/components/MaskText";
 
-export default function TalkItOutClient({ playlists = [], playlistVideos = {} }: { playlists?: any[], playlistVideos?: Record<string, any[]> }) {
+export default function TalkItOutClient({ playlists = [], playlistVideos = {}, heroTitle = "Talk It Out", heroSubtitle = "A series of profound conversations." }: { playlists?: any[], playlistVideos?: Record<string, any[]>, heroTitle?: string, heroSubtitle?: string }) {
   const setPlaylists = useTabsStore(s => s.setPlaylists);
   const [visibleCounts, setVisibleCounts] = useState<Record<string, number>>({});
 
@@ -63,9 +63,9 @@ export default function TalkItOutClient({ playlists = [], playlistVideos = {} }:
 
   const talkHero = (
     <div className="flex flex-col items-center justify-center text-foreground bg-background transition-colors duration-300 w-full h-full px-6 text-center">
-      <h1 className="text-5xl md:text-7xl font-bold mb-6 text-foreground tracking-tight">Talk It Out</h1>
+      <h1 className="text-5xl md:text-7xl font-bold mb-6 text-foreground tracking-tight">{heroTitle}</h1>
       <MaskText
-        text="A series of profound conversations."
+        text={heroSubtitle}
         className="text-xl md:text-2xl text-foreground/80 font-medium max-w-3xl leading-relaxed justify-center"
       />
     </div>

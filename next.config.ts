@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
   },
   // Allow connections from the mobile hotspot IP
   // @ts-ignore
-  allowedDevOrigins: ['192.168.43.27', '192.168.137.1', '192.168.1.48', '10.131.161.207', '10.50.87.207', 'kwhoz-103-89-233-254.run.pinggy-free.link'],
+  allowedDevOrigins: ['192.168.43.27', '192.168.137.1', '192.168.1.48', '10.131.161.207', '10.50.87.207'],
 };
 
 export default nextConfig;

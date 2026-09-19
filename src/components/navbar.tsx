@@ -25,7 +25,7 @@ const megaMenus: Record<string, { title: string, links: { name: string, href: st
       links: [{ name: "Instagram", href: "https://instagram.com/projects_by_g3" }]
     }
   ],
-  "Productions": [
+  "VerspeKtive Productions": [
     {
       title: "Explore",
       links: [

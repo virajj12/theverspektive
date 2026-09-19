@@ -5,6 +5,7 @@ import { UploadCloud, Save } from "lucide-react";
 import TeamManager from "@/components/admin/team-manager";
 import ProjectsManager from "@/components/admin/g3/ProjectsManager";
 import ParallaxManager from "@/components/admin/g3/ParallaxManager";
+import G3TeamManager from "@/components/admin/g3/G3TeamManager";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("homepage");
@@ -728,7 +729,7 @@ function G3BuildersAdmin() {
       <div>
         <h2 className="text-2xl font-bold mb-6">G3 Builders Config</h2>
         <p className="text-zinc-500 mb-8">Manage the content and teams for G3 Builders.</p>
-        <TeamManager slug="g3-builders" />
+        <G3TeamManager />
       </div>
 
       <div className="border-t border-zinc-200 pt-8">

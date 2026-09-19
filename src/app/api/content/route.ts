@@ -8,8 +8,8 @@ import { pages } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { z } from "zod";
 
-// Allowlist pattern: lowercase alphanumeric, hyphens, underscores
-const slugPattern = /^[a-z0-9][a-z0-9\-_]{0,98}[a-z0-9]$/;
+// Allowlist pattern: alphanumeric, hyphens, underscores
+const slugPattern = /^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,98}[a-zA-Z0-9]$/;
 
 const getContentSchema = z.object({
   slug: z.string().min(1).max(100).regex(slugPattern, "Invalid slug format"),

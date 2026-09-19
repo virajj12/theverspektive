@@ -4,12 +4,12 @@ import { PerspectiveHero } from "@/components/ui/perspective-hero";
 import MaskText from "@/components/MaskText";
 import { Play } from "lucide-react";
 
-export default function TasteItOutClient() {
+export default function TasteItOutClient({ heroTitle = "Taste It Out", heroSubtitle = "A culinary journey through stories and flavors." }: { heroTitle?: string, heroSubtitle?: string }) {
   const tasteHero = (
     <div className="flex flex-col items-center justify-center text-foreground bg-background transition-colors duration-300 w-full h-full px-6 text-center">
-      <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white tracking-tight">Taste It Out</h1>
+      <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white tracking-tight">{heroTitle}</h1>
       <MaskText
-        text="A culinary journey through stories and flavors."
+        text={heroSubtitle}
         className="text-xl md:text-2xl text-white/80 font-medium max-w-3xl leading-relaxed justify-center"
       />
     </div>

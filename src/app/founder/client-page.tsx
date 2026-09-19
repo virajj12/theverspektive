@@ -80,8 +80,16 @@ const ventures = [
     description:
       "Sharing impactful stories and meaningful conversations with diverse audiences.",
     logo: "/TIO-01.png",
-    href: "/tio-originals",
+    href: "/productions/tio-originals",
     tag: "Content Platform",
+  },
+  {
+    name: "Unusval",
+    role: "Founder",
+    description: "A premium clothing brand.",
+    logo: "/UNUSVAL LOGO W.png",
+    href: "/store",
+    tag: "Fashion",
   },
 ];
 
@@ -430,7 +438,7 @@ export default function FounderClientPage() {
             </motion.div>
 
             {/* Venture Cards Grid - Scroll Driven 3D Stagger */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {ventures.map((v, i) => (
                 <AnimatedVentureCard key={v.name} v={v} i={i} />
               ))}
