@@ -8,15 +8,20 @@ import { ContactEmailDropdown } from "@/components/ContactEmailDropdown";
 import { ArrowRight } from "lucide-react";
 import LightRays from "@/components/ui/LightRays";
 import { useTheme } from "next-themes";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function VerspektiveStudiosClient() {
   const { setTheme, theme } = useTheme();
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (theme !== "dark") {
       setTheme("dark");
     }
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, [setTheme, theme]);
   const hero = (
     <div className="flex flex-col items-center justify-center text-foreground bg-transparent relative transition-colors duration-300 w-full h-full px-6 text-center" style={{ minHeight: '600px' }}>
@@ -26,7 +31,7 @@ export default function VerspektiveStudiosClient() {
           raysColor="#ffffff"
           raysSpeed={1.5}
           lightSpread={0.8}
-          rayLength={1.2}
+          rayLength={isMobile ? 2.5 : 1.2}
           followMouse={true}
           mouseInfluence={0.1}
           noiseAmount={0.1}
