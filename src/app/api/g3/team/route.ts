@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     const session = await getSession();
     if (!session.isLoggedIn) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const body = await request.json();
+    const body: any = await request.json();
     const { name, role, bio, photo_media_id, sort_order } = body;
 
     if (!name || !role) {
