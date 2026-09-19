@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+export const runtime = 'edge';
+
 /**
  * Global middleware for:
  * 1. Security headers on all responses
@@ -16,7 +18,7 @@ const PROTECTED_MUTATION_PATTERNS = [
   { path: "/api/auth/update-profile", methods: ["POST"] },
 ];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const method = request.method;
   const response = NextResponse.next();
