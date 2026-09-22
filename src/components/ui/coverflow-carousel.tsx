@@ -53,6 +53,7 @@ export function CoverflowCarousel({
   autoPlayDuration = 0,
 }: CoverflowCarouselProps) {
   const count = slides.length;
+  const actualLoop = loop && count > 2;
 
   const frameRef = React.useRef<HTMLDivElement>(null);
   const cardRefs = React.useRef<(HTMLDivElement | null)[]>([]);
@@ -85,7 +86,7 @@ export function CoverflowCarousel({
     cardRefs.current.forEach((card, index) => {
       if (!card) return;
       let offset = index - pos;
-      if (loop) {
+      if (actualLoop) {
         offset = ((offset % count) + count) % count;
         if (offset > count / 2) offset -= count;
       }
@@ -97,11 +98,11 @@ export function CoverflowCarousel({
         `translateX(calc(-50% + ${offset * pitch}px)) ` +
         `translateZ(${-depth * width * ramp}px) rotateY(${-tilt}deg)`;
 
-      const edge = loop ? Math.min(1, Math.max(0, count / 2 - distance)) : 1;
+      const edge = actualLoop ? Math.min(1, Math.max(0, count / 2 - distance)) : 1;
       card.style.opacity = String(Math.max(0, 1 - fade * distance) * edge);
       card.style.zIndex = String(100 - Math.round(distance));
     });
-  }, [count, depth, fade, falloff, gap, loop, rotate]);
+  }, [count, depth, fade, falloff, gap, actualLoop, rotate]);
 
   const settle = React.useCallback(
     (target: number) => {
@@ -127,18 +128,18 @@ export function CoverflowCarousel({
   );
 
   const clamp = React.useCallback(
-    (pos: number) => (loop ? pos : Math.max(0, Math.min(count - 1, pos))),
-    [count, loop],
+    (pos: number) => (actualLoop ? pos : Math.max(0, Math.min(count - 1, pos))),
+    [count, actualLoop],
   );
 
   const goTo = React.useCallback(
     (index: number) => {
-      const target = loop
+      const target = actualLoop
         ? index + Math.round((targetRef.current - index) / count) * count
         : index;
       settle(clamp(target));
     },
-    [clamp, count, loop, settle],
+    [clamp, count, actualLoop, settle],
   );
 
   const nudge = React.useCallback(
