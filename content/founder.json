@@ -1,0 +1,60 @@
+{
+  "name": "Vikhil V Salian",
+  "role": "Managing Director",
+  "ventures": [
+    {
+      "name": "G3 Builders & Architects",
+      "role": "Principal Designer & Illumination Expert",
+      "description": "Architecture, design thinking, and illumination expertise — crafting spaces that inspire.",
+      "logo": "/G3 B & A LOGO WHITE.png",
+      "href": "https://projectsbyg3.com/",
+      "tag": "Architecture"
+    },
+    {
+      "name": "VerspeKtive Productions",
+      "role": "Founder & Creative Head",
+      "description": "A premium digital media company delivering world-class production quality.",
+      "logo": "/555-01.png",
+      "href": "/productions",
+      "tag": "Digital Media"
+    },
+    {
+      "name": "TIO Originals",
+      "role": "Creative Head & Host",
+      "description": "Sharing impactful stories and meaningful conversations with diverse audiences.",
+      "logo": "/TIO-01.png",
+      "href": "/productions/tio-originals",
+      "tag": "Content Platform"
+    },
+    {
+      "name": "Unusval",
+      "role": "Founder",
+      "description": "A premium clothing brand.",
+      "logo": "/UNUSVAL LOGO W.png",
+      "href": "/store",
+      "tag": "Fashion"
+    }
+  ],
+  "pillars": [
+    {
+      "title": "Storytelling",
+      "description": "Crafting narratives that resonate across mediums and audiences.",
+      "icon": "✦"
+    },
+    {
+      "title": "Innovation",
+      "description": "Pushing creative boundaries with design thinking and technology.",
+      "icon": "◈"
+    },
+    {
+      "title": "Impact",
+      "description": "Creating content that educates, inspires, and entertains — leaving a lasting impression.",
+      "icon": "◇"
+    }
+  ],
+  "stats": [
+    { "value": "3+", "label": "Ventures Founded" },
+    { "value": "1", "label": "Premium Studio" },
+    { "value": "∞", "label": "Creative Vision" }
+  ]
+}

@@ -7,7 +7,7 @@ import { ArrowRight, Film, Video, MonitorPlay, Mic, Play } from "lucide-react";
 import MaskText from "@/components/MaskText";
 import { motion } from "framer-motion";
 import { ContactEmailDropdown } from "@/components/ContactEmailDropdown";
-import { CoverflowCarousel, CoverflowSlide } from "@/components/ui/coverflow-carousel";
+import TeamsSection from "@/components/TeamsSection";
 import AnimatedGradient from "@/components/ui/animated-gradient";
 import CardSwap, { Card } from "@/components/ui/CardSwap";
 import BorderGlow from "@/components/ui/BorderGlow";
@@ -220,30 +220,7 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
           </div>
 
           {/* Teams Section */}
-          {teams && teams.length > 0 && (
-            <div className="mb-32 space-y-24">
-              {teams.map((team: any) => {
-                const slides: CoverflowSlide[] = team.members.map((m: any) => ({
-                  src: m.src,
-                  alt: "Team Member",
-                }));
-
-                if (slides.length === 0) return null;
-
-                return (
-                  <div key={team.id} className="flex flex-col items-center">
-                    <MaskText text={team.title} className="text-4xl font-bold tracking-tight mb-12 justify-center" />
-                    <div className="w-full max-w-5xl">
-                      <CoverflowCarousel
-                        slides={slides}
-                        autoPlayDuration={team.duration || 0}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+          <TeamsSection teams={teams} />
 
           {/* YouTube Section */}
           <div className="mb-32">

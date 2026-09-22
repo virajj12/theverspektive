@@ -1,82 +1,30 @@
-export const runtime = 'edge';
-
-import { getRequestContext } from "@cloudflare/next-on-pages";
-import { getDb } from "@/db/client";
-import { pages } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
 import TalkItOutClient from "./client-page";
+import { getPlaylistVideos } from "@/lib/youtube";
+import youtubeConfig from "../../../../../content/youtube.json";
 
 export const metadata = {
   title: "Talk It Out | VerspeKtive Productions",
 };
 
 export default async function TalkItOutPage() {
-  let playlists: { id: string, title: string, playlistId: string }[] = [];
+  const playlists = [
+    { id: "tulu", title: "Tulu", playlistId: youtubeConfig.playlists.tulu },
+    { id: "kannada", title: "Kannada", playlistId: youtubeConfig.playlists.kannada },
+    { id: "english", title: "English", playlistId: youtubeConfig.playlists.english }
+  ];
+  
   let playlistVideos: Record<string, any[]> = {};
   let heroTitle = "Talk It Out";
   let heroSubtitle = "Talk It Out — the flagship podcast series produced by VerspeKtive Productions.";
 
   try {
-    let env: any = null;
-    try {
-      env = getRequestContext().env;
-    } catch (e) {
-      // getRequestContext throws in Vercel, ignore
-    }
-
-    if (env && env.DB) {
-      const db = getDb(env.DB);
-      
-      const contentConfig = await db.select().from(pages).where(eq(pages.slug, "talk-it-out"));
-      
-      contentConfig.forEach((item) => {
-        if (item.section_key === "playlists" && item.value) {
-          try {
-            playlists = JSON.parse(item.value);
-          } catch (e) {}
-        }
-        if (item.section_key === "heroTitle" && item.value) heroTitle = item.value;
-        if (item.section_key === "heroSubtitle" && item.value) heroSubtitle = item.value;
-      });
-    }
-
-    // Default playlists if none configured
-    if (playlists.length === 0) {
-      playlists = [
-        { id: "tulu", title: "Tulu", playlistId: "" },
-        { id: "kannada", title: "Kannada", playlistId: "" },
-        { id: "english", title: "English", playlistId: "" }
-      ];
-    }
-
-    // Fetch from YouTube Data API
-    const ytApiKey = (env as any)?.YOUTUBE_API_KEY || process.env.YOUTUBE_API_KEY;
-
-    if (ytApiKey) {
-      for (const playlist of playlists) {
-        if (!playlist.playlistId) continue;
-        
-        const ytUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlist.playlistId}&maxResults=10&key=${ytApiKey}`;
-        const res = await fetch(ytUrl, { next: { revalidate: 3600 } });
-        
-        if (res.ok) {
-          const data = (await res.json()) as any;
-          if (data.items) {
-            playlistVideos[playlist.id] = data.items.map((item: any) => ({
-              id: item.snippet.resourceId.videoId,
-              title: item.snippet.title,
-              thumbnail_url: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.default?.url,
-              youtube_url: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`,
-              published_at: item.snippet.publishedAt,
-            }));
-          }
-        } else {
-          console.error(`YouTube API error for playlist ${playlist.playlistId}:`, await res.text());
-        }
+    for (const playlist of playlists) {
+      if (playlist.playlistId) {
+        playlistVideos[playlist.id] = await getPlaylistVideos(playlist.playlistId, 10);
       }
     }
   } catch (error) {
-    console.error("Failed to load playlists or YouTube API data", error);
+    console.error("Failed to load Talk It Out playlists from YouTube API", error);
   }
 
   return <TalkItOutClient playlists={playlists} playlistVideos={playlistVideos} heroTitle={heroTitle} heroSubtitle={heroSubtitle} />;

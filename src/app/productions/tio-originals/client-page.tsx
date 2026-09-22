@@ -5,8 +5,9 @@ import { LiquidMetal, liquidMetalPresets } from "@paper-design/shaders-react";
 import Link from "next/link";
 import { ArrowRight, Mic, Utensils, Sparkles } from "lucide-react";
 import { TiltCard } from "@/components/ui/be-ui-tilt-card";
+import TeamsSection from "@/components/TeamsSection";
 
-export default function TioOriginalsClient() {
+export default function TioOriginalsClient({ teams }: { teams?: any[] }) {
   const tioOriginalsHero = (
     <div className="flex flex-col items-center justify-center text-foreground bg-background transition-colors duration-300 w-full h-full px-6 text-center">
       <div
@@ -119,6 +120,10 @@ export default function TioOriginalsClient() {
                   </div>
                 </div>
               </TiltCard>
+            </div>
+
+            <div className="w-full mt-24">
+              <TeamsSection teams={teams} />
             </div>
 
           </div>

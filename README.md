@@ -23,17 +23,16 @@ The visual language is defined by an **Apple-Inspired Monochromatic Theme** prio
   - **Interactions:** "Learn more >" CTA links with inline Chevron arrows that animate on hover, and smooth scroll integrations via Framer Motion.
 
 ## Core Logic & Data Structures
-The application is built on **Next.js (Edge Runtime)** and designed to be deployed on **Cloudflare Pages/Workers**, utilizing D1 for the database.
+The application is built on **Next.js** and designed to be deployed on **Vercel** as a static/serverless application. It utilizes local JSON files for content management, eliminating the need for a traditional backend or database.
 
-### Native Data Shape (`src/db/schema.ts`)
-The product is structured around a dynamic catalog and user-driven booking pipeline:
-- **CMS (`pages`):** Drives dynamic content for heroes and page sections (e.g., `heroHeadline`, `heroTagline`).
-- **Catalog & Pricing (`pricing_items`):** Defines the offerings and rates for studio rentals and add-ons.
-- **User Pipeline (`users`, `orders`):** Manages custom authentication (with `bcryptjs`, email verification, and rate limiting) and tracks customer orders linked to Razorpay.
-- **Media (`youtube_videos`):** Caches and serves embedded video content.
+### Native Data Shape
+The product is structured around a static catalog and content system:
+- **CMS (`content/*.json`):** Drives dynamic content for heroes, page sections, configuration, and navigation (e.g., `home.json`, `site.json`, `founder.json`).
+- **Media (`src/lib/youtube.ts`):** Fetches, caches, and serves embedded video content natively from the YouTube Data API.
+- **Contact (`src/app/api/contact/route.ts`):** A serverless endpoint powered by Resend to process user inquiries securely.
 
 ## Critical Files
 - **`src/app/client-page.tsx`**: The core entry point for the landing page; orchestrates the brand presentation, Framer Motion scroll animations, and sub-brand routing.
 - **`src/app/globals.css`**: The definitive source of truth for the design system, Apple-inspired theme tokens, and typography scales.
-- **`src/db/schema.ts`**: The Drizzle ORM schema that outlines the application's underlying data architecture.
-- **`package.json`**: Outlines the stack, including Framer Motion, Drizzle, Lucide React, and Cloudflare adapters.
+- **`content/*.json`**: The static data files that control the text, links, and content across the entire website.
+- **`package.json`**: Outlines the stack, including Framer Motion, Next.js, Lucide React, and standard frontend dependencies.

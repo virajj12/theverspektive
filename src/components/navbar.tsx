@@ -10,79 +10,10 @@ import { Menu, X, User } from "lucide-react";
 import clsx from "clsx";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
-const navItems = [
-  { name: "G3 Builders & Architects", href: "https://projectsbyg3.com/" },
-  { name: "VerspeKtive Productions", href: "/productions" },
-  { name: "Tech", href: "/tech" },
-  { name: "Founder", href: "/founder" },
-  { name: "Unusval Apparels", href: "/unusval-apparels" },
-];
+import navigationData from "../../content/navigation.json";
 
-const megaMenus: Record<string, { title: string, links: { name: string, href: string }[] }[]> = {
-  "G3 Builders & Architects": [
-    {
-      title: "Social",
-      links: [{ name: "Instagram", href: "https://instagram.com/projects_by_g3" }]
-    }
-  ],
-  "VerspeKtive Productions": [
-    {
-      title: "Explore",
-      links: [
-        { name: "Talk It Out", href: "/productions/tio-originals/talk-it-out" },
-        { name: "Verspektive Studios", href: "/productions/verspektive-studios" },
-        { name: "Coming Soon", href: "#" }
-      ]
-    },
-    {
-      title: "Quick Links",
-      links: [
-        { name: "About", href: "/productions#about" },
-        { name: "Contact Us", href: "/productions#contact" }
-      ]
-    },
-    {
-      title: "Social",
-      links: [
-        { name: "YouTube", href: "https://www.youtube.com/@verspektive_productions/" },
-        { name: "Instagram", href: "https://www.instagram.com/verspektive_productions" }
-      ]
-    }
-  ],
-  "Tech": [
-    {
-      title: "Explore",
-      links: [
-        { name: "Who We Build For", href: "/tech#audience" },
-        { name: "How We Work", href: "/tech#process" }
-      ]
-    },
-    {
-      title: "Quick Links",
-      links: [
-        { name: "Trust & Security", href: "/tech#trust" },
-        { name: "Start a Project", href: "/tech#contact" }
-      ]
-    }
-  ],
-  "Founder": [
-    {
-      title: "Explore",
-      links: [
-        { name: "About Founder", href: "/founder" },
-        { name: "Our Team", href: "/founder" }
-      ]
-    }
-  ],
-  "Unusval Apparels": [
-    {
-      title: "Quick Links",
-      links: [
-        { name: "Browse Products", href: "/unusval-apparels" }
-      ]
-    }
-  ]
-};
+const navItems = navigationData.navItems;
+const megaMenus: Record<string, { title: string, links: { name: string, href: string }[] }[]> = navigationData.megaMenus;
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -205,16 +136,7 @@ export default function Navbar() {
                 )}
               />
             )}
-            <Link
-              href="/account"
-              aria-label="Account"
-              className={clsx(
-                "hidden lg:flex transition-colors duration-200",
-                isHomePage ? "text-[#86868b] hover:text-black" : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <User className="w-[16px] h-[16px]" />
-            </Link>
+
 
             {/* Mobile Toggle */}
             <button

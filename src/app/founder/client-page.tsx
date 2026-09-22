@@ -52,80 +52,6 @@ const stagger: Variants = {
 };
 
 /* ──────────────────────────────────────────
-   Ventures Data
-   ────────────────────────────────────────── */
-
-const ventures = [
-  {
-    name: "G3 Builders & Architects",
-    role: "Principal Designer & Illumination Expert",
-    description:
-      "Architecture, design thinking, and illumination expertise — crafting spaces that inspire.",
-    logo: "/G3 B & A LOGO WHITE.png",
-    href: "https://projectsbyg3.com/",
-    tag: "Architecture",
-  },
-  {
-    name: "VerspeKtive Productions",
-    role: "Founder & Creative Head",
-    description:
-      "A premium digital media company delivering world-class production quality.",
-    logo: "/555-01.png",
-    href: "/productions",
-    tag: "Digital Media",
-  },
-  {
-    name: "TIO Originals",
-    role: "Creative Head & Host",
-    description:
-      "Sharing impactful stories and meaningful conversations with diverse audiences.",
-    logo: "/TIO-01.png",
-    href: "/productions/tio-originals",
-    tag: "Content Platform",
-  },
-  {
-    name: "Unusval",
-    role: "Founder",
-    description: "A premium clothing brand.",
-    logo: "/UNUSVAL LOGO W.png",
-    href: "/store",
-    tag: "Fashion",
-  },
-];
-
-/* ──────────────────────────────────────────
-   Philosophy Pillars Data
-   ────────────────────────────────────────── */
-
-const pillars = [
-  {
-    title: "Storytelling",
-    description: "Crafting narratives that resonate across mediums and audiences.",
-    icon: "✦",
-  },
-  {
-    title: "Innovation",
-    description: "Pushing creative boundaries with design thinking and technology.",
-    icon: "◈",
-  },
-  {
-    title: "Impact",
-    description: "Creating content that educates, inspires, and entertains — leaving a lasting impression.",
-    icon: "◇",
-  },
-];
-
-/* ──────────────────────────────────────────
-   Stats Data
-   ────────────────────────────────────────── */
-
-const stats = [
-  { value: "3+", label: "Ventures Founded" },
-  { value: "1", label: "Premium Studio" },
-  { value: "∞", label: "Creative Vision" },
-];
-
-/* ──────────────────────────────────────────
    Animated Components
    ────────────────────────────────────────── */
 
@@ -177,7 +103,15 @@ function AnimatedVentureCard({ v, i }: { v: any; i: number }) {
    MAIN COMPONENT
    ══════════════════════════════════════════ */
 
-export default function FounderClientPage() {
+export default function FounderClientPage({ 
+  name, role, ventures, pillars, stats 
+}: { 
+  name: string, 
+  role: string, 
+  ventures: any[], 
+  pillars: any[], 
+  stats: any[] 
+}) {
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -260,8 +194,8 @@ export default function FounderClientPage() {
                       className="text-display-hero mb-8"
                     >
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground/90 to-foreground/90 block">
-                        Vikhil<br />
-                        V Salian
+                        {name.split(" ").slice(0, 1).join(" ")}<br />
+                        {name.split(" ").slice(1).join(" ")}
                       </span>
                     </motion.h1>
 
@@ -270,7 +204,7 @@ export default function FounderClientPage() {
                       custom={2}
                       className="text-lg md:text-xl text-muted-foreground font-light tracking-wide mb-8"
                     >
-                      Managing Director {/* Architect · Filmmaker · Visionary */}
+                      {role}
                     </motion.p>
 
                     {/* Social Links */}

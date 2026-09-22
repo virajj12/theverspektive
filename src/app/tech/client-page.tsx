@@ -11,13 +11,16 @@ import ProcessSequence from "@/components/tech/ProcessSequence";
 import CredibilitySignals from "@/components/tech/CredibilitySignals";
 import TechContact from "@/components/tech/TechContact";
 import { useTechTrackStore } from "@/store/tech-track-store";
+import TeamsSection from "@/components/TeamsSection";
 
 export default function TechClientPage({
   heroHeadline,
   heroCta,
+  teams,
 }: {
   heroHeadline: string;
   heroCta: string;
+  teams?: any[];
 }) {
   const clearTrack = useTechTrackStore((s) => s.clearTrack);
 
@@ -32,6 +35,7 @@ export default function TechClientPage({
         <ScrollTargetSequence />
         <ProcessSequence />
         <CredibilitySignals />
+        <TeamsSection teams={teams} />
         <TechContact />
       </div>
     </main>

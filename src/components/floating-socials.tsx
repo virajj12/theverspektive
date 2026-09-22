@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import Link from "next/link";
 import { useRef } from "react";
+import siteData from "../../content/site.json";
 
 function MagneticIcon({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -76,8 +77,8 @@ export default function FloatingSocials() {
   }
 
   const socials = [
-    { name: "Instagram", icon: <InstagramIcon size={24} />, href: "https://www.instagram.com/the_verspektive" },
-    { name: "YouTube", icon: <YoutubeIcon size={24} />, href: "https://www.youtube.com/@verspektive_productions" },
+    { name: "Instagram", icon: <InstagramIcon size={24} />, href: siteData.socials.instagram },
+    { name: "YouTube", icon: <YoutubeIcon size={24} />, href: siteData.socials.youtube },
   ];
 
   return (

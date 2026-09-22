@@ -1,0 +1,13 @@
+{
+  "channelId": "UCYOURCHANNELID",
+  "curated": [
+    { "type": "video", "url": "https://www.youtube.com/watch?v=MOCK_VIDEO_ID" },
+    { "type": "playlist", "url": "https://www.youtube.com/playlist?list=MOCK_PLAYLIST_ID" }
+  ],
+  "playlists": {
+    "tulu": "https://www.youtube.com/playlist?list=MOCK_TULU_ID",
+    "kannada": "https://www.youtube.com/playlist?list=MOCK_KANNADA_ID",
+    "english": "https://www.youtube.com/playlist?list=MOCK_ENGLISH_ID"
+  },
+  "cacheTtlSeconds": 3600
+}

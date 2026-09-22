@@ -5,40 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ContactEmailDropdown } from "@/components/ContactEmailDropdown";
 
-const footerSections = [
-  {
-    title: "Explore",
-    links: [
-      { name: "G3 Builders", href: "https://projectsbyg3.com/" },
-      { name: "Productions", href: "/productions" },
-      { name: "Talk it Out", href: "/productions/tio-originals/talk-it-out" },
-    ],
-  },
-  {
-    title: "About",
-    links: [
-      { name: "Vikhil V Salian", href: "/founder" },
-      { name: "VerspeKtive", href: "/" },
-      { name: "Careers", href: "#" },
-    ],
-  },
-  {
-    title: "Connect",
-    links: [
-      { name: "Instagram", href: "https://www.instagram.com/the_verspektive" },
-      { name: "YouTube", href: "https://www.youtube.com/@verspektive_productions" },
-      // { name: "LinkedIn", href: "#" },
-      // { name: "Twitter / X", href: "#" },
-    ],
-  },
-  {
-    title: "Contact",
-    links: [
-      { name: "hey@verspektive.in", href: "mailto:hey@verspektive.in" },
-      { name: "+91", href: "tel:+91" },
-    ],
-  },
-];
+import footerData from "../../content/footer.json";
+
+const footerSections = footerData.sections;
 
 export default function Footer() {
   const pathname = usePathname();
@@ -91,10 +60,8 @@ export default function Footer() {
             <div className="max-w-[1120px] mx-auto px-6 lg:px-8">
               {/* Breadcrumb-style note */}
               <div className="pt-5 pb-3 border-b border-[#d2d2d7] dark:border-white/10 text-xs text-[#6e6e73] dark:text-white/40 leading-relaxed">
-                <p>
-                  VerspeKtive is a premium media and content studio based in Karnataka, India.
-                  <br />
-                  Beluvai, between Karkala and Moodbidri, Karnataka.
+                <p className="whitespace-pre-line">
+                  {footerData.description}
                 </p>
               </div>
 
@@ -136,17 +103,16 @@ export default function Footer() {
                   Copyright &copy; {currentYear} VerspeKtive. All rights reserved.
                 </p>
                 <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[#424245] dark:text-white/50">
-                  <Link href="#" className="hover:text-[#1d1d1f] dark:hover:text-white hover:underline transition-colors duration-200">
-                    Privacy Policy
-                  </Link>
-                  <span className="text-[#d2d2d7] dark:text-white/20">|</span>
-                  <Link href="#" className="hover:text-[#1d1d1f] dark:hover:text-white hover:underline transition-colors duration-200">
-                    Terms of Use
-                  </Link>
-                  <span className="text-[#d2d2d7] dark:text-white/20">|</span>
-                  <Link href="#" className="hover:text-[#1d1d1f] dark:hover:text-white hover:underline transition-colors duration-200">
-                    Site Map
-                  </Link>
+                  {footerData.bottomLinks.map((link, i) => (
+                    <React.Fragment key={link.name}>
+                      <Link href={link.href} className="hover:text-[#1d1d1f] dark:hover:text-white hover:underline transition-colors duration-200">
+                        {link.name}
+                      </Link>
+                      {i < footerData.bottomLinks.length - 1 && (
+                        <span className="text-[#d2d2d7] dark:text-white/20">|</span>
+                      )}
+                    </React.Fragment>
+                  ))}
                 </div>
               </div>
             </div>

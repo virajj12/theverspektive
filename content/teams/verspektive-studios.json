@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "title": "Studio Team",
+    "duration": 3000,
+    "members": [
+      { "src": "/images/teams/verspektive-studios/member-1.jpg" }
+    ]
+  }
+]

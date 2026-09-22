@@ -36,7 +36,7 @@ export default function TechContact() {
     setError("");
 
     try {
-      const res = await fetch("/api/tech-inquiry", {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -44,6 +44,7 @@ export default function TechContact() {
           email: email.trim(),
           name: name.trim() || undefined,
           track: track || undefined,
+          source: typeof window !== "undefined" ? window.location.pathname : "Unknown",
         }),
       });
 

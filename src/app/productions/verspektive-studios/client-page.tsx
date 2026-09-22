@@ -9,8 +9,9 @@ import { ArrowRight } from "lucide-react";
 import LightRays from "@/components/ui/LightRays";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import TeamsSection from "@/components/TeamsSection";
 
-export default function VerspektiveStudiosClient() {
+export default function VerspektiveStudiosClient({ teams }: { teams?: any[] }) {
   const { setTheme, theme } = useTheme();
   const [isMobile, setIsMobile] = useState(false);
 
@@ -113,6 +114,10 @@ export default function VerspektiveStudiosClient() {
             >
               Contact Us <ArrowRight className="w-5 h-5" />
             </ContactEmailDropdown>
+          </div>
+
+          <div className="w-full">
+            <TeamsSection teams={teams} />
           </div>
 
         </div>
