@@ -3,11 +3,9 @@
 /**
  * Spec 4.7 — contact.
  *
- * "No multi-field friction up front": the page opens with one thing to do —
- * say what you're building. The email field only appears once there's
- * something worth sending, and name stays optional throughout. That's two
- * required fields total, revealed in the order a person actually thinks in.
+ * Spec 4.7 — contact.
  *
+ * A traditional contact form that collects the user's project details, email, and name upfront.
  * Submits to /api/tech-inquiry, which persists to D1 and notifies by email.
  */
 
@@ -65,7 +63,7 @@ export default function TechContact() {
   }
 
   return (
-    <section id="contact" className="py-28 md:py-40 bg-background transition-colors duration-500">
+    <section id="contact" className="py-28 md:py-40 transition-colors duration-500">
       <div className="mx-auto max-w-3xl px-6">
         <AnimatePresence mode="wait">
           {status === "sent" ? (
@@ -76,8 +74,8 @@ export default function TechContact() {
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="py-16 text-center"
             >
-              <div className="mx-auto mb-8 flex h-14 w-14 items-center justify-center rounded-full border border-[#2997ff]/40 bg-[#2997ff]/10">
-                <Check className="h-6 w-6 text-[#2997ff]" aria-hidden="true" />
+              <div className="mx-auto mb-8 flex h-14 w-14 items-center justify-center rounded-full border border-accent/40 bg-accent/10">
+                <Check className="h-6 w-6 text-accent" aria-hidden="true" />
               </div>
               <h2 className="text-display-md mb-4 text-foreground">Got it.</h2>
               <p className="text-body-lg text-muted-foreground">
@@ -92,97 +90,88 @@ export default function TechContact() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-15%" }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-950 p-8 md:p-12 shadow-2xl"
             >
-              <h2 className="text-display-lg mb-12 text-foreground">
+              <h2 className="text-display-lg mb-10 text-foreground">
                 Tell us what you&rsquo;re building.
               </h2>
 
-              <form onSubmit={handleSubmit} noValidate>
-                <label htmlFor="ti-message" className="sr-only">
-                  What you&rsquo;re building
-                </label>
-                <textarea
-                  id="ti-message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  rows={4}
-                  placeholder="A booking system for a studio, a portfolio that doesn't look like everyone else's, something else entirely&hellip;"
-                  className="w-full resize-none border-b border-foreground/20 bg-transparent pb-4 text-lg text-foreground placeholder:text-muted-foreground/70 focus:border-[#2997ff] focus:outline-none"
-                />
-
-                <AnimatePresence>
-                  {revealed && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                      className="overflow-hidden"
+              <form onSubmit={handleSubmit} className="space-y-8" noValidate>
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="ti-name"
+                      className="text-sm font-medium text-muted-foreground"
                     >
-                      <div className="grid gap-6 pt-10 md:grid-cols-2">
-                        <div>
-                          <label
-                            htmlFor="ti-email"
-                            className="mb-2 block text-sm font-medium text-muted-foreground"
-                          >
-                            Email
-                          </label>
-                          <input
-                            id="ti-email"
-                            type="email"
-                            required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full border-b border-foreground/20 bg-transparent pb-3 text-foreground focus:border-[#2997ff] focus:outline-none"
-                          />
-                        </div>
-                        <div>
-                          <label
-                            htmlFor="ti-name"
-                            className="mb-2 block text-sm font-medium text-muted-foreground"
-                          >
-                            Name <span className="text-muted-foreground/60">(optional)</span>
-                          </label>
-                          <input
-                            id="ti-name"
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            className="w-full border-b border-foreground/20 bg-transparent pb-3 text-foreground focus:border-[#2997ff] focus:outline-none"
-                          />
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                      Name <span className="text-muted-foreground/60">(optional)</span>
+                    </label>
+                    <input
+                      id="ti-name"
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="flex h-12 w-full rounded-md border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 px-4 py-2 text-base text-foreground placeholder:text-muted-foreground/50 transition-colors focus-visible:border-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
+                      placeholder="Jane Doe"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="ti-email"
+                      className="text-sm font-medium text-muted-foreground"
+                    >
+                      Email
+                    </label>
+                    <input
+                      id="ti-email"
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="flex h-12 w-full rounded-md border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 px-4 py-2 text-base text-foreground placeholder:text-muted-foreground/50 transition-colors focus-visible:border-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
+                      placeholder="jane@example.com"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="ti-message" className="text-sm font-medium text-muted-foreground">
+                    What you&rsquo;re building
+                  </label>
+                  <textarea
+                    id="ti-message"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    rows={4}
+                    placeholder="A booking system for a studio, a portfolio that doesn't look like everyone else's, something else entirely&hellip;"
+                    className="flex min-h-[120px] w-full resize-none rounded-md border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 px-4 py-3 text-base text-foreground placeholder:text-muted-foreground/50 transition-colors focus-visible:border-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-50"
+                  />
+                </div>
 
                 {error && (
-                  <p role="alert" className="mt-6 text-sm text-[#ff6169]">
+                  <p role="alert" className="text-sm font-medium text-[#ff6169]">
                     {error}
                   </p>
                 )}
 
-                <div className="mt-10 flex items-center gap-6">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-6 pt-2">
                   <button
                     type="submit"
                     disabled={!canSubmit}
-                    className="cta-link disabled:cursor-not-allowed disabled:opacity-40"
+                    className="inline-flex h-12 items-center justify-center rounded-md bg-black text-white hover:bg-black/90 dark:bg-white px-8 text-sm font-medium dark:text-black transition-colors dark:hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                   >
                     {status === "sending" ? "Sending…" : "Send it over"}
-                    <ChevronRight aria-hidden="true" />
+                    <ChevronRight aria-hidden="true" className="ml-2 h-4 w-4" />
                   </button>
 
-                  {!revealed && (
-                    <span className="text-sm text-muted-foreground">
-                      Or email{" "}
-                      <a
-                        href="mailto:verspektive@gmail.com"
-                        className="underline underline-offset-4 hover:text-foreground"
-                      >
-                        verspektive@gmail.com
-                      </a>
-                    </span>
-                  )}
+                  <span className="text-sm text-muted-foreground">
+                    Or email{" "}
+                    <a
+                      href="mailto:hey@verspektive.in"
+                      className="underline underline-offset-4 hover:text-foreground transition-colors"
+                    >
+                      hey@verspektive.in
+                    </a>
+                  </span>
                 </div>
               </form>
             </motion.div>

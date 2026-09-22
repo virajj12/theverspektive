@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default async function TechPage() {
   // Spec 4.1: one outcome-focused headline, not a job title.
-  let heroHeadline = "We build the tech behind premium brands.";
+  let heroHeadline = "We build the tech for your premium brand.";
   let heroCta = "Tell us what you're building";
 
   // Editable from the existing admin CMS, same pattern as the home page —

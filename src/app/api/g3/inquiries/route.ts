@@ -18,7 +18,7 @@ import { desc, eq } from "drizzle-orm";
 import { z } from "zod";
 import { checkRateLimit, getRequestIdentifier } from "@/lib/rate-limit";
 
-const INQUIRY_TO = process.env.G3_INQUIRY_TO || "verspektive@gmail.com";
+const INQUIRY_TO = process.env.G3_INQUIRY_TO || "hey@verspektive.in";
 
 const schema = z.object({
   name: z.string().min(1, "Please tell us your name").max(200),

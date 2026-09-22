@@ -108,7 +108,7 @@ export default function VerspektiveStudiosClient() {
               className="text-xl text-white/80 mb-10 max-w-2xl mx-auto justify-center"
             />
             <ContactEmailDropdown 
-              email="verspektive@gmail.com" 
+              email="hey@verspektive.in" 
               className="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-semibold text-lg transition-transform hover:scale-105"
             >
               Contact Us <ArrowRight className="w-5 h-5" />

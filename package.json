@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^5.7.1",
     "@paper-design/shaders-react": "^0.0.80",
     "@radix-ui/react-slot": "^1.3.3",
+    "@react-three/drei": "^10.7.8",
     "@react-three/fiber": "^9.7.0",
     "@studio-freight/lenis": "^1.0.42",
     "@vercel/blob": "^2.8.0",

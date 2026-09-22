@@ -34,7 +34,7 @@ const footerSections = [
   {
     title: "Contact",
     links: [
-      { name: "verspektive@gmail.com", href: "mailto:verspektive@gmail.com" },
+      { name: "hey@verspektive.in", href: "mailto:hey@verspektive.in" },
       { name: "+91", href: "tel:+91" },
     ],
   },

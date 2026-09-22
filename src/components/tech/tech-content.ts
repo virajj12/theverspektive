@@ -25,7 +25,7 @@ export const TRACKS: Record<TechTrack, TrackContent> = {
     lines: [
       {
         lead: "Websites and applications",
-        body: "Built on the same stack we run in production — typed end to end, deployed at the edge, and fast enough that nobody thinks about it.",
+        body: "Built on the same stack we run in production - typed end to end, deployed at the edge, and fast enough that nobody thinks about it.",
       },
       {
         lead: "Booking and e-commerce",
@@ -48,7 +48,7 @@ export const TRACKS: Record<TechTrack, TrackContent> = {
     lines: [
       {
         lead: "Portfolio and brand sites",
-        body: "Designed around your actual work rather than a template's idea of it — typography, pacing and restraint doing the talking.",
+        body: "Designed around your actual work rather than a template's idea of it - typography, pacing and restraint doing the talking.",
       },
       {
         lead: "Content-driven pages",
@@ -56,7 +56,7 @@ export const TRACKS: Record<TechTrack, TrackContent> = {
       },
       {
         lead: "Motion and interaction",
-        body: "Scroll-driven sequences, 3D and micro-interaction used where they carry meaning — and left out where they would just be noise.",
+        body: "Scroll-driven sequences, 3D and micro-interaction used where they carry meaning - and left out where they would just be noise.",
       },
     ],
   },
@@ -82,7 +82,7 @@ export const PROCESS = [
   {
     step: "04",
     title: "Launch & support",
-    body: "Migration, monitoring and a handover you could act on without us — then we stay reachable anyway.",
+    body: "Migration, monitoring and a handover you could act on without us - then we stay reachable anyway.",
   },
 ];
 
@@ -90,14 +90,14 @@ export const PROCESS = [
 export const CREDIBILITY = [
   {
     title: "Security as a practice",
-    body: "Hashed credentials, server-side sessions, rate limiting that fails closed, and audits that get acted on rather than filed.",
+    body: "Your data is locked down by default. We enforce strict authentication, secure sessions, and proactive threat mitigation—no cut corners.",
   },
   {
     title: "Performance by default",
-    body: "Edge rendering, capability-gated 3D, and heavy assets kept off the critical path. Fast on a mid-range phone, not just a laptop.",
+    body: "Speed isn't an add-on. We write clean, optimized code that loads instantly and runs flawlessly across all devices, never compromising on user experience.",
   },
   {
     title: "A stack we can defend",
-    body: "Next.js, TypeScript and Cloudflare — chosen because we run them ourselves and can answer for every part of the choice.",
+    body: "We don't chase experimental trends. We rely on robust, industry-tested technologies that scale predictably and never hold your business back.",
   },
 ];

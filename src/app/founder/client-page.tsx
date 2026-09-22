@@ -295,7 +295,7 @@ export default function FounderClientPage() {
                       >
                         <YoutubeIcon className="w-4 h-4" />
                       </a>
-                      <MailDropdown email="verspektive@gmail.com">
+                      <MailDropdown email="hey@verspektive.in">
                         <div className="cursor-can-hover w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center text-foreground/60 hover:text-foreground hover:border-foreground/40 transition-all duration-300">
                           <Mail className="w-4 h-4" />
                         </div>
@@ -567,10 +567,10 @@ export default function FounderClientPage() {
               </motion.a>
 
               <motion.div variants={fadeUp} custom={2}>
-                <MailDropdown email="verspektive@gmail.com">
+                <MailDropdown email="hey@verspektive.in">
                   <div className="cursor-can-hover glass-card px-6 py-3 flex items-center gap-2.5 text-foreground/70 hover:text-foreground transition-colors">
                     <Mail className="w-4 h-4" />
-                    <span className="text-sm font-medium">verspektive@gmail.com</span>
+                    <span className="text-sm font-medium">hey@verspektive.in</span>
                   </div>
                 </MailDropdown>
               </motion.div>

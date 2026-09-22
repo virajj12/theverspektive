@@ -242,7 +242,7 @@ function HomepageAdmin() {
 function StudiosAdmin() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    contactEmail: "verspektive@gmail.com",
+    contactEmail: "hey@verspektive.in",
     heroText: "Premium podcast & content creation studio",
   });
 

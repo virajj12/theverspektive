@@ -11,13 +11,13 @@ export default function ScrollToTop() {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      // Show scroll down when near top, show scroll up when scrolled down
-      if (window.scrollY < 100) {
-        setScrollState("down");
-      } else if (window.scrollY > 300) {
+      // Check if we are at or very near the bottom of the page
+      const isAtBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 100;
+      
+      if (isAtBottom) {
         setScrollState("up");
       } else {
-        setScrollState("none");
+        setScrollState("down");
       }
     };
 
@@ -34,7 +34,7 @@ export default function ScrollToTop() {
       });
     } else if (scrollState === "down") {
       window.scrollBy({
-        top: window.innerHeight * 0.8,
+        top: window.innerHeight,
         behavior: "smooth",
       });
     }

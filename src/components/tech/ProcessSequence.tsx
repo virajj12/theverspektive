@@ -1,116 +1,153 @@
 "use client";
 
-/**
- * Spec 4.5 — four-step horizontal sequence, scroll-driven with GSAP.
- *
- * Desktop: the section pins and the four steps translate horizontally as you
- * scroll, so the sequence reads as one continuous move rather than four
- * separate reveals.
- *
- * Mobile / reduced-motion: no pin, no horizontal scroll — the steps stack and
- * fade in. Pinning on a phone fights the browser's own scroll and is the main
- * way this pattern goes wrong.
- */
-
-import { useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef, useState } from "react";
+import { motion, useScroll, useMotionValueEvent, useTransform, useMotionTemplate } from "framer-motion";
 import { PROCESS } from "./tech-content";
 
+function StageTitle({ title, isActive }: { title: string, isActive: boolean }) {
+  return (
+    <motion.div 
+      className="shrink-0 tech-stage-title-width whitespace-normal pr-4 md:pr-8" 
+      animate={{ opacity: isActive ? 1 : 0.2 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <span className="text-4xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-none block text-white">
+        {title}
+      </span>
+    </motion.div>
+  );
+}
+
+function StageNumber({ step, isActive }: { step: string, isActive: boolean }) {
+  return (
+    <motion.span 
+      className="absolute right-full mr-4 md:mr-6 top-1/2 -translate-y-1/2 text-sm md:text-base tracking-widest text-accent font-mono" 
+      animate={{ opacity: isActive ? 1 : 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      {step}
+    </motion.span>
+  );
+}
+
+function StageContent({ body, isActive }: { body: string, isActive: boolean }) {
+  return (
+    <motion.div 
+      className="absolute top-0 left-0 w-full pointer-events-none" 
+      animate={{ opacity: isActive ? 1 : 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      <div className="text-lg md:text-xl font-light leading-relaxed mb-4 md:mb-6 text-white/70 min-h-[80px]">
+        {body}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function ProcessSequence() {
-  const root = useRef<HTMLDivElement>(null);
-  const rail = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
 
-  useLayoutEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+  const { scrollYProgress: totalProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
 
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
+  const blurValue = useTransform(totalProgress, [0, 0.2, 0.8, 1], [0, 12, 12, 0]);
+  const bgOpacity = useTransform(totalProgress, [0, 0.2, 0.8, 1], [0, 0.1, 0.1, 0]);
+  
+  const backdropFilter = useMotionTemplate`blur(${blurValue}px)`;
+  const backgroundColor = useMotionTemplate`rgba(0,0,0,${bgOpacity})`;
 
-      // Desktop, motion allowed → pinned horizontal sequence.
-      mm.add(
-        "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
-        () => {
-          const track = rail.current;
-          if (!track) return;
+  const [activeIndex, setActiveIndex] = useState(0);
 
-          const distance = track.scrollWidth - window.innerWidth;
-          if (distance <= 0) return;
-
-          gsap.to(track, {
-            x: -distance,
-            ease: "none",
-            scrollTrigger: {
-              trigger: root.current,
-              start: "top top",
-              end: () => `+=${distance}`,
-              scrub: 1,
-              pin: true,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-            },
-          });
-        }
-      );
-
-      // Everything else → simple staggered fade, no pin.
-      mm.add("(max-width: 767px), (prefers-reduced-motion: reduce)", () => {
-        gsap.from(".process-step", {
-          opacity: 0,
-          y: 30,
-          duration: 0.7,
-          stagger: 0.12,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: root.current,
-            start: "top 75%",
-          },
-        });
-      });
-    }, root);
-
-    return () => ctx.revert();
-  }, []);
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    // 4 stages, so we divide the progress evenly.
+    const stages = PROCESS.length;
+    const progressPerStage = 1 / stages;
+    const index = Math.floor(latest / progressPerStage);
+    const safeIndex = Math.max(0, Math.min(stages - 1, index));
+    if (activeIndex !== safeIndex) setActiveIndex(safeIndex);
+  });
 
   return (
-    <section
+    <div 
       id="process"
-      ref={root}
-      className="relative overflow-hidden py-24 md:h-screen md:py-0 bg-background transition-colors duration-500"
+      ref={containerRef} 
+      className="relative w-full transition-colors duration-500" 
+      style={{ height: "400vh" }} 
     >
-      <div className="md:flex md:h-full md:flex-col md:justify-center">
-        <div className="mx-auto mb-14 w-full max-w-6xl px-6 md:mb-20">
-          <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-[#2997ff]">
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center">
+        <motion.div 
+          className="absolute inset-0 pointer-events-none -z-10"
+          style={{
+            backdropFilter,
+            backgroundColor,
+            WebkitBackdropFilter: backdropFilter,
+            maskImage: "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)"
+          }}
+        />
+        
+        {/* Intro text */}
+        <div className="absolute top-24 md:top-32 left-6 md:left-[10vw]">
+          <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-accent">
             How it goes
           </p>
-          <h2 className="text-display-md max-w-2xl text-foreground">
+          <h2 className="text-display-sm md:text-display-md max-w-2xl text-white">
             Four steps, and you can see the work at every one.
           </h2>
         </div>
 
-        <div
-          ref={rail}
-          className="flex flex-col gap-10 px-6 md:w-max md:flex-row md:gap-0 md:px-[max(1.5rem,calc((100vw-72rem)/2))]"
-        >
-          {PROCESS.map((item, i) => (
-            <div
-              key={item.step}
-              className="process-step relative shrink-0 border-t border-foreground/15 pt-8 md:w-[clamp(340px,32vw,460px)] md:border-t-0 md:border-l md:pl-10 md:pr-16 md:pt-0"
-            >
-              <div className="mb-6 font-mono text-sm tracking-widest text-[#2997ff]">
-                {item.step}
-              </div>
-              <h3 className="text-display-md mb-5 text-foreground">{item.title}</h3>
-              <p className="text-body-lg max-w-sm text-muted-foreground">{item.body}</p>
+        <style dangerouslySetInnerHTML={{ __html: `
+          .tech-stage-slider { --stage-offset: 15vw; --stage-width: 80vw; }
+          .tech-stage-title-width { width: 80vw; }
+          
+          @media (min-width: 768px) {
+            .tech-stage-slider { --stage-offset: 10vw; --stage-width: 50vw; }
+            .tech-stage-title-width { width: 50vw; }
+          }
+        `}} />
 
-              {/* Connector — only meaningful in the horizontal arrangement. */}
-              {i < PROCESS.length - 1 && (
-                <div className="absolute right-6 top-2 hidden h-[1px] w-10 bg-foreground/20 md:block" />
-              )}
+        <div className="relative w-full h-[300px] md:h-[400px] z-20 mt-20">
+          
+          {/* TOP HALF: Titles (Above the line) */}
+          <div className="absolute bottom-[50%] left-0 w-full pb-4 md:pb-8">
+            <motion.div 
+              className="flex items-end whitespace-nowrap w-max tech-stage-slider" 
+              animate={{ x: `calc(var(--stage-offset) - calc(var(--stage-width) * ${activeIndex}))` }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {PROCESS.map((stage, i) => (
+                <StageTitle key={i} title={stage.title} isActive={activeIndex === i} />
+              ))}
+            </motion.div>
+          </div>
+
+          {/* THE LINE & NUMBER (Center) */}
+          <div className="absolute top-[50%] left-[15vw] md:left-[10vw] right-[5vw] md:right-[10vw] h-px bg-white/15">
+            <div className="relative w-full h-full">
+              {PROCESS.map((stage, i) => (
+                <StageNumber key={i} step={stage.step} isActive={activeIndex === i} />
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* BOTTOM HALF: Descriptions (Below the line) */}
+          <div className="absolute top-[50%] left-[15vw] md:left-[10vw] right-[5vw] md:right-[10vw] w-auto md:w-[35vw] max-w-[500px] pt-6 md:pt-10">
+            <div className="relative w-full h-full">
+              {PROCESS.map((s, i) => (
+                <StageContent key={i} body={s.body} isActive={activeIndex === i} />
+              ))}
+            </div>
+          </div>
+
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -15,7 +15,7 @@ const navItems = [
   { name: "VerspeKtive Productions", href: "/productions" },
   { name: "Tech", href: "/tech" },
   { name: "Founder", href: "/founder" },
-  { name: "Store", href: "/store" },
+  { name: "Unusval Apparels", href: "/unusval-apparels" },
 ];
 
 const megaMenus: Record<string, { title: string, links: { name: string, href: string }[] }[]> = {
@@ -53,15 +53,14 @@ const megaMenus: Record<string, { title: string, links: { name: string, href: st
     {
       title: "Explore",
       links: [
-        { name: "For Businesses", href: "/tech#audience" },
-        { name: "For Personal Brands", href: "/tech#audience" },
+        { name: "Who We Build For", href: "/tech#audience" },
         { name: "How We Work", href: "/tech#process" }
       ]
     },
     {
       title: "Quick Links",
       links: [
-        { name: "Case Study", href: "/tech#case-study" },
+        { name: "Trust & Security", href: "/tech#trust" },
         { name: "Start a Project", href: "/tech#contact" }
       ]
     }
@@ -75,11 +74,11 @@ const megaMenus: Record<string, { title: string, links: { name: string, href: st
       ]
     }
   ],
-  "Store": [
+  "Unusval Apparels": [
     {
       title: "Quick Links",
       links: [
-        { name: "Browse Products", href: "/store" }
+        { name: "Browse Products", href: "/unusval-apparels" }
       ]
     }
   ]

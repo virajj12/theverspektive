@@ -65,7 +65,7 @@ const FALLBACK_SERVICES = [
 const PHONE_DISPLAY = "+91 98800 00000";
 const PHONE_TEL = "+919880000000";
 const WHATSAPP = "919880000000";
-const EMAIL = "verspektive@gmail.com";
+const EMAIL = "hey@verspektive.in";
 
 function relatedCategory(title: string): string | null {
   const t = title.toLowerCase();

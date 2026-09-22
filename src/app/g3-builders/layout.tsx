@@ -52,7 +52,7 @@ const LOCAL_BUSINESS = {
     addressCountry: "IN",
   },
   telephone: "+91-98800-00000",
-  email: "verspektive@gmail.com",
+  email: "hey@verspektive.in",
   parentOrganization: { "@type": "Organization", name: "VerspeKtive" },
 };
 

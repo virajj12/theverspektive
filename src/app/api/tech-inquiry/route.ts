@@ -10,7 +10,7 @@ import { eq } from "drizzle-orm";
 import { checkRateLimit, getRequestIdentifier } from "@/lib/rate-limit";
 
 /** Where new leads are announced. Falls back to the address used site-wide. */
-const INQUIRY_TO = process.env.TECH_INQUIRY_TO || "verspektive@gmail.com";
+const INQUIRY_TO = process.env.TECH_INQUIRY_TO || "hey@verspektive.in";
 
 const inquirySchema = z.object({
   email: z.string().email().max(320),

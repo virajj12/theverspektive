@@ -66,7 +66,7 @@ export default function G3Footer() {
           <p className="g3-meta mb-4">Contact</p>
           <ul className="space-y-2 text-sm" style={{ color: "var(--g3-ink-soft)" }}>
             <li><a href="tel:+919880000000">+91 98800 00000</a></li>
-            <li><a href="mailto:verspektive@gmail.com">verspektive@gmail.com</a></li>
+            <li><a href="mailto:hey@verspektive.in">hey@verspektive.in</a></li>
             <li>Moodbidri, Karnataka</li>
           </ul>
         </div>
