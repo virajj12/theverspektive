@@ -59,11 +59,13 @@ export default function Footer() {
           <footer ref={containerRef} className="w-full bg-[#ebebeb] dark:bg-[#111] text-[#1d1d1f] dark:text-[#f5f5f7] shadow-[inset_0_10px_20px_rgba(0,0,0,0.03)] dark:shadow-[inset_0_10px_20px_rgba(0,0,0,0.2)] transition-colors duration-300">
             <div className="max-w-[1120px] mx-auto px-6 lg:px-8">
               {/* Breadcrumb-style note */}
-              <div className="pt-5 pb-3 border-b border-[#d2d2d7] dark:border-white/10 text-xs text-[#6e6e73] dark:text-white/40 leading-relaxed">
-                <p className="whitespace-pre-line">
-                  {footerData.description}
-                </p>
-              </div>
+              {footerData.description && (
+                <div className="pt-5 pb-3 border-b border-[#d2d2d7] dark:border-white/10 text-xs text-[#6e6e73] dark:text-white/40 leading-relaxed">
+                  <p className="whitespace-pre-line">
+                    {footerData.description}
+                  </p>
+                </div>
+              )}
 
               {/* Link Columns */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-8 py-8">

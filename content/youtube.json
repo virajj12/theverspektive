@@ -1,13 +1,45 @@
 {
-  "channelId": "UCYOURCHANNELID",
+  "channelId": "UCbUuH-3WwgiFlYrkB1rzCkw",
   "curated": [
-    { "type": "video", "url": "https://www.youtube.com/watch?v=MOCK_VIDEO_ID" },
-    { "type": "playlist", "url": "https://www.youtube.com/playlist?list=MOCK_PLAYLIST_ID" }
+    {
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=KIJ5itdFrSs"
+    },
+    {
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=I_Nv1salmCA"
+    },
+    {
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=TzatWkb-wY8"
+    },
+    {
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=7tl8AC9amlg"
+    },
+    {
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=Ymh5NDdAdfI"
+    },
+    {
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=-mfmCl86eDQ"
+    },
+    {
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=Cojet_ZV3xE"
+    },
+    {
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=WPlj1M7SJQ0"
+    },
+    {
+      "type": "playlist",
+      "url": ""
+    }
   ],
   "playlists": {
-    "tulu": "https://www.youtube.com/playlist?list=MOCK_TULU_ID",
-    "kannada": "https://www.youtube.com/playlist?list=MOCK_KANNADA_ID",
-    "english": "https://www.youtube.com/playlist?list=MOCK_ENGLISH_ID"
+    "tulu": "https://www.youtube.com/playlist?list=PLB53rO5KTyQ8cAAJ1n_uEhO95QSjXy4EY"
   },
   "cacheTtlSeconds": 3600
 }

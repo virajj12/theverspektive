@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, User } from "lucide-react";
 import clsx from "clsx";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+import { SocialsDropdown } from "@/components/SocialsDropdown";
 
 import navigationData from "../../content/navigation.json";
 
@@ -81,14 +82,15 @@ export default function Navbar() {
         className={clsx(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out",
           isHomePage
-            ? isScrolled ? "bg-white/80 backdrop-blur-xl border-b border-zinc-200" : "bg-white/80 backdrop-blur-xl"
+            ? isScrolled ? "bg-white/80 backdrop-blur-xl" : "bg-white/80 backdrop-blur-xl"
             : isScrolled
-              ? "bg-background/80 backdrop-blur-xl border-b border-black/10 dark:border-white/[0.08]"
+              ? "bg-background/80 backdrop-blur-xl"
               : "bg-background/80 backdrop-blur-xl"
         )}
       >
-        <nav className="max-w-[1024px] mx-auto h-11 flex items-center justify-between px-4 lg:px-0">
+        <nav className="max-w-[1280px] mx-auto h-11 flex items-center justify-between px-6 lg:px-10">
           {/* Logo */}
+          <div className="flex-1 flex justify-start">
           <Link
             href="/"
             className="relative z-50 flex-shrink-0 opacity-100 hover:opacity-100 transition-opacity duration-200 -ml-3 lg:ml-0"
@@ -100,12 +102,13 @@ export default function Navbar() {
               height={40}
               priority
               className={clsx(
-                isHomePage
+                isHomePage || pathname.startsWith("/tech")
                   ? "invert w-7 h-auto transition-all"
-                  : "dark:invert-0 invert w-7 h-auto transition-all"
+                  : "dark:invert invert-0 w-7 h-auto transition-all"
               )}
             />
           </Link>
+          </div>
 
           {/* Desktop Links */}
           <div className="hidden lg:flex items-center gap-2">
@@ -113,6 +116,8 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
+                target={item.href.startsWith("http") ? "_blank" : undefined}
+                rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
                 onMouseEnter={() => handleMouseEnter(item.name)}
                 className={clsx(
                   "relative px-3 py-1.5 text-[12px] font-normal tracking-[0.01em] transition-colors duration-200",
@@ -127,12 +132,27 @@ export default function Navbar() {
           </div>
 
           {/* Right Icons */}
-          <div className="flex items-center gap-4">
+          <div className="flex-1 flex items-center justify-end gap-4">
+            {!pathname.startsWith("/tech") && (
+              <div className="flex items-center gap-3 mr-1 relative z-50">
+                <SocialsDropdown 
+                  className={clsx(
+                    "transition-colors duration-200",
+                    isMobileMenuOpen
+                      ? "text-black hover:text-black dark:text-white dark:hover:text-white"
+                      : isHomePage ? "text-[#86868b] hover:text-black" : "text-muted-foreground hover:text-foreground"
+                  )}
+                />
+              </div>
+            )}
+
             {pathname !== "/productions/verspektive-studios" && (
               <AnimatedThemeToggler
                 className={clsx(
-                  "flex transition-colors duration-200",
-                  isHomePage ? "text-[#86868b] hover:text-black" : "text-muted-foreground hover:text-foreground"
+                  "flex transition-colors duration-200 relative z-50",
+                  isMobileMenuOpen
+                    ? "text-black hover:text-black dark:text-white dark:hover:text-white"
+                    : isHomePage ? "text-[#86868b] hover:text-black" : "text-muted-foreground hover:text-foreground"
                 )}
               />
             )}
@@ -177,7 +197,7 @@ export default function Navbar() {
                   : "bg-background/90 backdrop-blur-xl border-b border-black/10 dark:border-white/[0.08]"
               )}
             >
-              <div className="max-w-[1024px] mx-auto px-4 lg:px-0 py-10">
+              <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-10">
                 <div className="flex gap-20">
                   {megaMenus[activeMegaMenu].map((section, idx) => (
                     <div key={idx} className="flex flex-col gap-4 min-w-[120px]">
@@ -193,6 +213,8 @@ export default function Navbar() {
                             <li key={link.name}>
                               <Link
                                 href={link.href}
+                                target={link.href.startsWith("http") ? "_blank" : undefined}
+                                rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                                 onClick={() => setActiveMegaMenu(null)}
                                 className={clsx(
                                   "text-[13px] font-medium transition-colors duration-200 block",
@@ -263,6 +285,8 @@ export default function Navbar() {
                 >
                   <Link
                     href={item.href}
+                    target={item.href.startsWith("http") ? "_blank" : undefined}
+                    rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
                     className={clsx(
                       "block text-[28px] font-semibold tracking-tight py-3 border-b transition-colors duration-200",
                       "border-black/10 dark:border-white/[0.08]",

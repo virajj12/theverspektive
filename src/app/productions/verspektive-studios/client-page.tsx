@@ -10,6 +10,7 @@ import LightRays from "@/components/ui/LightRays";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import TeamsSection from "@/components/TeamsSection";
+import InlineSocials from "@/components/inline-socials";
 
 export default function VerspektiveStudiosClient({ teams }: { teams?: any[] }) {
   const { setTheme, theme } = useTheme();
@@ -54,6 +55,7 @@ export default function VerspektiveStudiosClient({ teams }: { teams?: any[] }) {
           text="State-of-the-art production spaces."
           className="text-xl md:text-2xl text-white/80 font-medium max-w-3xl leading-relaxed justify-center"
         />
+
       </div>
     </div>
   );

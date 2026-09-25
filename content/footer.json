@@ -1,40 +1,87 @@
 {
-  "description": "VerspeKtive is a premium media and content studio based in Karnataka, India.\nBeluvai, between Karkala and Moodbidri, Karnataka.",
+  "description": "",
   "sections": [
     {
       "title": "Explore",
       "links": [
-        { "name": "G3 Builders", "href": "https://projectsbyg3.com/" },
-        { "name": "Productions", "href": "/productions" },
-        { "name": "Talk it Out", "href": "/productions/tio-originals/talk-it-out" }
+        {
+          "name": "G3 Builders & Architects",
+          "href": "https://projectsbyg3.com/"
+        },
+        {
+          "name": "Verspektive Productions",
+          "href": "/productions"
+        },
+        {
+          "name": "Talk it Out Originals",
+          "href": "/productions/tio-originals/talk-it-out"
+        },
+        {
+          "name": "VerspeKtive Studios",
+          "href": "/productions/verspektive-studios"
+        },
+        {
+          "name": "Tech",
+          "href": "/tech"
+        },
+        {
+          "name": "Unusval Apparels",
+          "href": "/unusval-apparels"
+        }
       ]
     },
     {
       "title": "About",
       "links": [
-        { "name": "Vikhil V Salian", "href": "/founder" },
-        { "name": "VerspeKtive", "href": "/" },
-        { "name": "Careers", "href": "#" }
+        {
+          "name": "Vikhil V Salian",
+          "href": "/founder"
+        },
+        {
+          "name": "VerspeKtive",
+          "href": "/"
+        },
+        {
+          "name": "Careers",
+          "href": "/careers"
+        }
       ]
     },
     {
       "title": "Connect",
       "links": [
-        { "name": "Instagram", "href": "https://www.instagram.com/the_verspektive" },
-        { "name": "YouTube", "href": "https://www.youtube.com/@verspektive_productions" }
+        {
+          "name": "Instagram",
+          "href": "https://www.instagram.com/the_verspektive"
+        },
+        {
+          "name": "YouTube",
+          "href": "https://www.youtube.com/@verspektive_productions"
+        }
       ]
     },
     {
       "title": "Contact",
       "links": [
-        { "name": "hey@verspektive.in", "href": "mailto:hey@verspektive.in" },
-        { "name": "+91", "href": "tel:+91" }
+        {
+          "name": "hey@verspektive.in",
+          "href": "mailto:hey@verspektive.in"
+        }
       ]
     }
   ],
   "bottomLinks": [
-    { "name": "Privacy Policy", "href": "#" },
-    { "name": "Terms of Use", "href": "#" },
-    { "name": "Site Map", "href": "#" }
+    {
+      "name": "Privacy Policy",
+      "href": "/privacy"
+    },
+    {
+      "name": "Terms of Use",
+      "href": "#"
+    },
+    {
+      "name": "Site Map",
+      "href": "#"
+    }
   ]
 }

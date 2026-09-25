@@ -57,32 +57,32 @@ export function ScrollTargetSequence() {
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     // Business triggers early
-    setBusinessActive(latest >= 0.02 && latest < 0.4);
+    setBusinessActive(latest >= 0.02 && latest < 0.5);
     
     // Trigger the wipe transition independently based on a scroll threshold
-    setIsWiped(latest >= 0.4);
+    setIsWiped(latest >= 0.5);
     
-    // Personal triggers after wipe is fully complete
+    // Personal triggers when its details container fades in (0.55)
     setPersonalActive(latest >= 0.55);
   });
 
   // Business Animations (uses smoothEntry so it moves while entering the screen!)
-  // 0 -> entering bottom of screen, 0.25 -> hitting top of screen (locks in), 0.4 -> fully scrolled up
-  const businessTextY = useTransform(smoothEntry, [0, 0.25, 0.4], ["30vh", "0vh", "-27vh"]);
-  const businessDetailsY = useTransform(smoothEntry, [0, 0.25, 0.4], ["50vh", "20vh", "-19vh"]);
-  const businessDetailsOpacity = useTransform(smoothProgress, [0, 0.1, 0.35, 1], [0, 1, 1, 0]); 
+  // 0 -> entering bottom of screen, 0.25 -> hitting top of screen (locks in), 0.5 -> fully scrolled up
+  const businessTextY = useTransform(smoothEntry, [0, 0.25, 0.5], ["30vh", "0vh", "-27vh"]);
+  const businessDetailsY = useTransform(smoothEntry, [0, 0.25, 0.5], ["50vh", "20vh", "-19vh"]);
+  const businessDetailsOpacity = useTransform(smoothProgress, [0, 0.1, 0.45, 1], [0, 1, 1, 0]); 
 
-  // Personal Brands Animations (uses smoothProgress, starts moving BEFORE the wipe at 0.4!)
-  // 0.3 -> starts moving, 0.4 -> wipe triggers (already moving!), 0.65 -> fully scrolled up
-  const personalTextY = useTransform(smoothProgress, [0.3, 0.65], ["20vh", "-27vh"]);
-  const personalDetailsY = useTransform(smoothProgress, [0.3, 0.65], ["40vh", "-19vh"]);
-  const personalDetailsOpacity = useTransform(smoothProgress, [0.35, 0.45, 0.65, 1], [0, 1, 1, 1]);
+  // Personal Brands Animations (uses smoothProgress, starts moving BEFORE the wipe at 0.5!)
+  // 0.4 -> starts moving, 0.5 -> wipe triggers, 0.8 -> fully scrolled up
+  const personalTextY = useTransform(smoothProgress, [0.4, 0.8], ["20vh", "-27vh"]);
+  const personalDetailsY = useTransform(smoothProgress, [0.4, 0.8], ["40vh", "-19vh"]);
+  const personalDetailsOpacity = useTransform(smoothProgress, [0.45, 0.55, 0.8, 1], [0, 1, 1, 1]);
 
   const businessData = TRACKS["business"];
   const personalData = TRACKS["personal"];
 
   return (
-    <div ref={containerRef} id="audience" className="relative h-[400vh] w-full bg-transparent py-16 px-4 md:py-24 md:px-8">
+    <div ref={containerRef} id="audience" className="relative h-[300vh] w-full bg-transparent py-16 px-4 md:py-24 md:px-8">
       <div className="sticky top-16 md:top-24 h-[calc(100vh-5rem)] md:h-[calc(100vh-8rem)] w-full overflow-hidden flex flex-col items-center justify-center rounded-3xl border border-white/10 shadow-2xl bg-black">
         
         {/* Sticky Header */}
@@ -100,7 +100,7 @@ export function ScrollTargetSequence() {
           className="absolute inset-0 w-full h-full"
         >
           <Image
-            src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
             alt="Business infrastructure"
             fill
             className="object-cover opacity-60"

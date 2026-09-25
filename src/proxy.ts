@@ -6,7 +6,7 @@ import type { NextRequest } from "next/server";
  * 1. Security headers on all responses
  */
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const response = NextResponse.next();
 
   // --- 1. Security Headers (all responses) ---

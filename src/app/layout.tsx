@@ -7,7 +7,6 @@ import Footer from "@/components/footer";
 import GlobalLoaderProvider from "@/components/global-loader-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import ScrollToTop from "@/components/scroll-to-top";
-import FloatingSocials from "@/components/floating-socials";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -57,7 +56,7 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           <GlobalLoaderProvider>
-            <FloatingSocials />
+
             <ScrollToTop />
             <Navbar />
             {children}

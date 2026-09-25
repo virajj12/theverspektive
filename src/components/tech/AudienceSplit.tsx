@@ -100,7 +100,7 @@ export default function AudienceSplit() {
                   {panel.label}
                 </span>
 
-                <span className="text-body-lg mt-5 block max-w-sm text-muted-foreground">
+                <span className="text-body-lg mt-8 block max-w-sm text-muted-foreground">
                   {panel.pitch}
                 </span>
               </motion.button>

@@ -28,9 +28,9 @@ export default function TechHero({ headline, ctaLabel }: { headline: string; cta
         }
       }}
     >
-      {/* V-Mark that inverts the background using difference blend mode */}
+      {/* V-Mark logo */}
       <div 
-        className="w-full max-w-[250px] h-[250px] bg-white mix-blend-difference"
+        className="w-full max-w-[250px] h-[250px] bg-white"
         style={{
           maskImage: `url(/VB-01.svg)`,
           WebkitMaskImage: `url(/VB-01.svg)`,

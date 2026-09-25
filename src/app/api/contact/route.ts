@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 
+// Simple in-memory rate limiter
+const rateLimit = new Map<string, { count: number; timestamp: number }>();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 3; // Max 3 emails per minute per IP
 export async function POST(request: Request) {
   try {
     const data = await request.json();
@@ -7,6 +11,33 @@ export async function POST(request: Request) {
 
     if (!message || !email) {
       return NextResponse.json({ success: false, error: "Missing required fields" }, { status: 400 });
+    }
+
+    // IP-based Rate Limiting
+    const ip = request.headers.get("x-forwarded-for") || "unknown-ip";
+    const now = Date.now();
+    const userRate = rateLimit.get(ip);
+
+    if (userRate) {
+      if (now - userRate.timestamp < RATE_LIMIT_WINDOW_MS) {
+        if (userRate.count >= MAX_REQUESTS_PER_WINDOW) {
+          return NextResponse.json({ success: false, error: "Too many requests. Please try again later." }, { status: 429 });
+        }
+        userRate.count++;
+      } else {
+        rateLimit.set(ip, { count: 1, timestamp: now });
+      }
+    } else {
+      rateLimit.set(ip, { count: 1, timestamp: now });
+    }
+
+    // Clean up old entries occasionally to prevent memory leaks
+    if (Math.random() < 0.1) {
+      for (const [key, value] of rateLimit.entries()) {
+        if (now - value.timestamp > RATE_LIMIT_WINDOW_MS) {
+          rateLimit.delete(key);
+        }
+      }
     }
 
     // Basic length validation to prevent massive payloads/DDoS via large strings
@@ -46,7 +77,7 @@ export async function POST(request: Request) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        from: "VerspeKtive Contact <onboarding@resend.dev>", // Replace with verified domain when available
+        from: "VerspeKtive Contact <hey@verspektive.in>", // Requires verspektive.in to be verified in Resend
         to: "hey@verspektive.in",
         subject: subject,
         text: content,

@@ -494,7 +494,7 @@ const Hero: React.FC<HeroProps> = ({
               initial={{ y: -60, opacity: 0 }}
               animate={{ y: introState === "done" ? 0 : -60, opacity: introState === "done" ? 1 : 0 }}
               transition={{ duration: 1, ease: [0.19, 1, 0.22, 1], delay: 0.1 }}
-              className="w-full flex justify-center mb-6 pointer-events-none"
+              className="w-full flex justify-center mb-6 pointer-events-none mix-blend-difference"
             >
               {children}
             </motion.div>

@@ -12,6 +12,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronRight, Check } from "lucide-react";
+import Link from "next/link";
 import { useTechTrackStore } from "@/store/tech-track-store";
 
 type Status = "idle" | "sending" | "sent" | "error";
@@ -153,6 +154,10 @@ export default function TechContact() {
                     {error}
                   </p>
                 )}
+
+                <p className="text-sm text-muted-foreground mt-4 mb-6 leading-relaxed">
+                  By submitting this form, you agree that we may use the information provided to respond to your enquiry. See our <Link href="/privacy" className="underline underline-offset-4 hover:text-foreground transition-colors">Privacy Policy</Link>.
+                </p>
 
                 <div className="flex flex-col sm:flex-row sm:items-center gap-6 pt-2">
                   <button

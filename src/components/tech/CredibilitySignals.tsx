@@ -15,14 +15,14 @@ import { ShinyCard } from "@/components/ui/shiny-card";
 
 export default function CredibilitySignals() {
   return (
-    <section id="trust" className="transition-colors duration-500 py-24 md:py-32">
+    <section id="trust" className="transition-colors duration-500 pt-6 pb-20 md:pt-8 md:pb-32">
       <div className="mx-auto max-w-6xl px-6">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-12%" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="text-display-md mb-12 text-center md:text-left text-white"
+          className="font-display text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-none mb-12 text-center text-white"
         >
           What you can trust us on.
         </motion.h2>

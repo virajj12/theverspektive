@@ -16,7 +16,7 @@ export function ElasticGallery() {
       id: "business",
       title: TRACKS["business"].label,
       category: "B2B",
-      src: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
+      src: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop",
       alt: "Business infrastructure",
       pitch: TRACKS["business"].pitch,
     },

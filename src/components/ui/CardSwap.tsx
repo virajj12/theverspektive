@@ -20,6 +20,7 @@ export interface CardSwapProps {
   delay?: number;
   pauseOnHover?: boolean;
   onCardClick?: (idx: number) => void;
+  onActiveChange?: (idx: number) => void;
   skewAmount?: number;
   easing?: 'linear' | 'elastic';
   children: ReactNode;
@@ -74,6 +75,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   delay = 5000,
   pauseOnHover = false,
   onCardClick,
+  onActiveChange,
   skewAmount = 6,
   easing = 'elastic',
   children
@@ -109,6 +111,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
   useEffect(() => {
     const total = refs.length;
     refs.forEach((r, i) => placeNow(r.current!, makeSlot(i, cardDistance, verticalDistance, total), skewAmount));
+    if (onActiveChange) {
+      onActiveChange(order.current[0]);
+    }
 
     const swap = () => {
       if (order.current.length < 2) return;
@@ -165,6 +170,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
       tl.call(() => {
         order.current = [...rest, front];
+        if (onActiveChange) {
+          onActiveChange(order.current[0]);
+        }
       });
     };
 
@@ -209,7 +217,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   return (
     <div
       ref={container}
-      className="absolute bottom-0 right-0 transform translate-x-[5%] translate-y-[20%] origin-bottom-right perspective-[900px] overflow-visible max-[768px]:translate-x-[25%] max-[768px]:translate-y-[25%] max-[768px]:scale-[0.75] max-[480px]:translate-x-[25%] max-[480px]:translate-y-[25%] max-[480px]:scale-[0.55]"
+      className="absolute bottom-12 right-12 transform translate-x-[5%] -translate-y-[5%] origin-bottom-right perspective-[900px] overflow-visible max-[768px]:translate-x-[15%] max-[768px]:-translate-y-[10%] max-[768px]:scale-[0.75] max-[480px]:translate-x-[15%] max-[480px]:-translate-y-[10%] max-[480px]:scale-[0.55]"
       style={{ width, height }}
     >
       {rendered}

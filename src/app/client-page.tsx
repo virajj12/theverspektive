@@ -8,6 +8,7 @@ import { ChevronRight } from "lucide-react";
 import ScrollStack, { ScrollStackItem } from "@/components/ui/ScrollStack";
 import { useGlobalLoader } from "@/components/global-loader-provider";
 import dynamic from "next/dynamic";
+import InlineSocials from "@/components/inline-socials";
 
 const AnimatedBackground = dynamic(() => import("@/components/AnimatedBackground"), {
   ssr: false,
@@ -57,7 +58,7 @@ export default function ClientHome({
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: loading ? 0.6 : 0, ease: "easeOut" }}
-              className="relative z-10"
+              className="relative z-10 flex flex-col items-center w-full"
             >
               <Image
                 src="/VerspeKtive White Word-01.png"
@@ -68,6 +69,7 @@ export default function ClientHome({
                 className="w-[220px] sm:w-[320px] md:w-[440px] h-auto object-contain drop-shadow-xl dark:drop-shadow-[0_0px_80px_rgba(0,0,0,0.8)] dark:invert-0 invert"
                 priority
               />
+
             </motion.div>
 
 
@@ -79,6 +81,9 @@ export default function ClientHome({
             SCROLL STACK — Secondary Features
             ═══════════════════════════════════════ */}
           <div className="relative z-10 w-full bg-background transition-colors duration-500">
+            <div className="text-center pt-24 -mb-12">
+              <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">Explore our brands</h2>
+            </div>
             <ScrollStack
               useWindowScroll={true}
               itemStackDistance={30}
@@ -91,7 +96,7 @@ export default function ClientHome({
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
                   <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">G3 Builders & Architects</h2>
-                  <Link href="/g3-builders" className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-full font-medium hover:bg-foreground/90 transition-colors">
+                  <Link href="https://projectsbyg3.com/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-full font-medium hover:bg-foreground/90 transition-colors">
                     Explore <ChevronRight className="w-4 h-4" />
                   </Link>
                 </div>
@@ -109,7 +114,7 @@ export default function ClientHome({
               </ScrollStackItem>
 
               <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
-                <Image src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2000&auto=format&fit=crop" fill alt="Unusval Apparels" className="object-cover" loading="lazy" sizes="100vw" />
+                <Image src="https://images.unsplash.com/photo-1714568398464-fa1006821617?q=80&w=2000&auto=format&fit=crop" fill alt="Unusval Apparels" className="object-cover" loading="lazy" sizes="100vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
                   <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">Unusval Apparels</h2>

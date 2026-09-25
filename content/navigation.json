@@ -2,12 +2,22 @@
   "navItems": [
     { "name": "G3 Builders & Architects", "href": "https://projectsbyg3.com/" },
     { "name": "VerspeKtive Productions", "href": "/productions" },
+    { "name": "VerspeKtive Studios", "href": "/productions/verspektive-studios" },
+    { "name": "TIO Originals", "href": "/productions/tio-originals" },
     { "name": "Tech", "href": "/tech" },
-    { "name": "Founder", "href": "/founder" },
-    { "name": "Unusval Apparels", "href": "/unusval-apparels" }
+    { "name": "Unusval Apparels", "href": "/unusval-apparels" },
+    { "name": "Founder", "href": "/founder" }
   ],
   "megaMenus": {
     "G3 Builders & Architects": [
+      {
+        "title": "Explore",
+        "links": [
+          { "name": "Home", "href": "https://projectsbyg3.com/" },
+          { "name": "Projects", "href": "https://projectsbyg3.com/projects" },
+          { "name": "Services", "href": "https://projectsbyg3.com/services" }
+        ]
+      },
       {
         "title": "Social",
         "links": [{ "name": "Instagram", "href": "https://instagram.com/projects_by_g3" }]
@@ -17,23 +27,47 @@
       {
         "title": "Explore",
         "links": [
-          { "name": "Talk It Out", "href": "/productions/tio-originals/talk-it-out" },
-          { "name": "Verspektive Studios", "href": "/productions/verspektive-studios" },
-          { "name": "Coming Soon", "href": "#" }
-        ]
-      },
-      {
-        "title": "Quick Links",
-        "links": [
           { "name": "About", "href": "/productions#about" },
-          { "name": "Contact Us", "href": "/productions#contact" }
+          { "name": "VerspeKtive Studios", "href": "/productions/verspektive-studios" },
+          { "name": "TIO Originals", "href": "/productions/tio-originals" }
         ]
       },
       {
         "title": "Social",
         "links": [
-          { "name": "YouTube", "href": "https://www.youtube.com/@verspektive_productions/" },
+          { "name": "YouTube", "href": "https://www.youtube.com/@verspektive_productions" },
           { "name": "Instagram", "href": "https://www.instagram.com/verspektive_productions" }
+        ]
+      }
+    ],
+    "VerspeKtive Studios": [
+      {
+        "title": "Explore",
+        "links": [
+          { "name": "About Studios", "href": "/productions/verspektive-studios#about" },
+          { "name": "Our Work", "href": "/productions/verspektive-studios#work" },
+          { "name": "Services", "href": "/productions/verspektive-studios#services" }
+        ]
+      },
+      {
+        "title": "Social",
+        "links": [
+          { "name": "Instagram", "href": "https://www.instagram.com/verspektive_productions" }
+        ]
+      }
+    ],
+    "TIO Originals": [
+      {
+        "title": "Shows",
+        "links": [
+          { "name": "Talk it Out", "href": "/productions/tio-originals/talk-it-out" },
+          { "name": "Latest Episodes", "href": "/productions/tio-originals#episodes" }
+        ]
+      },
+      {
+        "title": "Social",
+        "links": [
+          { "name": "YouTube", "href": "https://www.youtube.com/@verspektive_productions" }
         ]
       }
     ],
@@ -42,7 +76,8 @@
         "title": "Explore",
         "links": [
           { "name": "Who We Build For", "href": "/tech#audience" },
-          { "name": "How We Work", "href": "/tech#process" }
+          { "name": "How We Work", "href": "/tech#process" },
+          { "name": "Services", "href": "/tech#services" }
         ]
       },
       {
@@ -53,20 +88,26 @@
         ]
       }
     ],
+    "Unusval Apparels": [
+      {
+        "title": "Coming Soon",
+        "links": []
+      }
+    ],
     "Founder": [
       {
         "title": "Explore",
         "links": [
-          { "name": "About Founder", "href": "/founder" },
-          { "name": "Our Team", "href": "/founder" }
+          { "name": "About Vikhil", "href": "/founder" },
+          { "name": "The Journey", "href": "/founder#journey" },
+          { "name": "Vision", "href": "/founder#vision" }
         ]
-      }
-    ],
-    "Unusval Apparels": [
+      },
       {
-        "title": "Quick Links",
+        "title": "Connect",
         "links": [
-          { "name": "Browse Products", "href": "/unusval-apparels" }
+          { "name": "LinkedIn", "href": "https://www.linkedin.com/in/vikhil-salian/" },
+          { "name": "Instagram", "href": "https://www.instagram.com/the_verspektive" }
         ]
       }
     ]

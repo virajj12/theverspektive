@@ -1,75 +1,115 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Film, Video, MonitorPlay, Mic, Play } from "lucide-react";
 import MaskText from "@/components/MaskText";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ContactEmailDropdown } from "@/components/ContactEmailDropdown";
 import TeamsSection from "@/components/TeamsSection";
 import AnimatedGradient from "@/components/ui/animated-gradient";
 import CardSwap, { Card } from "@/components/ui/CardSwap";
 import BorderGlow from "@/components/ui/BorderGlow";
+import { LiquidMetal, liquidMetalPresets } from "@paper-design/shaders-react";
+import { useTabsStore } from "@/store/tabs-store";
+import { ArticleCard } from "@/components/ui/blog-post-card";
 
 interface Video {
-  id: number;
+  id: string | number;
   title: string;
   youtube_url: string;
   thumbnail_url: string;
-  created_at: string;
+  created_at?: string;
+  published_at?: string;
+  viewCount?: string;
 }
+
+const formatViews = (viewsStr: string | undefined) => {
+  if (!viewsStr || viewsStr === "0") return "";
+  const views = parseInt(viewsStr, 10);
+  if (isNaN(views)) return "";
+  if (views >= 1000000) return (views / 1000000).toFixed(1) + "M views";
+  if (views >= 1000) return (views / 1000).toFixed(1) + "K views";
+  return views + " views";
+};
 import { PerspectiveHero } from "@/components/ui/perspective-hero";
 import { useTheme } from "next-themes";
 
-export default function ProductionsClient({ initialVideos, teams = [], youtubeApiVideos = [] }: { initialVideos: Video[], teams?: any[], youtubeApiVideos?: any[] }) {
+function AnimatedVentureCard({ v, i }: { v: any; i: number }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start 0.85", "start 0.50"],
+  });
+
+  const start = i * 0.15;
+  const end = Math.min(1, start + 0.85);
+
+  const y = useTransform(scrollYProgress, [start, end], [120, 0]);
+  const opacity = useTransform(scrollYProgress, [start, end], [0, 1]);
+  const rotateX = useTransform(scrollYProgress, [start, end], [30, 0]);
+  const scale = useTransform(scrollYProgress, [start, end], [0.85, 1]);
+
+  return (
+    <motion.div
+      ref={cardRef}
+      style={{
+        y,
+        opacity,
+        rotateX,
+        scale,
+        transformPerspective: 1200,
+      }}
+      className="h-full origin-bottom"
+    >
+      <ArticleCard
+        headline={v.name}
+        excerpt={v.description}
+        cover={v.logo}
+        href={v.href}
+        clampLines={3}
+        tooltipText="open the page"
+        preserveLogoColor={v.preserveLogoColor}
+      />
+    </motion.div>
+  );
+}
+
+const productionBrands = [
+  {
+    name: "VerspeKtive Studios",
+    description: "A premium digital media company delivering world-class production quality.",
+    logo: "/MFB LOGO wg.png",
+    href: "/productions/verspektive-studios",
+    preserveLogoColor: true
+  },
+  {
+    name: "Talk it out originals",
+    description: "Meaningful, insightful, and inspiring conversations with personalities from diverse fields.",
+    logo: "/TIO-01.png",
+    href: "/productions/tio-originals",
+    preserveLogoColor: true
+  }
+];
+
+export default function ProductionsClient({ 
+  initialVideos = [],
+  teams = []
+}: { 
+  initialVideos?: Video[],
+  teams?: any[]
+}) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(6);
-  const [visibleRecentCount, setVisibleRecentCount] = useState(6);
-
-  // If no youtubeApiVideos, provide some sleek mock data so the UI works until API keys are added
-  const recentYoutubeVideos = youtubeApiVideos.length > 0 ? youtubeApiVideos : [
-    {
-      id: "mock1",
-      title: "VerspeKtive Studios - Behind the Scenes",
-      thumbnail_url: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=800&auto=format&fit=crop",
-      youtube_url: "#",
-      published_at: new Date().toISOString(),
-    },
-    {
-      id: "mock2",
-      title: "Talk It Out - Episode 01 Premiere",
-      thumbnail_url: "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?q=80&w=800&auto=format&fit=crop",
-      youtube_url: "#",
-      published_at: new Date(Date.now() - 86400000).toISOString(),
-    },
-    {
-      id: "mock3",
-      title: "Taste It Out - Exploring Culinary Masterpieces",
-      thumbnail_url: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800&auto=format&fit=crop",
-      youtube_url: "#",
-      published_at: new Date(Date.now() - 86400000 * 3).toISOString(),
-    }
-  ];
-
-  const visibleVideos = initialVideos.slice(0, visibleCount);
-  const hasMore = visibleCount < initialVideos.length;
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const handleShowMore = () => {
-    setVisibleCount((prev) => prev + 6);
-  };
-
-  const visibleRecentVideos = recentYoutubeVideos.slice(0, visibleRecentCount);
-  const hasMoreRecent = visibleRecentCount < recentYoutubeVideos.length;
-
-  const handleShowMoreRecent = () => {
-    setVisibleRecentCount((prev) => prev + 6);
-  };
+  // Observer removed
 
   const hero = (
     <div className="flex flex-col items-center justify-center text-foreground bg-transparent relative overflow-hidden w-full h-full px-6 text-center">
@@ -110,6 +150,7 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
           text="1st Premium Multi-Cam & Podcast & Creator Studio in Tulunadu"
           className="text-xl md:text-2xl text-foreground/80 font-medium max-w-3xl leading-relaxed justify-center"
         />
+
       </div>
     </div>
   );
@@ -174,10 +215,19 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
               <div className="z-10 w-full md:w-1/2 mb-20 md:mb-0 relative">
                 <MaskText text="Featured Portfolio" className="text-3xl md:text-5xl font-semibold mb-6 text-foreground leading-tight" />
                 <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-lg leading-relaxed">
-                  Check out our latest video projects and productions. We bring visions to life with cinematic quality and engaging storytelling.
+                  Check out our featured video projects and productions. We bring visions to life with cinematic quality and engaging storytelling.
                 </p>
                 <div className="flex gap-6">
-                  <div className="p-4 rounded-full bg-foreground/5 border border-foreground/10 text-foreground hover:bg-foreground/10 transition-colors"><Play className="w-6 h-6" /></div>
+                  <button 
+                    onClick={() => {
+                      const video = initialVideos.slice(0, 6)[activeCardIndex];
+                      if (video) window.open(video.youtube_url, '_blank', 'noopener,noreferrer');
+                    }}
+                    className="p-4 rounded-full bg-foreground/5 border border-foreground/10 text-foreground hover:bg-foreground/10 transition-colors focus:outline-none cursor-pointer"
+                    aria-label="Play frontmost video"
+                  >
+                    <Play className="w-6 h-6" />
+                  </button>
                 </div>
               </div>
 
@@ -189,14 +239,15 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
                     cardDistance={60}
                     verticalDistance={70}
                     delay={4000}
-                    pauseOnHover={true}
-                    width={350}
-                    height={250}
+                    pauseOnHover={false}
+                    width={480}
+                    height={270}
+                    onActiveChange={setActiveCardIndex}
                   >
                     {initialVideos.slice(0, 6).map((video) => (
                       <Card key={video.id} customClass="!border-transparent !bg-transparent overflow-hidden cursor-pointer shadow-2xl group">
                         <BorderGlow className="w-full h-full !overflow-hidden" borderRadius={12}>
-                          <Link href={video.youtube_url} target="_blank" rel="noopener noreferrer" className="block w-full h-full relative">
+                          <Link href={video.youtube_url} target="_blank" rel="noopener noreferrer" className="block w-full h-full relative overflow-hidden rounded-[inherit]">
                             <Image
                               src={video.thumbnail_url}
                               alt={video.title}
@@ -205,8 +256,15 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
                             />
                             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex flex-col justify-end p-6">
                               <h3 className="text-xl font-bold text-white mb-2 leading-snug line-clamp-2">{video.title}</h3>
-                              <div className="flex items-center text-sm font-medium text-white/80">
-                                <Play className="w-4 h-4 mr-2" /> Watch on YouTube
+                              <div className="flex items-center text-sm font-medium text-white/80 gap-3">
+                                <div className="flex items-center">
+                                  <Play className="w-4 h-4 mr-2" /> Watch on YouTube
+                                </div>
+                                {video.viewCount && (
+                                  <div className="text-white/60">
+                                    • {formatViews(video.viewCount)}
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </Link>
@@ -219,75 +277,32 @@ export default function ProductionsClient({ initialVideos, teams = [], youtubeAp
             </div>
           </div>
 
-          {/* Teams Section */}
-          <TeamsSection teams={teams} />
+          {/* Brands / Ventures Section */}
+          <div className="mb-32 pt-20">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-10%" }}
+              transition={{ duration: 0.9, ease: "easeOut" }}
+              className="text-center mb-16 lg:mb-20"
+            >
+              <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">Production Verticals</h2>
+            </motion.div>
 
-          {/* YouTube Section */}
-          <div className="mb-32">
-            <div className="flex flex-col items-center text-center space-y-6 mb-16">
-              <MaskText text="Recent from our Channel" className="text-4xl font-bold tracking-tight justify-center" />
-              <MaskText
-                text="Stay updated with our latest video projects, behind-the-scenes, and more on YouTube."
-                className="text-lg text-muted-foreground max-w-2xl justify-center"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {visibleRecentVideos.map((video, index) => (
-                <Link
-                  key={video.id}
-                  href={video.youtube_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex h-full"
-                >
-                  <BorderGlow 
-                    className="w-full h-full p-4 flex flex-col gap-4" 
-                    borderRadius={24}
-                    backgroundColor={!mounted ? '#120F17' : (resolvedTheme === 'light' ? '#ffffff' : '#120F17')}
-                  >
-                    <div className="relative aspect-video rounded-xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-black/10 dark:border-white/10 shrink-0">
-                      <Image
-                        src={video.thumbnail_url}
-                        alt={video.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                        <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">
-                          <Play className="w-6 h-6 text-white fill-white ml-1" />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col flex-1 justify-between px-2 pb-2">
-                      <h3 className="text-lg font-medium leading-snug line-clamp-2 group-hover:text-foreground transition-colors">
-                        {video.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground mt-2">
-                        {new Date(video.published_at).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </p>
-                    </div>
-                  </BorderGlow>
-                </Link>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-6xl mx-auto px-6">
+              {productionBrands.map((brand, i) => (
+                <AnimatedVentureCard key={brand.name} v={brand} i={i} />
               ))}
             </div>
-
-            {hasMoreRecent && (
-              <div className="flex justify-center mt-12">
-                <button
-                  onClick={handleShowMoreRecent}
-                  className="px-8 py-3 rounded-full bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 font-medium transition-colors"
-                >
-                  Show More
-                </button>
-              </div>
-            )}
           </div>
+
+          {/* YouTube Section was here, moved to tio-originals */}
+          
+          {teams && teams.length > 0 && (
+            <div className="mt-32">
+              <TeamsSection teams={teams} />
+            </div>
+          )}
 
 
         </div>

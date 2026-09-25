@@ -24,6 +24,7 @@ export interface ArticleCardProps {
   clampLines?: number;
   href?: string;
   tooltipText?: string;
+  preserveLogoColor?: boolean;
 }
 
 // Human-friendly read time: seconds -> "X min read"
@@ -54,6 +55,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   href,
   clampLines = 2,
   tooltipText,
+  preserveLogoColor = false,
 }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -71,15 +73,23 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   const hasFooter = writer || publishedAt;
 
   const content = (
-    <Card className="flex w-full h-full flex-col gap-3 overflow-hidden rounded-[24px] p-3 shadow-lg hover:border-zinc-300 dark:hover:border-white/30 transition-all duration-300 backdrop-blur-xl bg-neutral-100/70 dark:bg-black/40">
+    <Card className="flex w-full h-full flex-col gap-3 overflow-hidden rounded-[24px] p-3 shadow-lg hover:border-zinc-400 dark:hover:border-white/30 transition-all duration-300 backdrop-blur-xl bg-zinc-300/80 dark:bg-black/40">
       {cover && (
         <CardHeader className="p-0">
-          <div className="relative h-56 w-full glass-card dark:glass-card-dark rounded-2xl overflow-hidden p-6 flex items-center justify-center">
+          <div className={cn(
+            "relative h-56 w-full rounded-2xl overflow-hidden p-6 flex items-center justify-center",
+            preserveLogoColor 
+              ? "bg-gradient-to-br from-zinc-800 to-zinc-950 dark:glass-card-dark shadow-inner"
+              : "glass-card dark:glass-card-dark"
+          )}>
             <Image
               src={cover}
               alt={headline}
               fill
-              className="object-contain p-8 drop-shadow-2xl dark:invert-0 invert"
+              className={cn(
+                "object-contain p-8",
+                preserveLogoColor ? "" : "drop-shadow-2xl dark:invert-0 invert"
+              )}
             />
             {/* Soft gradient overlay for better blending */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/5 dark:from-black/40 to-transparent pointer-events-none" />
@@ -143,7 +153,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
       <TiltCard className="block h-full rounded-[24px]">
         <a
           href={href}
-          className="block h-full relative group cursor-none"
+          className="block h-full relative group cursor-pointer"
           onMouseMove={handleMouseMove}
         >
           {content}

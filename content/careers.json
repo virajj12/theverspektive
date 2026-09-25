@@ -1,0 +1,23 @@
+{
+  "pageContent": {
+    "title": "Careers at VerspeKtive",
+    "subtitle": "Join our team and help us build amazing things.",
+    "noJobsMessage": "No open positions at the moment, but we are always looking for great talent!"
+  },
+  "jobs": [
+    {
+      "id": "video-editor",
+      "title": "Video Editor",
+      "department": "VerspeKtive Productions",
+      "location": "Moodbidri, Karkala, or Belvai (On-site / Hybrid)",
+      "type": "Full-time",
+      "description": "We are looking for a creative Video Editor to join our production team. Don't know DaVinci Resolve yet? No problem—we will personally teach you the software! You'll be working on exciting projects for VerspeKtive Studios and TIO Originals.",
+      "requirements": [
+        "Must have your own laptop capable of running DaVinci Resolve smoothly.",
+        "Must be located nearby (Moodbidri, Karkala, or Belvai).",
+        "No prior DaVinci Resolve experience required (training provided!)."
+      ],
+      "applyLink": "mailto:hey@verspektive.in?subject=Application for Video Editor"
+    }
+  ]
+}

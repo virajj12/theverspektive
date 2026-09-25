@@ -9,6 +9,8 @@ export interface YouTubeVideo {
   youtube_url: string;
   thumbnail_url: string;
   published_at: string;
+  isShort?: boolean;
+  viewCount?: string;
 }
 
 // Helper to extract video ID from URL
@@ -21,6 +23,45 @@ function extractVideoId(url: string) {
 function extractPlaylistId(url: string) {
   const match = url.match(/[&?]list=([^&]+)/);
   return match ? match[1] : null;
+}
+
+// Helper to quickly check if a video is a YouTube Short
+async function checkIsShort(videoId: string): Promise<boolean> {
+  try {
+    const res = await fetch(`https://www.youtube.com/shorts/${videoId}`, { 
+      method: 'HEAD', 
+      redirect: 'manual' 
+    });
+    return res.status === 200;
+  } catch (error) {
+    return false;
+  }
+}
+
+async function fetchVideoStatistics(videoIds: string[]): Promise<Record<string, string>> {
+  if (!YOUTUBE_API_KEY || videoIds.length === 0) return {};
+  
+  const chunks = [];
+  for (let i = 0; i < videoIds.length; i += 50) {
+    chunks.push(videoIds.slice(i, i + 50));
+  }
+
+  const statsMap: Record<string, string> = {};
+
+  for (const chunk of chunks) {
+    const data = await fetchFromYouTube("videos", {
+      part: "statistics",
+      id: chunk.join(",")
+    });
+
+    if (data?.items) {
+      data.items.forEach((item: any) => {
+        statsMap[item.id] = item.statistics?.viewCount || "0";
+      });
+    }
+  }
+
+  return statsMap;
 }
 
 async function fetchFromYouTube(endpoint: string, params: Record<string, string>) {
@@ -38,7 +79,7 @@ async function fetchFromYouTube(endpoint: string, params: Record<string, string>
   
   const response = await fetch(url);
   if (!response.ok) {
-    console.error(`YouTube API Error: ${response.status} ${response.statusText}`, await response.text());
+    console.warn(`YouTube API Request Failed: ${response.status} ${response.statusText}`, await response.text());
     return null;
   }
 
@@ -46,7 +87,7 @@ async function fetchFromYouTube(endpoint: string, params: Record<string, string>
 }
 
 export const getLatestVideos = unstable_cache(
-  async (maxResults: number = 6): Promise<YouTubeVideo[]> => {
+  async (maxResults: number = 50): Promise<YouTubeVideo[]> => {
     if (!youtubeConfig.channelId || youtubeConfig.channelId.includes("YOURCHANNELID")) return [];
     
     const data = await fetchFromYouTube("search", {
@@ -59,15 +100,26 @@ export const getLatestVideos = unstable_cache(
 
     if (!data?.items) return [];
 
-    return data.items.map((item: any) => ({
-      id: item.id.videoId,
-      title: item.snippet.title,
-      youtube_url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-      thumbnail_url: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.default?.url,
-      published_at: item.snippet.publishedAt,
+    const videosWithoutStats = await Promise.all(data.items.map(async (item: any) => {
+      const isShort = await checkIsShort(item.id.videoId);
+      return {
+        id: item.id.videoId,
+        title: item.snippet.title,
+        youtube_url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+        thumbnail_url: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.default?.url,
+        published_at: item.snippet.publishedAt,
+        isShort
+      };
+    }));
+
+    const statsMap = await fetchVideoStatistics(videosWithoutStats.map(v => v.id));
+
+    return videosWithoutStats.map(v => ({
+      ...v,
+      viewCount: statsMap[v.id]
     }));
   },
-  ['youtube-latest-videos'],
+  ['youtube-latest-videos-v3-50'],
   { revalidate: youtubeConfig.cacheTtlSeconds }
 );
 
@@ -84,12 +136,19 @@ export const getPlaylistVideos = unstable_cache(
 
     if (!data?.items) return [];
 
-    return data.items.map((item: any) => ({
+    const videosWithoutStats = data.items.map((item: any) => ({
       id: item.snippet.resourceId.videoId,
       title: item.snippet.title,
       youtube_url: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}`,
       thumbnail_url: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.default?.url,
       published_at: item.snippet.publishedAt,
+    }));
+
+    const statsMap = await fetchVideoStatistics(videosWithoutStats.map((v: any) => v.id));
+
+    return videosWithoutStats.map((v: any) => ({
+      ...v,
+      viewCount: statsMap[v.id]
     }));
   },
   ['youtube-playlist-videos'],
@@ -105,7 +164,7 @@ export const getVideoDetails = unstable_cache(
     if (!videoId || videoId.includes("MOCK")) return null;
 
     const data = await fetchFromYouTube("videos", {
-      part: "snippet",
+      part: "snippet,statistics",
       id: videoId
     });
 
@@ -118,6 +177,7 @@ export const getVideoDetails = unstable_cache(
       youtube_url: `https://www.youtube.com/watch?v=${item.id}`,
       thumbnail_url: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.default?.url,
       published_at: item.snippet.publishedAt,
+      viewCount: item.statistics?.viewCount || "0",
     };
   },
   ['youtube-video-details'],

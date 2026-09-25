@@ -21,7 +21,7 @@ function StageTitle({ title, isActive }: { title: string, isActive: boolean }) {
 function StageNumber({ step, isActive }: { step: string, isActive: boolean }) {
   return (
     <motion.span 
-      className="absolute right-full mr-4 md:mr-6 top-1/2 -translate-y-1/2 text-sm md:text-base tracking-widest text-accent font-mono" 
+      className="absolute right-full mr-4 md:mr-6 top-1/2 -translate-y-1/2 text-sm md:text-base tracking-widest text-white/60 font-mono" 
       animate={{ opacity: isActive ? 1 : 0 }}
       transition={{ duration: 0.6 }}
     >
@@ -58,7 +58,7 @@ export default function ProcessSequence() {
   });
 
   const blurValue = useTransform(totalProgress, [0, 0.2, 0.8, 1], [0, 12, 12, 0]);
-  const bgOpacity = useTransform(totalProgress, [0, 0.2, 0.8, 1], [0, 0.1, 0.1, 0]);
+  const bgOpacity = useTransform(totalProgress, [0, 0.2, 0.8, 1], [0, 0.3, 0.3, 0]);
   
   const backdropFilter = useMotionTemplate`blur(${blurValue}px)`;
   const backgroundColor = useMotionTemplate`rgba(0,0,0,${bgOpacity})`;
@@ -81,7 +81,7 @@ export default function ProcessSequence() {
       className="relative w-full transition-colors duration-500" 
       style={{ height: "400vh" }} 
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center">
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-start pt-24 md:pt-32">
         <motion.div 
           className="absolute inset-0 pointer-events-none -z-10"
           style={{
@@ -94,8 +94,8 @@ export default function ProcessSequence() {
         />
         
         {/* Intro text */}
-        <div className="absolute top-24 md:top-32 left-6 md:left-[10vw]">
-          <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-accent">
+        <div className="w-full px-6 md:px-[10vw]">
+          <p className="mb-6 font-display text-2xl md:text-4xl font-semibold uppercase tracking-widest text-white/80">
             How it goes
           </p>
           <h2 className="text-display-sm md:text-display-md max-w-2xl text-white">
@@ -113,7 +113,7 @@ export default function ProcessSequence() {
           }
         `}} />
 
-        <div className="relative w-full h-[300px] md:h-[400px] z-20 mt-20">
+        <div className="relative w-full h-[300px] md:h-[400px] z-20 mt-16 md:mt-24">
           
           {/* TOP HALF: Titles (Above the line) */}
           <div className="absolute bottom-[50%] left-0 w-full pb-4 md:pb-8">
