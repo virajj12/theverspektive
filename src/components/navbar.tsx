@@ -104,7 +104,7 @@ export default function Navbar() {
               className={clsx(
                 isHomePage || pathname.startsWith("/tech")
                   ? "invert w-7 h-auto transition-all"
-                  : "dark:invert invert-0 w-7 h-auto transition-all"
+                  : "invert dark:invert-0 w-7 h-auto transition-all"
               )}
             />
           </Link>

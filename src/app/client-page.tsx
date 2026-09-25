@@ -114,17 +114,6 @@ export default function ClientHome({
               </ScrollStackItem>
 
               <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
-                <Image src="https://images.unsplash.com/photo-1714568398464-fa1006821617?q=80&w=2000&auto=format&fit=crop" fill alt="Unusval Apparels" className="object-cover" loading="lazy" sizes="100vw" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
-                <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
-                  <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">Unusval Apparels</h2>
-                  <Link href="/unusval-apparels" className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-full font-medium hover:bg-foreground/90 transition-colors">
-                    Explore <ChevronRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </ScrollStackItem>
-
-              <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
                 <Image src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2000&auto=format&fit=crop" fill alt="VerspeKtive Tech" className="object-cover" loading="lazy" sizes="100vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
@@ -132,6 +121,15 @@ export default function ClientHome({
                   <Link href="/tech" className="inline-flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-full font-medium hover:bg-foreground/90 transition-colors">
                     Explore <ChevronRight className="w-4 h-4" />
                   </Link>
+                </div>
+              </ScrollStackItem>
+
+              <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-8 md:!p-12 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900 flex flex-col justify-end">
+                <div className="w-full h-full flex flex-col justify-end">
+                  <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground/50 mb-6">Coming Soon</h2>
+                  <div className="inline-flex items-center gap-2 bg-foreground/10 text-foreground px-6 py-3 rounded-full font-medium w-fit">
+                    Stay Tuned
+                  </div>
                 </div>
               </ScrollStackItem>
 

@@ -5,7 +5,6 @@
     { "name": "VerspeKtive Studios", "href": "/productions/verspektive-studios" },
     { "name": "TIO Originals", "href": "/productions/tio-originals" },
     { "name": "Tech", "href": "/tech" },
-    { "name": "Unusval Apparels", "href": "/unusval-apparels" },
     { "name": "Founder", "href": "/founder" }
   ],
   "megaMenus": {
@@ -86,12 +85,6 @@
           { "name": "Trust & Security", "href": "/tech#trust" },
           { "name": "Start a Project", "href": "/tech#contact" }
         ]
-      }
-    ],
-    "Unusval Apparels": [
-      {
-        "title": "Coming Soon",
-        "links": []
       }
     ],
     "Founder": [
