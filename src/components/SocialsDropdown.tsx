@@ -104,7 +104,7 @@ export function SocialsDropdown({ className }: { className?: string }) {
                 <div className="w-5 flex justify-center text-red-600 dark:text-red-500">
                   <YoutubeIcon className="w-4 h-4" />
                 </div>
-                VerspeKtive YouTube
+                @verspektive_productions
               </a>
               <a
                 href="https://www.instagram.com/verspektive_productions"
@@ -116,7 +116,7 @@ export function SocialsDropdown({ className }: { className?: string }) {
                 <div className="w-5 flex justify-center text-pink-500">
                   <InstagramIcon className="w-4 h-4" />
                 </div>
-                VerspeKtive Instagram
+                @verspektive_productions
               </a>
 
               <a
@@ -129,7 +129,33 @@ export function SocialsDropdown({ className }: { className?: string }) {
                 <div className="w-5 flex justify-center text-pink-500">
                   <InstagramIcon className="w-4 h-4" />
                 </div>
-                Talk It Out Instagram
+                @tio_originals
+              </a>
+
+              <a
+                href="https://www.instagram.com/verspektive_studios/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-foreground hover:bg-black/5 dark:hover:bg-white/10 rounded-xl transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                <div className="w-5 flex justify-center text-pink-500">
+                  <InstagramIcon className="w-4 h-4" />
+                </div>
+                @verspektive_studios
+              </a>
+
+              <a
+                href="https://www.instagram.com/the_verspektive"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-foreground hover:bg-black/5 dark:hover:bg-white/10 rounded-xl transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                <div className="w-5 flex justify-center text-pink-500">
+                  <InstagramIcon className="w-4 h-4" />
+                </div>
+                @the_verspektive
               </a>
             </div>
           </motion.div>
