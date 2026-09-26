@@ -80,7 +80,7 @@ export default function ClientHome({
           {/* ═══════════════════════════════════════
             SCROLL STACK — Secondary Features
             ═══════════════════════════════════════ */}
-          <div className="relative z-10 w-full bg-background transition-colors duration-500 pb-0">
+          <div className="relative z-10 w-full bg-background transition-colors duration-500 pb-24 md:pb-32">
             <div className="text-center pt-24 -mb-12">
               <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">Explore our brands</h2>
             </div>
@@ -92,7 +92,7 @@ export default function ClientHome({
               className="pt-12 md:pt-24 pb-0"
             >
               <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
-                <Image src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2000&auto=format&fit=crop" fill alt="G3 Builders & Architects" className="object-cover" loading="lazy" sizes="100vw" />
+                <Image src="/Library 1.jpg" fill alt="G3 Builders & Architects" className="object-cover" loading="lazy" sizes="100vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
                   <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">G3 Builders & Architects</h2>
@@ -125,7 +125,7 @@ export default function ClientHome({
               </ScrollStackItem>
 
               <ScrollStackItem itemClassName="!h-[60vh] md:!h-[70vh] !p-0 overflow-hidden border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-neutral-900">
-                <Image src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=2000&auto=format&fit=crop" fill alt="TIO Originals" className="object-cover" loading="lazy" sizes="100vw" />
+                <Image src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=2000&auto=format&fit=crop" fill alt="TIO Originals" className="object-cover object-[center_30%]" loading="lazy" sizes="100vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
                   <h2 className="text-3xl md:text-5xl lg:text-7xl font-black uppercase text-foreground mb-6">TIO Originals</h2>
