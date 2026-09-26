@@ -137,7 +137,7 @@
         "links": [
           {
             "name": "YouTube",
-            "href": "https://www.youtube.com/@verspektive_productions"
+            "href": "https://www.youtube.com/@verspektive_productions/playlists"
           }
         ]
       }
@@ -199,10 +199,6 @@
       {
         "title": "Connect",
         "links": [
-          {
-            "name": "LinkedIn",
-            "href": "https://www.linkedin.com/in/vikhil-salian/"
-          },
           {
             "name": "Instagram",
             "href": "https://www.instagram.com/the_verspektive"
