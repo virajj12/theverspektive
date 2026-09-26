@@ -15,9 +15,9 @@ export function ScrollTargetSequence() {
   ];
 
   return (
-    <div id="audience" className="relative w-full py-16 px-4 md:py-24 md:px-8 bg-black">
+    <div id="audience" className="relative w-full py-16 px-4 md:py-24 md:px-8">
       {/* Section Header */}
-      <p className="text-sm font-medium uppercase tracking-[0.2em] text-white/50 text-center mb-8 md:mb-12">
+      <p className="text-sm font-medium uppercase tracking-[0.2em] text-black/50 dark:text-white/50 text-center mb-8 md:mb-12">
         Who we&apos;re building for
       </p>
 

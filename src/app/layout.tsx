@@ -7,6 +7,7 @@ import Footer from "@/components/footer";
 import GlobalLoaderProvider from "@/components/global-loader-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import ScrollToTop from "@/components/scroll-to-top";
+import DevConsoleEasterEgg from "@/components/dev-console-easter-egg";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -56,7 +57,7 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           <GlobalLoaderProvider>
-
+            <DevConsoleEasterEgg />
             <ScrollToTop />
             <Navbar />
             <main className="relative z-10 bg-background flex-1 w-full flex flex-col">
