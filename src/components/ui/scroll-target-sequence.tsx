@@ -11,7 +11,7 @@ export function ScrollTargetSequence() {
 
   const items: { id: TechTrack; src: string; alt: string }[] = [
     { id: "business", src: "/Business.jpeg", alt: "Businesses" },
-    { id: "personal", src: "/Personal.jpeg", alt: "Personal Brands" },
+    { id: "personal", src: "/personal.jpeg", alt: "Personal Brands" },
   ];
 
   return (
