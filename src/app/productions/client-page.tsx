@@ -212,7 +212,7 @@ export default function ProductionsClient({
           {/* YouTube Showcase Section */}
           <div className="mb-32">
             <div className="flex flex-col md:flex-row items-center justify-between gap-12 bg-zinc-100/60 dark:bg-zinc-900/40 p-8 md:p-16 rounded-3xl border border-black/10 dark:border-white/10 min-h-[500px] md:min-h-[600px] relative overflow-hidden">
-              <div className="z-10 w-full md:w-1/2 mb-20 md:mb-0 relative">
+              <div className="z-10 w-full md:w-1/2 mb-8 md:mb-0 relative">
                 <MaskText text="Featured Portfolio" className="text-3xl md:text-5xl font-semibold mb-6 text-foreground leading-tight" />
                 <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-lg leading-relaxed">
                   Check out our featured video projects and productions. We bring visions to life with cinematic quality and engaging storytelling.
@@ -231,7 +231,7 @@ export default function ProductionsClient({
                 </div>
               </div>
 
-              <div className="w-full md:w-1/2 relative h-[300px] md:h-[500px]">
+              <div className="w-full md:w-1/2 relative h-[200px] sm:h-[250px] md:h-[500px]">
                 {initialVideos.length === 0 ? (
                   <p className="text-muted-foreground text-lg">No videos added yet. Check back soon!</p>
                 ) : (
