@@ -2,9 +2,20 @@
   {
     "id": 1,
     "title": "Tech Team",
-    "duration": 3000,
+    "duration": 2000,
     "members": [
-      { "src": "/images/teams/tech/member-1.jpg" }
+      {
+        "src": "/images/teams/tech/member-1.jpg",
+        "role": "Lead Full Stack Developer"
+      },
+      {
+        "src": "/images/teams/tech/member-3.png",
+        "role": "Founder | Creative & Marketing Head"
+      },
+      {
+        "src": "/images/teams/tech/member-2.jpg",
+        "role": "UI/UX Designer | Full Stack Developer"
+      }
     ]
   }
 ]

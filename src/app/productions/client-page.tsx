@@ -166,11 +166,11 @@ export default function ProductionsClient({
       >
         <MaskText text="About Us" className="text-3xl md:text-5xl font-bold mb-8 justify-center" />
         <MaskText
-          text="VerspeKtive Productions is a premium digital media and content production company based in Beluvai, strategically located between Karkala and Moodbidri, Karnataka - dedicated to high-quality visual storytelling and meaningful digital content across platforms."
+          text="VerspeKtive Productions is a premium digital media and content production company based in Beluvai, strategically located between Karkala and Moodbidri, Karnataka. The company is dedicated to producing high-quality visual storytelling and meaningful digital content across multiple platforms."
           className="text-lg md:text-xl text-foreground/80 leading-relaxed mb-6 block justify-center"
         />
         <MaskText
-          text="We bring creativity, professionalism, and cinematic production standards to every project we undertake."
+          text="The company specializes in podcast production, commercial video production, social media content, photography, post-production, and creative media solutions. With a strong emphasis on creativity, professionalism, and cinematic production standards, VerspeKtive Productions delivers content that informs, inspires, and leaves a lasting impact."
           className="text-lg md:text-xl text-foreground/80 leading-relaxed block justify-center"
         />
       </motion.div>

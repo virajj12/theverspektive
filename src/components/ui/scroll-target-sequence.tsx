@@ -1,185 +1,109 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent, useSpring } from "framer-motion";
+import React, { useState } from "react";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 import { TRACKS } from "../tech/tech-content";
-
-// Component for the staggered blur reveal
-const BlurRevealList = ({ lines, isActive }: { lines: { lead: string, body: string }[], isActive: boolean }) => {
-  return (
-    <div className="flex flex-col gap-3 md:gap-5 w-full mt-4 md:mt-6 w-full pb-0 md:pb-8">
-      {lines.map((line, idx) => (
-        <motion.div
-          key={idx}
-          initial={{ filter: "blur(10px)", opacity: 0, y: 10 }}
-          animate={isActive ? { filter: "blur(0px)", opacity: 1, y: 0 } : { filter: "blur(10px)", opacity: 0, y: 10 }}
-          transition={{ duration: 0.8, delay: isActive ? idx * 0.15 : 0, ease: "easeOut" }}
-          className="flex flex-col"
-        >
-          <span className="text-sm md:text-lg font-bold text-white">{line.lead}</span>
-          <span className="text-xs md:text-base text-white/70 leading-relaxed max-w-2xl">{line.body}</span>
-        </motion.div>
-      ))}
-    </div>
-  );
-};
+import type { TechTrack } from "@/store/tech-track-store";
 
 export function ScrollTargetSequence() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
+  const [activeTrack, setActiveTrack] = useState<TechTrack | null>(null);
 
-  const { scrollYProgress: entryProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end end"]
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  const smoothEntry = useSpring(entryProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  // State to trigger automatic animations
-  const [businessActive, setBusinessActive] = useState(false);
-  const [personalActive, setPersonalActive] = useState(false);
-  const [isWiped, setIsWiped] = useState(false);
-
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    // Business triggers early
-    setBusinessActive(latest >= 0.02 && latest < 0.5);
-    
-    // Trigger the wipe transition independently based on a scroll threshold
-    setIsWiped(latest >= 0.5);
-    
-    // Personal triggers when its details container fades in (0.55)
-    setPersonalActive(latest >= 0.55);
-  });
-
-  // Business Animations (uses smoothEntry so it moves while entering the screen!)
-  // 0 -> entering bottom of screen, 0.25 -> hitting top of screen (locks in), 0.5 -> fully scrolled up
-  const businessTextY = useTransform(smoothEntry, [0, 0.25, 0.5], ["30vh", "0vh", "-27vh"]);
-  const businessDetailsY = useTransform(smoothEntry, [0, 0.25, 0.5], ["50vh", "20vh", "-19vh"]);
-  const businessDetailsOpacity = useTransform(smoothProgress, [0, 0.1, 0.45, 1], [0, 1, 1, 0]); 
-
-  // Personal Brands Animations (uses smoothProgress, starts moving BEFORE the wipe at 0.5!)
-  // 0.4 -> starts moving, 0.5 -> wipe triggers, 0.8 -> fully scrolled up
-  const personalTextY = useTransform(smoothProgress, [0.4, 0.8], ["20vh", "-27vh"]);
-  const personalDetailsY = useTransform(smoothProgress, [0.4, 0.8], ["40vh", "-19vh"]);
-  const personalDetailsOpacity = useTransform(smoothProgress, [0.45, 0.55, 0.8, 1], [0, 1, 1, 1]);
-
-  const businessData = TRACKS["business"];
-  const personalData = TRACKS["personal"];
+  const items: { id: TechTrack; src: string; alt: string }[] = [
+    { id: "business", src: "/Business.jpeg", alt: "Businesses" },
+    { id: "personal", src: "/Personal.jpeg", alt: "Personal Brands" },
+  ];
 
   return (
-    <div ref={containerRef} id="audience" className="relative h-[300vh] w-full bg-transparent py-16 px-4 md:py-24 md:px-8">
-      <div className="sticky top-16 md:top-24 h-[calc(100vh-5rem)] md:h-[calc(100vh-8rem)] w-full overflow-hidden flex flex-col items-center justify-center rounded-3xl border border-white/10 shadow-2xl bg-black">
-        
-        {/* Sticky Header */}
-        <div className="absolute top-6 md:top-8 z-50 w-full text-center pointer-events-none">
-          <p className="text-sm font-medium uppercase tracking-[0.2em] text-white/70 drop-shadow-md">
-            Who we're building for
-          </p>
-        </div>
+    <div id="audience" className="relative w-full py-16 px-4 md:py-24 md:px-8 bg-black">
+      {/* Section Header */}
+      <p className="text-sm font-medium uppercase tracking-[0.2em] text-white/50 text-center mb-8 md:mb-12">
+        Who we&apos;re building for
+      </p>
 
-        {/* --- LAYER 1: BUSINESSES --- */}
-        <motion.div 
-          initial={false}
-          animate={{ clipPath: isWiped ? "inset(0 100% 0 0)" : "inset(0 0% 0 0)" }}
-          transition={{ type: "spring", stiffness: 40, damping: 15 }}
-          className="absolute inset-0 w-full h-full"
-        >
-          <Image
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2070&auto=format&fit=crop"
-            alt="Business infrastructure"
-            fill
-            className="object-cover opacity-60"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80" />
-          
-          {/* Gradient Blur for Text Readability */}
-          <div 
-            className="absolute inset-0 backdrop-blur-md pointer-events-none" 
-            style={{ 
-              WebkitMaskImage: 'linear-gradient(to top, black 0%, black 50%, transparent 75%)',
-              maskImage: 'linear-gradient(to top, black 0%, black 50%, transparent 75%)'
-            }} 
-          />
-          
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <motion.h2 
-              style={{ y: businessTextY }} 
-              className="text-center text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black uppercase text-white tracking-tighter drop-shadow-xl whitespace-nowrap"
+      {/* Elastic Cards */}
+      <div className="flex h-[480px] md:h-[620px] w-full max-w-6xl mx-auto flex-col gap-3 md:flex-row md:gap-4">
+        {items.map((item) => {
+          const data = TRACKS[item.id];
+          const isActive = activeTrack === item.id;
+          const isDimmed = activeTrack !== null && !isActive;
+
+          return (
+            <div
+              key={item.id}
+              onMouseEnter={() => setActiveTrack(item.id)}
+              onMouseLeave={() => setActiveTrack(null)}
+              onClick={() => setActiveTrack(isActive ? null : item.id)}
+              className={cn(
+                "relative cursor-pointer overflow-hidden rounded-2xl border border-white/10",
+                "transition-[flex,filter] duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]",
+                isActive ? "flex-[5]" : "flex-[1]",
+                isDimmed ? "brightness-50 grayscale sm:brightness-75" : "brightness-75 hover:brightness-90"
+              )}
             >
-              {businessData.label}
-            </motion.h2>
+              {/* Background image */}
+              <div className="absolute inset-0">
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  fill
+                  className={cn(
+                    "object-cover transition-transform duration-1000",
+                    isActive ? "scale-100" : "scale-110",
+                    "opacity-50"
+                  )}
+                />
+                {/* Gradient overlay */}
+                <div
+                  className={cn(
+                    "absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-500",
+                    isActive ? "opacity-100" : "opacity-60"
+                  )}
+                />
+              </div>
 
-            <motion.div 
-              style={{ y: businessDetailsY, opacity: businessDetailsOpacity }}
-              className="absolute top-1/2 w-full max-w-4xl px-6 flex flex-col"
-            >
-              <p className="text-lg md:text-2xl font-light text-white/90 drop-shadow-md">
-                {businessData.pitch}
-              </p>
-              <BlurRevealList lines={businessData.lines} isActive={businessActive} />
-            </motion.div>
-          </div>
-        </motion.div>
+              {/* Active: expanded content */}
+              <div
+                className={cn(
+                  "absolute bottom-0 left-0 right-0 p-5 md:p-8 flex flex-col gap-2 transition-all duration-500",
+                  isActive ? "translate-y-0 opacity-100 delay-150" : "translate-y-10 opacity-0 pointer-events-none"
+                )}
+              >
+                <h3 className="text-2xl md:text-4xl font-black uppercase text-white leading-none">
+                  {data.label}
+                </h3>
+                <p className="text-sm md:text-base font-light text-white/80 mt-1 mb-2 max-w-xl">
+                  {data.pitch}
+                </p>
+                <div className="flex flex-col gap-2 md:gap-3 overflow-y-auto scrollbar-none max-h-48">
+                  {data.lines.map((line, idx) => (
+                    <div key={idx} className="flex flex-col">
+                      <span className="text-xs md:text-sm font-bold text-white/95">{line.lead}</span>
+                      <span className="text-[10px] md:text-xs text-white/60 leading-relaxed">{line.body}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-        {/* --- LAYER 2: PERSONAL BRANDS --- */}
-        <motion.div 
-          initial={false}
-          animate={{ clipPath: isWiped ? "inset(0 0% 0 0)" : "inset(0 0 0 100%)" }}
-          transition={{ type: "spring", stiffness: 40, damping: 15 }}
-          className="absolute inset-0 w-full h-full"
-        >
-          <Image
-            src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?q=80&w=2042&auto=format&fit=crop"
-            alt="Personal branding"
-            fill
-            className="object-cover opacity-60"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80" />
-          
-          {/* Gradient Blur for Text Readability */}
-          <div 
-            className="absolute inset-0 backdrop-blur-md pointer-events-none" 
-            style={{ 
-              WebkitMaskImage: 'linear-gradient(to top, black 0%, black 50%, transparent 75%)',
-              maskImage: 'linear-gradient(to top, black 0%, black 50%, transparent 75%)'
-            }} 
-          />
-          
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <motion.h2 
-              style={{ y: personalTextY }} 
-              className="text-center text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black uppercase text-white tracking-tighter drop-shadow-xl whitespace-nowrap"
-            >
-              {personalData.label}
-            </motion.h2>
-
-            <motion.div 
-              style={{ y: personalDetailsY, opacity: personalDetailsOpacity }}
-              className="absolute top-1/2 w-full max-w-4xl px-6 flex flex-col"
-            >
-              <p className="text-lg md:text-2xl font-light text-white/90 drop-shadow-md">
-                {personalData.pitch}
-              </p>
-              <BlurRevealList lines={personalData.lines} isActive={personalActive} />
-            </motion.div>
-          </div>
-        </motion.div>
-
+              {/* Inactive: centred label */}
+              <div
+                className={cn(
+                  "absolute inset-0 flex flex-col items-center justify-end pb-8 transition-all duration-500",
+                  isActive ? "opacity-0 scale-75 pointer-events-none" : "opacity-100 delay-200"
+                )}
+              >
+                <span className="text-sm md:text-xl font-black uppercase tracking-widest text-white/90">
+                  {data.label}
+                </span>
+                <span className="mt-2 text-[10px] md:text-xs uppercase tracking-widest text-white/50">
+                  <span className="md:hidden">Tap</span>
+                  <span className="hidden md:inline">Hover</span>
+                  {" "}to explore
+                </span>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, lazy, Suspense } from "react";
+import { useRef, lazy, Suspense, useEffect } from "react";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import { motion, useScroll, useTransform, Variants, type MotionValue } from "framer-motion";
 import { Mail, ChevronDown } from "lucide-react";
@@ -127,6 +128,11 @@ export default function FounderClientPage({
   });
   const shadowOpacity = useTransform(storyScroll, [0.75, 1], [0, 1]);
 
+  const { setTheme } = useTheme();
+  useEffect(() => {
+    setTheme("dark");
+  }, [setTheme]);
+
   return (
     <div className="founder-cursor-page text-foreground overflow-clip relative min-h-screen w-full bg-[#FAFAFA] dark:bg-neutral-950 transition-colors duration-500">
       {/* Restored optimized canvas background */}
@@ -138,32 +144,32 @@ export default function FounderClientPage({
       </Suspense>
 
       <div className="relative z-10 w-full">
-        <div ref={storyWrapperRef} className="relative">
-          {/* Sticky Background Image for Hero and About */}
-          <div className="absolute inset-0 pointer-events-none z-0">
-            <div className="sticky top-0 h-screen w-full flex flex-col items-end justify-end pb-0 pr-0 overflow-hidden hidden lg:flex">
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.5 }}
-                className="relative w-[65vw] max-w-[1000px] h-[100vh]"
-              >
-                <Image
-                  src="/Vikhil transparent.png"
-                  alt="Vikhil V Salian"
-                  fill
-                  className="object-contain object-bottom pointer-events-auto"
-                  priority
-                />
-              </motion.div>
-
-              <motion.div
-                style={{ opacity: shadowOpacity }}
-                className="absolute inset-x-0 bottom-0 h-[25vh] bg-gradient-to-t from-background to-transparent pointer-events-none"
+        {/* Sticky Background Image for Entire Page */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <div className="sticky top-0 h-screen w-full flex flex-col items-start justify-end pt-24 pb-0 pl-0 overflow-hidden hidden lg:flex">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="relative w-[85vw] max-w-[1200px] h-full"
+            >
+              <Image
+                src="/Vikhilanna.png"
+                alt="Vikhil V Salian"
+                fill
+                className="object-contain object-left-bottom pointer-events-auto"
+                priority
               />
-            </div>
-          </div>
+            </motion.div>
 
+            <motion.div
+              style={{ opacity: shadowOpacity }}
+              className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent pointer-events-none"
+            />
+          </div>
+        </div>
+
+        <div ref={storyWrapperRef} className="relative">
           <div className="relative z-10">
             {/* ═══════════════════════════════════════
                 SECTION 1 — HERO
@@ -178,24 +184,24 @@ export default function FounderClientPage({
 
               <motion.div
                 style={{ opacity: heroOpacity, scale: heroScale }}
-                className="relative z-10 max-w-6xl mx-auto px-6 w-full"
+                className="relative z-10 w-full px-6 lg:px-24 xl:px-32"
               >
-                <div className="flex flex-col lg:flex-row items-center lg:items-end gap-8 lg:gap-16">
+                <div className="flex flex-col lg:flex-row items-center lg:justify-end gap-8 lg:gap-16">
                   {/* Text Content */}
                   <motion.div
                     initial="hidden"
                     animate="visible"
                     variants={stagger}
-                    className="flex-1 text-center lg:text-left"
+                    className="text-center lg:text-right"
                   >
                     <motion.h1
                       variants={fadeUp}
                       custom={1}
                       className="text-display-hero mb-8"
                     >
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground/90 to-foreground/90 block">
-                        {name.split(" ").slice(0, 1).join(" ")}<br />
-                        {name.split(" ").slice(1).join(" ")}
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground/90 to-foreground/90 block pr-[0.1em] -mr-[0.1em]">
+                        {name.split(" ").slice(0, 2).join("\u00A0")}<br />
+                        {name.split(" ").slice(2).join(" ")}
                       </span>
                     </motion.h1>
 
@@ -211,7 +217,7 @@ export default function FounderClientPage({
                     <motion.div
                       variants={fadeUp}
                       custom={3}
-                      className="flex items-center gap-3 justify-center lg:justify-start"
+                      className="flex items-center gap-3 justify-center lg:justify-end"
                     >
                       <a
                         href="https://www.instagram.com/the_verspektive"
@@ -239,23 +245,7 @@ export default function FounderClientPage({
                 </div>
               </motion.div>
 
-              {/* Scroll indicator */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.5, duration: 1 }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-              >
-                <span className="text-[10px] tracking-[0.25em] uppercase text-foreground/30">
-                  Scroll
-                </span>
-                <motion.div
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                >
-                  <ChevronDown className="w-4 h-4 text-foreground/30" />
-                </motion.div>
-              </motion.div>
+
             </section>
 
             {/* ═══════════════════════════════════════
@@ -265,13 +255,13 @@ export default function FounderClientPage({
               {/* Subtle top divider gradient */}
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
 
-              <div className="max-w-6xl mx-auto px-6 relative z-20">
-                <div className="flex flex-col items-start w-full lg:w-[70%] xl:w-[65%]">
-                  <div className="w-full glass-card p-8 lg:p-12 rounded-[24px] backdrop-blur-md">
+              <div className="w-full px-6 lg:px-24 xl:px-32 relative z-20">
+                <div className="flex flex-col items-end lg:ml-auto w-full lg:w-[65%] xl:w-[60%]">
+                  <div className="w-full glass-card !bg-black/50 dark:!bg-black/70 p-8 lg:p-12 rounded-[24px] backdrop-blur-md">
                     {/* Mobile Portrait */}
                     <div className="lg:hidden mb-8 relative aspect-[4/5] rounded-[24px] overflow-hidden glass-card p-1 max-w-[300px] mx-auto">
                       <Image
-                        src="/Vikhil.jpg"
+                        src="/Vikhilanna.png"
                         alt="Vikhil V Salian"
                         fill
                         sizes="(max-width: 768px) 100vw"
@@ -363,16 +353,14 @@ export default function FounderClientPage({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.9, ease: "easeOut" }}
-              className="text-center mb-16 lg:mb-20"
+              className="text-center mb-16 lg:mb-20 relative -z-10"
             >
-              <p className="text-sm font-medium tracking-[0.15em] uppercase text-foreground/40 mb-3">
-                Building Brands
-              </p>
+
               <h2 className="text-display-hero text-foreground">Ventures</h2>
             </motion.div>
 
             {/* Venture Cards Grid - Scroll Driven 3D Stagger */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 relative z-10">
               {ventures.map((v, i) => (
                 <AnimatedVentureCard key={v.name} v={v} i={i} />
               ))}
@@ -404,38 +392,15 @@ export default function FounderClientPage({
                 &ldquo;
               </span>
               <BlurReveal
-                text="Building a premium digital media company that delivers world-class production quality while creating conversations that educate, inspire, and entertain."
+                text="Building premium brands that delivers world class services while creating conversations that educate, inspire, and entertain."
                 as="blockquote"
-                className="text-2xl md:text-3xl lg:text-4xl font-light text-foreground/80 leading-snug italic max-w-4xl mx-auto"
+                className="text-2xl md:text-3xl lg:text-4xl font-light text-white mix-blend-difference leading-snug italic max-w-4xl mx-auto relative z-10"
                 blurAmount={12}
                 scrollRange={["start 0.8", "end 0.4"]}
               />
             </div>
 
-            {/* Philosophy Pillars */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-5%" }}
-              variants={stagger}
-              className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-20"
-            >
-              {pillars.map((p, i) => (
-                <motion.div
-                  key={p.title}
-                  variants={fadeUp}
-                  custom={i}
-                  className="h-full"
-                >
-                  <ArticleCard
-                    headline={p.title}
-                    excerpt={p.description}
-                    tag={p.icon}
-                    clampLines={4}
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
+
           </div>
         </section>
 
@@ -452,18 +417,13 @@ export default function FounderClientPage({
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.9, ease: "easeOut" }}
             >
-              <p className="text-sm font-medium tracking-[0.15em] uppercase text-foreground/40 mb-4">
-                Get In Touch
-              </p>
-              <h2 className="text-display-lg text-foreground mb-4">
+              <h2 className="text-display-lg text-white mix-blend-difference relative z-10 mb-4">
                 Let&apos;s create something
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground/90 to-foreground/90">
-                  together.
-                </span>
+                together.
               </h2>
               <p className="text-muted-foreground text-lg mb-10 max-w-lg mx-auto">
-                Have a project in mind or just want to say hello? Reach out
+                Want to collaborate or just want to say hello? Reach out
                 through any of these channels.
               </p>
             </motion.div>
@@ -482,7 +442,7 @@ export default function FounderClientPage({
                 href="https://www.instagram.com/the_verspektive"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="cursor-can-hover glass-card px-6 py-3 flex items-center gap-2.5 text-foreground/70 hover:text-foreground transition-colors"
+                className="cursor-can-hover glass-card !bg-black/80 px-6 py-3 flex items-center gap-2.5 text-foreground/70 hover:text-foreground transition-colors"
               >
                 <InstagramIcon className="w-4 h-4" />
                 <span className="text-sm font-medium">Instagram</span>
@@ -494,7 +454,7 @@ export default function FounderClientPage({
                 href="https://www.youtube.com/@verspektive_productions"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="cursor-can-hover glass-card px-6 py-3 flex items-center gap-2.5 text-foreground/70 hover:text-foreground transition-colors"
+                className="cursor-can-hover glass-card !bg-black/80 px-6 py-3 flex items-center gap-2.5 text-foreground/70 hover:text-foreground transition-colors"
               >
                 <YoutubeIcon className="w-4 h-4" />
                 <span className="text-sm font-medium">YouTube</span>
@@ -502,7 +462,7 @@ export default function FounderClientPage({
 
               <motion.div variants={fadeUp} custom={2}>
                 <MailDropdown email="hey@verspektive.in">
-                  <div className="cursor-can-hover glass-card px-6 py-3 flex items-center gap-2.5 text-foreground/70 hover:text-foreground transition-colors">
+                  <div className="cursor-can-hover glass-card !bg-black/80 px-6 py-3 flex items-center gap-2.5 text-foreground/70 hover:text-foreground transition-colors">
                     <Mail className="w-4 h-4" />
                     <span className="text-sm font-medium">hey@verspektive.in</span>
                   </div>
@@ -510,16 +470,7 @@ export default function FounderClientPage({
               </motion.div>
             </motion.div>
 
-            {/* Bottom attribution */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, duration: 1 }}
-              className="text-xs text-foreground/20 mt-16"
-            >
-              © {new Date().getFullYear()} VerspeKtive. All rights reserved.
-            </motion.p>
+
           </div>
         </section>
       </div>

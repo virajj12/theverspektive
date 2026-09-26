@@ -1,126 +1,129 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ContactEmailDropdown } from "@/components/ContactEmailDropdown";
 
 import footerData from "../../content/footer.json";
 
-const footerSections = footerData.sections;
-
 export default function Footer() {
   const pathname = usePathname();
-  const currentYear = new Date().getFullYear();
-  const containerRef = useRef<HTMLElement>(null);
-  const [height, setHeight] = useState(0);
 
-  useEffect(() => {
-    const observer = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        setHeight(entry.target.getBoundingClientRect().height);
-      }
-    });
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-    return () => observer.disconnect();
-  }, []);
-
-
-  // G3 Builders ships its own footer — see the matching guard in navbar.tsx.
-  // Must sit after all hooks.
-  if (pathname.startsWith('/g3-builders')) {
+  // Hide on admin pages
+  if (pathname.startsWith('/admin') || pathname.startsWith('/g3-builders')) {
     return null;
   }
-  return (
-    <div
-      className="relative w-full z-0"
-      style={{
-        height: height > 0 ? `${height}px` : 'auto',
-        clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)"
-      }}
-    >
-      <div
-        className="relative w-full"
-        style={{
-          height: height > 0 ? `calc(100vh + ${height}px)` : 'auto',
-          top: height > 0 ? '-100vh' : 'auto'
-        }}
-      >
-        <div
-          className={height > 0 ? "sticky w-full" : "relative w-full"}
-          style={{
-            height: height > 0 ? `${height}px` : 'auto',
-            top: height > 0 ? `calc(100vh - ${height}px)` : 'auto'
-          }}
-        >
-          <footer ref={containerRef} className="w-full bg-[#ebebeb] dark:bg-[#111] text-[#1d1d1f] dark:text-[#f5f5f7] shadow-[inset_0_10px_20px_rgba(0,0,0,0.03)] dark:shadow-[inset_0_10px_20px_rgba(0,0,0,0.2)] transition-colors duration-300">
-            <div className="max-w-[1120px] mx-auto px-6 lg:px-8">
-              {/* Breadcrumb-style note */}
-              {footerData.description && (
-                <div className="pt-5 pb-3 border-b border-[#d2d2d7] dark:border-white/10 text-xs text-[#6e6e73] dark:text-white/40 leading-relaxed">
-                  <p className="whitespace-pre-line">
-                    {footerData.description}
-                  </p>
-                </div>
-              )}
 
-              {/* Link Columns */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-8 py-8">
-                {footerSections.map((section) => (
-                  <div key={section.title}>
-                    <h4 className="text-xs font-semibold text-[#1d1d1f] dark:text-white/90 mb-3">
-                      {section.title}
-                    </h4>
-                    <ul className="space-y-2">
-                      {section.links.map((link) => (
-                        <li key={link.name}>
-                          {link.href.startsWith("mailto:") ? (
-                            <ContactEmailDropdown
-                              email={link.name}
-                              className="text-xs text-[#424245] dark:text-white/50 hover:text-[#1d1d1f] dark:hover:text-white hover:underline transition-colors duration-200 text-left p-0 m-0 bg-transparent"
-                            >
-                              {link.name}
-                            </ContactEmailDropdown>
-                          ) : (
-                            <Link
-                              href={link.href}
-                              className="text-xs text-[#424245] dark:text-white/50 hover:text-[#1d1d1f] dark:hover:text-white hover:underline transition-colors duration-200"
-                            >
-                              {link.name}
-                            </Link>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
+  const isRevealFooter = pathname !== '/' && !pathname.startsWith('/founder') && !pathname.startsWith('/tech');
 
-              {/* Bottom Bar */}
-              <div className="border-t border-[#d2d2d7] dark:border-white/10 py-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-                <p className="text-xs text-[#6e6e73] dark:text-white/40">
-                  Copyright &copy; {currentYear} VerspeKtive. All rights reserved.
-                </p>
-                <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[#424245] dark:text-white/50">
-                  {footerData.bottomLinks.map((link, i) => (
-                    <React.Fragment key={link.name}>
-                      <Link href={link.href} className="hover:text-[#1d1d1f] dark:hover:text-white hover:underline transition-colors duration-200">
-                        {link.name}
-                      </Link>
-                      {i < footerData.bottomLinks.length - 1 && (
-                        <span className="text-[#d2d2d7] dark:text-white/20">|</span>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </footer>
+
+
+  const exploreSection = footerData.sections.find(s => s.title === "Explore")?.links || [];
+  const contactSection = footerData.sections.find(s => s.title === "Contact")?.links || [];
+
+  const footerInner = (
+    <>
+      {/* Top Section - Follows Page Theme */}
+      <div className="bg-background text-foreground flex flex-col transition-colors duration-300">
+        
+        {footerData.description && (
+          <div className="flex flex-col justify-center items-center pt-12 md:pt-16 pb-4">
+            <p className="text-sm text-muted-foreground max-w-md mx-auto text-center whitespace-pre-line px-6">
+              {footerData.description}
+            </p>
+          </div>
+        )}
+
+        {/* Navigation */}
+        <div className="w-full px-6 lg:px-12 pt-4 pb-8 md:pt-6 md:pb-10">
+          <div className="flex flex-wrap md:flex-row justify-between items-center gap-x-6 gap-y-4 font-medium text-base md:text-lg">
+            {exploreSection.map((link) => (
+              <Link key={link.name} href={link.href} className="hover:text-muted-foreground transition-colors">
+                {link.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+        
+        {/* Mobile Bottom Row (Inside Theme Area) */}
+        <div className="mt-8 flex flex-col md:hidden items-center gap-4 px-6 py-5 text-[11px] font-medium tracking-wide text-muted-foreground border-t border-black/10 dark:border-white/10">
+          <span>© {new Date().getFullYear()} VerspeKtive. All rights reserved.</span>
+          <div className="flex flex-wrap justify-center gap-4">
+            {footerData.bottomLinks.map(link => (
+              <Link key={link.name} href={link.href} className="hover:text-foreground transition-colors">
+                {link.name}
+              </Link>
+            ))}
+          </div>
+          <Link href="/tech" className="hover:text-foreground transition-colors">
+            Made by VerspeKtive Tech
+          </Link>
         </div>
       </div>
-    </div>
+
+      {/* Bottom Section - Always Dark with Huge Logo */}
+      <div className="bg-zinc-950 text-white pt-8 pb-6 md:pt-12 md:pb-0">
+        <div className="w-full flex flex-col items-center">
+          
+          {/* MASSIVE LOGO */}
+          <div className="w-full flex justify-center items-center pointer-events-none mb-6 md:mb-10">
+            <Image 
+              src="/V.png" 
+              alt="VerspeKtive" 
+              width={1600} 
+              height={400} 
+              className="w-full h-auto object-cover md:object-contain"
+              priority
+            />
+          </div>
+        </div>
+
+        {/* Desktop Bottom Row */}
+        <div className="hidden md:grid md:grid-cols-3 items-center gap-4 px-6 lg:px-12 py-5 text-xs font-medium tracking-wide text-zinc-500 border-t border-white/10 bg-black/40">
+          <div className="flex justify-start">
+            <span>© {new Date().getFullYear()} VerspeKtive. All rights reserved.</span>
+          </div>
+          <div className="flex justify-center items-center gap-8">
+            {footerData.bottomLinks.map(link => (
+              <Link key={link.name} href={link.href} className="hover:text-white transition-colors">
+                {link.name}
+              </Link>
+            ))}
+          </div>
+          <div className="flex justify-end">
+            <Link href="/tech" className="hover:text-white transition-colors">
+              Made by VerspeKtive Tech
+            </Link>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+
+  if (!isRevealFooter) {
+    return (
+      <footer 
+        id="verspektive-footer" 
+        className="relative z-50 w-full overflow-hidden transition-colors duration-300 border-t border-black/10 dark:border-white/10"
+      >
+        {footerInner}
+      </footer>
+    );
+  }
+
+  return (
+    <>
+      <div className="w-full relative z-[-20] opacity-0 pointer-events-none select-none" aria-hidden="true">
+        {footerInner}
+      </div>
+      <footer 
+        id="verspektive-footer" 
+        className="fixed bottom-0 left-0 w-full z-0 overflow-hidden transition-colors duration-300 border-t border-black/10 dark:border-white/10"
+      >
+        {footerInner}
+      </footer>
+    </>
   );
 }

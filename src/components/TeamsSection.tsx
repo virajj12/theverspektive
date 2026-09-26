@@ -5,6 +5,7 @@ import { CoverflowCarousel, CoverflowSlide } from "@/components/ui/coverflow-car
 
 export interface TeamMember {
   src: string;
+  role?: string;
 }
 
 export interface TeamGroup {
@@ -26,18 +27,27 @@ export default function TeamsSection({ teams }: TeamsSectionProps) {
       {teams.map((team) => {
         const slides: CoverflowSlide[] = team.members.map((m) => ({
           src: m.src,
-          alt: "Team Member",
+          alt: m.role || "Team Member",
+          title: m.role,
         }));
 
-        if (slides.length === 0) return null;
+        let displaySlides = slides;
+        // If there are exactly 2 members, duplicate them to 4 so CoverflowCarousel 
+        // can form a complete cylinder and auto-rotate seamlessly without jumping.
+        if (slides.length === 2) {
+          displaySlides = [...slides, ...slides];
+        }
+
+        if (displaySlides.length === 0) return null;
 
         return (
           <div key={team.id} className="flex flex-col items-center w-full">
             <MaskText text={team.title} className="text-4xl font-bold tracking-tight mb-12 justify-center" />
             <div className="w-full max-w-5xl">
               <CoverflowCarousel
-                slides={slides}
+                slides={displaySlides}
                 autoPlayDuration={team.duration || 0}
+                showCaption={true}
               />
             </div>
           </div>

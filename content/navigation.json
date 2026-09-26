@@ -1,41 +1,88 @@
 {
   "navItems": [
-    { "name": "G3 Builders & Architects", "href": "https://projectsbyg3.com/" },
-    { "name": "VerspeKtive Productions", "href": "/productions" },
-    { "name": "VerspeKtive Studios", "href": "/productions/verspektive-studios" },
-    { "name": "TIO Originals", "href": "/productions/tio-originals" },
-    { "name": "Tech", "href": "/tech" },
-    { "name": "Founder", "href": "/founder" }
+    {
+      "name": "G3 Builders & Architects",
+      "href": "https://projectsbyg3.com/"
+    },
+    {
+      "name": "VerspeKtive Productions",
+      "href": "/productions"
+    },
+    {
+      "name": "VerspeKtive Studios",
+      "href": "/productions/verspektive-studios"
+    },
+    {
+      "name": "TIO Originals",
+      "href": "/productions/tio-originals"
+    },
+    {
+      "name": "VerspeKtive Tech",
+      "href": "/tech"
+    },
+    {
+      "name": "Founder",
+      "href": "/founder"
+    }
   ],
   "megaMenus": {
     "G3 Builders & Architects": [
       {
         "title": "Explore",
         "links": [
-          { "name": "Home", "href": "https://projectsbyg3.com/" },
-          { "name": "Projects", "href": "https://projectsbyg3.com/projects" },
-          { "name": "Services", "href": "https://projectsbyg3.com/services" }
+          {
+            "name": "Home",
+            "href": "https://projectsbyg3.com/"
+          },
+          {
+            "name": "Projects",
+            "href": "https://projectsbyg3.com/projects"
+          },
+          {
+            "name": "Services",
+            "href": "https://projectsbyg3.com/services"
+          }
         ]
       },
       {
         "title": "Social",
-        "links": [{ "name": "Instagram", "href": "https://instagram.com/projects_by_g3" }]
+        "links": [
+          {
+            "name": "Instagram",
+            "href": "https://instagram.com/projects_by_g3"
+          }
+        ]
       }
     ],
     "VerspeKtive Productions": [
       {
         "title": "Explore",
         "links": [
-          { "name": "About", "href": "/productions#about" },
-          { "name": "VerspeKtive Studios", "href": "/productions/verspektive-studios" },
-          { "name": "TIO Originals", "href": "/productions/tio-originals" }
+          {
+            "name": "About",
+            "href": "/productions#about"
+          },
+          {
+            "name": "VerspeKtive Studios",
+            "href": "/productions/verspektive-studios"
+          },
+          {
+            "name": "TIO Originals",
+            "href": "/productions/tio-originals"
+          }
         ]
       },
       {
         "title": "Social",
         "links": [
-          { "name": "YouTube", "href": "https://www.youtube.com/@verspektive_productions" },
-          { "name": "Instagram", "href": "https://www.instagram.com/verspektive_productions" }
+          {
+            "name": "YouTube",
+            "href": "https://www.youtube.com/@verspektive_productions"
+          },
+          {
+            "name": "Instagram",
+            "href": "https://www.instagram.com/verspektive_productions"
+          }
         ]
       }
     ],
@@ -43,15 +90,27 @@
       {
         "title": "Explore",
         "links": [
-          { "name": "About Studios", "href": "/productions/verspektive-studios#about" },
-          { "name": "Our Work", "href": "/productions/verspektive-studios#work" },
-          { "name": "Services", "href": "/productions/verspektive-studios#services" }
+          {
+            "name": "About Studios",
+            "href": "/productions/verspektive-studios#about"
+          },
+          {
+            "name": "Our Work",
+            "href": "/productions/verspektive-studios#work"
+          },
+          {
+            "name": "Services",
+            "href": "/productions/verspektive-studios#services"
+          }
         ]
       },
       {
         "title": "Social",
         "links": [
-          { "name": "Instagram", "href": "https://www.instagram.com/verspektive_productions" }
+          {
+            "name": "Instagram",
+            "href": "https://www.instagram.com/verspektive_productions"
+          }
         ]
       }
     ],
@@ -59,31 +118,63 @@
       {
         "title": "Shows",
         "links": [
-          { "name": "Talk it Out", "href": "/productions/tio-originals/talk-it-out" },
-          { "name": "Latest Episodes", "href": "/productions/tio-originals#episodes" }
+          {
+            "name": "Talk it Out",
+            "href": "/productions/tio-originals/talk-it-out"
+          },
+          {
+            "name": "Latest Episodes",
+            "href": "/productions/tio-originals#episodes"
+          },
+          {
+            "name": "Team",
+            "href": "/productions/tio-originals#team"
+          }
         ]
       },
       {
         "title": "Social",
         "links": [
-          { "name": "YouTube", "href": "https://www.youtube.com/@verspektive_productions" }
+          {
+            "name": "YouTube",
+            "href": "https://www.youtube.com/@verspektive_productions"
+          }
         ]
       }
     ],
-    "Tech": [
+    "VerspeKtive Tech": [
       {
         "title": "Explore",
         "links": [
-          { "name": "Who We Build For", "href": "/tech#audience" },
-          { "name": "How We Work", "href": "/tech#process" },
-          { "name": "Services", "href": "/tech#services" }
+          {
+            "name": "Who We Build For",
+            "href": "/tech#audience"
+          },
+          {
+            "name": "How We Work",
+            "href": "/tech#process"
+          },
+          {
+            "name": "Services",
+            "href": "/tech#services"
+          },
+          {
+            "name": "Team",
+            "href": "/tech#team"
+          }
         ]
       },
       {
         "title": "Quick Links",
         "links": [
-          { "name": "Trust & Security", "href": "/tech#trust" },
-          { "name": "Start a Project", "href": "/tech#contact" }
+          {
+            "name": "Trust & Security",
+            "href": "/tech#trust"
+          },
+          {
+            "name": "Start a Project",
+            "href": "/tech#contact"
+          }
         ]
       }
     ],
@@ -91,16 +182,31 @@
       {
         "title": "Explore",
         "links": [
-          { "name": "About Vikhil", "href": "/founder" },
-          { "name": "The Journey", "href": "/founder#journey" },
-          { "name": "Vision", "href": "/founder#vision" }
+          {
+            "name": "About Vikhil",
+            "href": "/founder"
+          },
+          {
+            "name": "The Journey",
+            "href": "/founder#journey"
+          },
+          {
+            "name": "Vision",
+            "href": "/founder#vision"
+          }
         ]
       },
       {
         "title": "Connect",
         "links": [
-          { "name": "LinkedIn", "href": "https://www.linkedin.com/in/vikhil-salian/" },
-          { "name": "Instagram", "href": "https://www.instagram.com/the_verspektive" }
+          {
+            "name": "LinkedIn",
+            "href": "https://www.linkedin.com/in/vikhil-salian/"
+          },
+          {
+            "name": "Instagram",
+            "href": "https://www.instagram.com/the_verspektive"
+          }
         ]
       }
     ]

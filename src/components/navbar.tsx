@@ -102,7 +102,7 @@ export default function Navbar() {
               height={40}
               priority
               className={clsx(
-                isHomePage || pathname.startsWith("/tech")
+                isHomePage
                   ? "invert w-7 h-auto transition-all"
                   : "invert dark:invert-0 w-7 h-auto transition-all"
               )}
@@ -146,7 +146,7 @@ export default function Navbar() {
               </div>
             )}
 
-            {pathname !== "/productions/verspektive-studios" && (
+            {pathname !== "/productions/verspektive-studios" && !pathname.startsWith("/founder") && (
               <AnimatedThemeToggler
                 className={clsx(
                   "flex transition-colors duration-200 relative z-50",
@@ -156,7 +156,6 @@ export default function Navbar() {
                 )}
               />
             )}
-
 
             {/* Mobile Toggle */}
             <button

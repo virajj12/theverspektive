@@ -391,7 +391,7 @@ export default function TioOriginalsClient({
             </div>
 
             {teams && teams.length > 0 && (
-              <div className="w-full mt-24">
+              <div id="team" className="w-full mt-24 scroll-mt-20">
                 <TeamsSection teams={teams} />
               </div>
             )}

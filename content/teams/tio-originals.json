@@ -1,1 +1,17 @@
-[]
+[
+    {
+        "id": 1,
+        "title": "Production Team",
+        "duration": 2000,
+        "members": [
+            {
+                "src": "/images/teams/tio-originals/member-1.png",
+                "role": "Founder | Editor"
+            },
+            {
+                "src": "/images/teams/tio-originals/member-2.jpg",
+                "role": "Editor"
+            }
+        ]
+    }
+]

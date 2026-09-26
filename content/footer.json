@@ -21,38 +21,16 @@
           "href": "/productions/verspektive-studios"
         },
         {
-          "name": "Tech",
+          "name": "VerspeKtive Tech",
           "href": "/tech"
-        }
-      ]
-    },
-    {
-      "title": "About",
-      "links": [
+        },
         {
           "name": "Vikhil V Salian",
           "href": "/founder"
         },
         {
-          "name": "VerspeKtive",
-          "href": "/"
-        },
-        {
           "name": "Careers",
           "href": "/careers"
-        }
-      ]
-    },
-    {
-      "title": "Connect",
-      "links": [
-        {
-          "name": "Instagram",
-          "href": "https://www.instagram.com/the_verspektive"
-        },
-        {
-          "name": "YouTube",
-          "href": "https://www.youtube.com/@verspektive_productions"
         }
       ]
     },

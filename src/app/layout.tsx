@@ -41,13 +41,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className="w-full h-full">
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className="w-full">
       <head>
         <link rel="preload" href="/VB-01.png" as="image" />
       </head>
       <body
         suppressHydrationWarning
-        className={`${inter.variable} ${outfit.variable} antialiased min-h-screen w-full h-full bg-background text-foreground`}
+        className={`${inter.variable} ${outfit.variable} antialiased min-h-screen w-full bg-background text-foreground flex flex-col`}
       >
         <ThemeProvider
           attribute="class"
@@ -59,7 +59,9 @@ export default function RootLayout({
 
             <ScrollToTop />
             <Navbar />
-            {children}
+            <main className="relative z-10 bg-background flex-1 w-full flex flex-col">
+              {children}
+            </main>
             <Footer />
           </GlobalLoaderProvider>
         </ThemeProvider>

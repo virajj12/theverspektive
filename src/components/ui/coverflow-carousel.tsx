@@ -255,7 +255,7 @@ export function CoverflowCarousel({
               nudge(1);
             }
           }}
-          className="cursor-grab overflow-hidden py-10 outline-none ring-ring focus-visible:ring-2 active:cursor-grabbing"
+          className="cursor-grab overflow-hidden pt-10 pb-2 outline-none ring-ring focus-visible:ring-2 active:cursor-grabbing"
           style={{
             perspective: `calc(var(--cf-card) * ${perspective})`,
             touchAction: "pan-y",

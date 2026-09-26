@@ -35,7 +35,9 @@ export default function TechClientPage({
         <ScrollTargetSequence />
         <ProcessSequence />
         <CredibilitySignals />
-        <TeamsSection teams={teams} />
+        <div id="team" className="scroll-mt-20">
+          <TeamsSection teams={teams} />
+        </div>
         <TechContact />
       </div>
     </main>
