@@ -37,7 +37,7 @@ export default function Footer() {
         )}
 
         {/* Navigation */}
-        <div className="w-full px-6 lg:px-12 pt-4 pb-8 md:pt-6 md:pb-10">
+        <div className="w-full px-6 lg:px-12 py-8 md:py-10">
           <div className="flex flex-wrap md:flex-row justify-between items-center gap-x-6 gap-y-4 font-medium text-base md:text-lg">
             {exploreSection.map((link) => (
               <Link key={link.name} href={link.href} className="hover:text-muted-foreground transition-colors">
@@ -64,7 +64,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Section - Always Dark with Huge Logo */}
-      <div className="bg-zinc-950 text-white pt-8 pb-6 md:pt-12 md:pb-0">
+      <div className="bg-zinc-900 text-white pt-8 pb-6 md:pt-12 md:pb-0">
         <div className="w-full flex flex-col items-center">
           
           {/* MASSIVE LOGO */}
