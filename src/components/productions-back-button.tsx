@@ -9,7 +9,7 @@ export function ProductionsBackButton() {
 
   // Determine back href based on the current path
   let backHref = "";
-  if (pathname === "/productions/tio-originals/talk-it-out" || pathname === "/productions/tio-originals/taste-it-out") {
+  if (pathname === "/productions/tio-originals/taste-it-out") {
     backHref = "/productions/tio-originals";
   } else if (pathname === "/productions/tio-originals" || pathname === "/productions/verspektive-studios") {
     backHref = "/productions";

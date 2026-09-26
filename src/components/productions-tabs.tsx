@@ -41,22 +41,17 @@ export function ProductionsTabs() {
   }, [pathname]);
 
   if (pathname.startsWith("/productions/tio-originals")) {
-    const isTalkPage = pathname === "/productions/tio-originals/talk-it-out";
     const isTastePage = pathname === "/productions/tio-originals/taste-it-out";
     const ENABLE_TASTE_IT_OUT = false;
     
     const tioTabs = [];
 
-    if (isTalkPage) {
-      playlists.forEach(p => {
-        tioTabs.push({ id: `playlist-${p.id}`, label: p.title, href: `#playlist-${p.id}`, grouped: true });
-      });
-    } else if (isTastePage) {
+    if (isTastePage) {
       if (ENABLE_TASTE_IT_OUT) {
         tioTabs.push({ id: "taste-it-out", label: "Taste it out", href: "/productions/tio-originals/taste-it-out", iconOnlyWhenActiveBack: true });
       }
     } else {
-      tioTabs.push({ id: "talk-it-out", label: "Talk It Out", href: "/productions/tio-originals/talk-it-out", grouped: false });
+      tioTabs.push({ id: "talk-it-out", label: "Talk It Out", href: "/productions/tio-originals", grouped: false });
       if (ENABLE_TASTE_IT_OUT) {
         tioTabs.push({ id: "taste-it-out", label: "Taste It Out", href: "/productions/tio-originals/taste-it-out", grouped: false });
       }
@@ -65,12 +60,11 @@ export function ProductionsTabs() {
 
     // Determine the active tab ID to pass to AnimatedTabs
     let activeTabId = "";
-    if (isTalkPage) {
-      // Prioritize hash if it matches a playlist, otherwise default to the talk page route
-      activeTabId = tioTabs.find(t => t.href === activeHash)?.href || "/productions/tio-originals/talk-it-out";
+    if (pathname === "/productions/tio-originals") {
+      activeTabId = "/productions/tio-originals";
     }
 
-    const backHref = isTalkPage || isTastePage ? "/productions/tio-originals" : "/productions";
+    const backHref = isTastePage ? "/productions/tio-originals" : "/productions";
 
     return <AnimatedTabs tabs={tioTabs} activeTabOverride={activeTabId} backHref={backHref} />;
   }

@@ -38,7 +38,7 @@ export default function Footer() {
 
         {/* Navigation */}
         <div className="w-full px-6 lg:px-12 py-8 md:py-10">
-          <div className="flex flex-wrap md:flex-row justify-between items-center gap-x-6 gap-y-4 font-medium text-base md:text-lg">
+          <div className="flex flex-col md:flex-row md:flex-wrap justify-center md:justify-between items-center gap-x-6 gap-y-5 font-medium text-base md:text-lg text-center">
             {exploreSection.map((link) => (
               <Link key={link.name} href={link.href} className="hover:text-muted-foreground transition-colors">
                 {link.name}
