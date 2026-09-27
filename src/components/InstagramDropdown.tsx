@@ -58,9 +58,20 @@ export function InstagramDropdown({ className }: { className?: string }) {
     }
     if (dropdownRef.current) {
       const rect = dropdownRef.current.getBoundingClientRect();
+      const idealLeft = rect.left + rect.width / 2;
+      const dropdownWidth = 224; // w-56
+      let safeLeft = idealLeft - dropdownWidth / 2;
+      
+      if (safeLeft + dropdownWidth > window.innerWidth - 16) {
+        safeLeft = window.innerWidth - dropdownWidth - 16;
+      }
+      if (safeLeft < 16) {
+        safeLeft = 16;
+      }
+
       setCoords({
         top: rect.bottom, // Open below the icon
-        left: rect.left + rect.width / 2,
+        left: safeLeft,
       });
       setIsOpen(true);
     }
@@ -74,7 +85,6 @@ export function InstagramDropdown({ className }: { className?: string }) {
             position: 'fixed',
             left: coords.left,
             top: coords.top + 10,
-            transform: 'translateX(-50%)',
             zIndex: 999999,
           }}
         >

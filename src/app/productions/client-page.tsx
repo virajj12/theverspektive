@@ -156,7 +156,7 @@ export default function ProductionsClient({
   );
 
   const cover = (
-    <div className="relative w-full h-full flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 p-6 md:p-16 text-center overflow-hidden">
+    <div className="relative w-full min-h-screen flex flex-col items-center justify-center bg-zinc-100 dark:bg-zinc-900 px-6 py-24 md:p-16 text-center overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

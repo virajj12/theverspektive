@@ -58,7 +58,7 @@ const stagger: Variants = {
 
 function AnimatedVentureCard({ v, i }: { v: any; i: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
-  
+
   const { scrollYProgress } = useScroll({
     target: cardRef,
     offset: ["start 0.85", "start 0.50"], // Starts at 85%, finishes at the middle of the screen (50%)
@@ -104,14 +104,14 @@ function AnimatedVentureCard({ v, i }: { v: any; i: number }) {
    MAIN COMPONENT
    ══════════════════════════════════════════ */
 
-export default function FounderClientPage({ 
-  name, role, ventures, pillars, stats 
-}: { 
-  name: string, 
-  role: string, 
-  ventures: any[], 
-  pillars: any[], 
-  stats: any[] 
+export default function FounderClientPage({
+  name, role, ventures, pillars, stats
+}: {
+  name: string,
+  role: string,
+  ventures: any[],
+  pillars: any[],
+  stats: any[]
 }) {
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -263,9 +263,9 @@ export default function FounderClientPage({
                       <Image
                         src="/Vikhilanna.png"
                         alt="Vikhil V Salian"
-                        fill
-                        sizes="(max-width: 768px) 100vw"
-                        className="object-cover rounded-[20px]"
+                        width={300}
+                        height={375}
+                        className="w-[calc(100%-8px)] h-[85%] absolute bottom-1 left-1 object-cover object-bottom rounded-b-[20px]"
                       />
                       {/* Gradient overlay at bottom */}
                       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent rounded-b-[20px] pointer-events-none" />

@@ -64,9 +64,20 @@ export function ContactEmailDropdown({
     }
     if (dropdownRef.current) {
       const rect = dropdownRef.current.getBoundingClientRect();
+      const idealLeft = rect.left + rect.width / 2;
+      const dropdownWidth = 256; // w-64
+      let safeLeft = idealLeft - dropdownWidth / 2;
+      
+      if (safeLeft + dropdownWidth > window.innerWidth - 16) {
+        safeLeft = window.innerWidth - dropdownWidth - 16;
+      }
+      if (safeLeft < 16) {
+        safeLeft = 16;
+      }
+
       setCoords({
         top: rect.top,
-        left: rect.left + rect.width / 2,
+        left: safeLeft,
       });
       setIsOpen(true);
     }
@@ -107,7 +118,6 @@ export function ContactEmailDropdown({
             position: 'fixed',
             left: coords.left,
             bottom: window.innerHeight - coords.top + 10,
-            transform: 'translateX(-50%)',
             zIndex: 999999,
           }}
         >
