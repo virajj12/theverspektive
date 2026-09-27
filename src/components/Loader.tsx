@@ -6,20 +6,20 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
   const [phase, setPhase] = useState<"animating" | "logo-fading" | "fading-out">("animating");
 
   useEffect(() => {
-    // Start logo fade out after 400ms
+    // Start logo fade out after 1200ms
     const logoFadeOutTimer = setTimeout(() => {
       setPhase("logo-fading");
-    }, 400);
+    }, 800);
 
-    // Start background fade out after logo has faded (400ms + 200ms)
+    // Start background fade out after logo has faded (1200ms + 200ms)
     const backgroundFadeOutTimer = setTimeout(() => {
       setPhase("fading-out");
-    }, 600);
+    }, 1000);
 
-    // Completely unmount after background fades out (600ms + 400ms)
+    // Completely unmount after background fades out (1400ms + 400ms)
     const removeTimer = setTimeout(() => {
       onComplete();
-    }, 1000);
+    }, 1400);
 
     return () => {
       clearTimeout(logoFadeOutTimer);
@@ -53,16 +53,14 @@ export default function Loader({ onComplete }: { onComplete: () => void }) {
       </style>
       {/* Background Layer */}
       <div
-        className={`fixed inset-0 z-[99] bg-black pointer-events-none transition-opacity duration-400 ease-in-out ${
-          phase === "fading-out" ? "opacity-0" : "opacity-100"
-        }`}
+        className={`fixed inset-0 z-[99] bg-black pointer-events-none transition-opacity duration-400 ease-in-out ${phase === "fading-out" ? "opacity-0" : "opacity-100"
+          }`}
       />
-      
+
       {/* Logo Layer */}
       <div
-        className={`fixed inset-0 z-[100] flex items-center justify-center pointer-events-none transition-opacity duration-200 ease-in-out ${
-          phase === "logo-fading" || phase === "fading-out" ? "opacity-0" : "opacity-100"
-        }`}
+        className={`fixed inset-0 z-[100] flex items-center justify-center pointer-events-none transition-opacity duration-200 ease-in-out ${phase === "logo-fading" || phase === "fading-out" ? "opacity-0" : "opacity-100"
+          }`}
       >
         <div className="relative h-20 w-20 sm:h-24 sm:w-24 md:h-32 md:w-32 lg:h-40 lg:w-40 flex-shrink-0 logo-continuous-anim">
           <img

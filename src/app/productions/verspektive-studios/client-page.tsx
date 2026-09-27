@@ -68,7 +68,7 @@ export default function VerspektiveStudiosClient({ teams }: { teams?: any[] }) {
           VerspeKtive Studios is the premier podcast and content creation studio in Dakshina Kannada & Udupi. Designed for professional production standards, our modern and acoustically treated environment is available for flexible rental or full-service production.
         </p>
         <p className="text-lg md:text-xl text-white/80 leading-relaxed">
-          Fully equipped with cinema-grade cameras, professional lighting, and premium audio gear, we provide flexible solutions for creators, businesses, and influencers—ranging from simple space rental to complete end-to-end recording, editing, and delivery.
+          Fully equipped with cinema-grade cameras, professional lighting, and premium audio gear, we provide flexible solutions for creators, businesses, and influencers - ranging from simple space rental to complete end-to-end recording, editing, and delivery.
         </p>
         <p className="text-lg md:text-xl text-white/80 leading-relaxed font-medium">
           We believe every great conversation deserves a world-class environment where ideas are transformed into impactful stories.
