@@ -134,7 +134,7 @@ export default function Navbar() {
           {/* Right Icons */}
           <div className="flex-1 flex items-center justify-end gap-4">
             {!pathname.startsWith("/tech") && (
-              <div className="flex items-center gap-3 mr-1 relative z-50">
+              <div className="flex items-center relative z-50">
                 <SocialsDropdown 
                   className={clsx(
                     "transition-colors duration-200",
