@@ -12,7 +12,7 @@ export default function Footer() {
   const pathname = usePathname();
 
   // Hide on admin pages
-  if (pathname.startsWith('/admin') || pathname.startsWith('/g3-builders')) {
+  if (pathname.startsWith('/admin')) {
     return null;
   }
 

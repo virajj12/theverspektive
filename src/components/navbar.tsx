@@ -62,11 +62,6 @@ export default function Navbar() {
   }, [isMobileMenuOpen]);
 
   // Hide navbar on admin pages (must be after all hooks)
-  //
-  // G3 Builders also ships its own nav and footer (src/app/g3-builders/layout.tsx).
-  // The spec treats G3 as a standalone site with its own identity rather than a
-  // VerspeKtive sub-page, so the shared chrome stands down there — without this,
-  // every G3 page renders two navs stacked on each other.
   if (pathname.startsWith('/admin')) {
     return null;
   }

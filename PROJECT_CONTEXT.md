@@ -7,7 +7,7 @@
 **Stack**: Next.js 16 (App Router, Edge runtime), React 19, TailwindCSS 4, TypeScript, Drizzle ORM (SQLite), Cloudflare D1 + R2 + Pages, Zustand, Framer Motion, GSAP, Three.js.
 **Architecture**: Monolithic Edge-first Next.js app connecting directly to Cloudflare D1 (Database) and R2 (Storage). Uses Iron Session for auth.
 **Entry point**: `src/app/layout.tsx`
-**Primary routes**: `/` (Home), `/productions` (Sub-brands), `/g3-builders` (Architecture), `/tech` (Consultancy), `/admin` (CMS), `/founder` (Founder page).
+**Primary routes**: `/` (Home), `/productions` (Sub-brands), `/tech` (Consultancy), `/admin` (CMS), `/founder` (Founder page).
 **Core features**: CMS-driven pages, Dynamic media library (R2), Authentication, Contact/Inquiry forms, Project Showcase.
 **Critical directories**: `src/app`, `src/components`, `src/db`, `src/lib`.
 **Critical files**: `src/db/schema.ts`, `src/app/layout.tsx`, `drizzle.config.ts`, `next.config.ts`, `wrangler.toml`.
@@ -84,7 +84,7 @@ It utilizes a robust custom-built headless CMS structure via Cloudflare D1 (SQLi
 │   ├── app/             # Next.js App Router routes
 │   │   ├── admin/       # CMS / Dashboard routes
 │   │   ├── api/         # Edge API routes (upload, auth, inquiries)
-│   │   ├── g3-builders/ # Architecture sub-brand
+
 │   │   ├── productions/ # Content sub-brand
 │   │   ├── tech/        # Tech consultancy sub-brand
 │   │   ├── login/       # Authentication pages
@@ -132,7 +132,6 @@ flowchart TD
 
 - **`/`**: Landing page.
 - **`/productions/*`**: Video/content production sub-routes (`/tio-originals`, `/verspektive-studios`).
-- **`/g3-builders`**: Architecture brand landing.
 - **`/tech`**: Consulting landing.
 - **`/admin`**: Protected CMS route. Requires auth.
 - **`/login`, `/register`, `/reset-password`**: Auth flows.

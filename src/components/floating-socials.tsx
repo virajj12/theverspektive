@@ -71,8 +71,8 @@ const YoutubeIcon = ({ size }: { size: number }) => (
 export default function FloatingSocials() {
   const pathname = usePathname();
 
-  // Hide on G3 Builders (has its own identity) and Admin routes
-  if (pathname.startsWith('/g3-builders') || pathname.startsWith('/admin')) {
+  // Hide on Admin routes
+  if (pathname.startsWith('/admin')) {
     return null;
   }
 

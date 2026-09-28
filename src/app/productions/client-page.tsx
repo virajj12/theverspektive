@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Film, Video, MonitorPlay, Mic, Play } from "lucide-react";
@@ -111,31 +111,31 @@ export default function ProductionsClient({
 
   // Observer removed
 
+  const gradientConfig = useMemo(() => {
+    return mounted && resolvedTheme === "light"
+      ? {
+          preset: "custom" as const,
+          color1: "#ffffff",
+          color2: "#66B3FF",
+          color3: "#f4f4f5",
+          rotation: -50,
+          proportion: 1,
+          scale: 0.01,
+          speed: 30,
+          distortion: 0,
+          swirl: 50,
+          swirlIterations: 16,
+          softness: 47,
+          offset: -299,
+          shape: "Checks" as const,
+          shapeSize: 45,
+        }
+      : { preset: "Prism" as const };
+  }, [mounted, resolvedTheme]);
+
   const hero = (
     <div className="flex flex-col items-center justify-center text-foreground bg-transparent relative overflow-hidden w-full h-full px-6 text-center">
-      <AnimatedGradient 
-        config={
-          mounted && resolvedTheme === "light"
-            ? {
-                preset: "custom",
-                color1: "#ffffff",
-                color2: "#66B3FF",
-                color3: "#f4f4f5",
-                rotation: -50,
-                proportion: 1,
-                scale: 0.01,
-                speed: 30,
-                distortion: 0,
-                swirl: 50,
-                swirlIterations: 16,
-                softness: 47,
-                offset: -299,
-                shape: "Checks",
-                shapeSize: 45,
-              }
-            : { preset: "Prism" }
-        }
-      />
+      <AnimatedGradient config={gradientConfig} />
       <div className="relative z-10 flex flex-col items-center justify-center w-full">
         <div className="relative w-full max-w-[400px] h-[150px] mx-auto mb-8">
           <Image
