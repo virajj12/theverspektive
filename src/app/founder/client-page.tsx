@@ -6,7 +6,7 @@ import Image from "next/image";
 import { motion, useScroll, useTransform, Variants, type MotionValue } from "framer-motion";
 import { Mail, ChevronDown } from "lucide-react";
 
-/* Inline brand icons — lucide-react doesn't ship brand icons */
+/* Inline brand icons - lucide-react doesn't ship brand icons */
 const InstagramIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
@@ -27,7 +27,7 @@ import { MailDropdown } from "@/components/ui/mail-dropdown";
 import { BlurReveal } from "@/components/ui/blur-reveal";
 import { BeamsBackground } from "@/components/ui/beams-background";
 
-/* Lazy-load the heavy cursor component — only needed on desktop */
+/* Lazy-load the heavy cursor component - only needed on desktop */
 const CursorFollower = lazy(() =>
   import("@/components/ui/cursor-follower").then((m) => ({
     default: m.CursorFollower,
@@ -138,7 +138,7 @@ export default function FounderClientPage({
       {/* Restored optimized canvas background */}
       <BeamsBackground className="fixed inset-0 z-0 pointer-events-none" />
 
-      {/* Lazy-loaded cursor — only renders on desktop, no SSR cost */}
+      {/* Lazy-loaded cursor - only renders on desktop, no SSR cost */}
       <Suspense fallback={null}>
         <CursorFollower />
       </Suspense>
@@ -172,7 +172,7 @@ export default function FounderClientPage({
         <div ref={storyWrapperRef} className="relative">
           <div className="relative z-10">
             {/* ═══════════════════════════════════════
-                SECTION 1 — HERO
+                SECTION 1 - HERO
                 ═══════════════════════════════════════ */}
             <section
               ref={heroRef}
@@ -249,7 +249,7 @@ export default function FounderClientPage({
             </section>
 
             {/* ═══════════════════════════════════════
-            SECTION 2 — ABOUT
+            SECTION 2 - ABOUT
             ═══════════════════════════════════════ */}
             <section id="founder-about" className="relative w-full py-24 lg:py-32">
               {/* Subtle top divider gradient */}
@@ -293,7 +293,7 @@ export default function FounderClientPage({
                         <BlurReveal
                           textBlocks={[
                             {
-                              text: "Vikhil V Salian is the Managing Director, Principal Designer and Illumination Expert of G3 Builders & Architects, Founder and Creative Head of VerspeKtive Productions, and the Host of TIO Originals.",
+                              text: "Vikhil V Salian is the Founder | Principal Designer | Illumination Expert of G3 Builders & Architects, Founder | Creative Head of VerspeKtive Productions, and the Host of TIO Originals.",
                               className: "text-xl md:text-2xl font-light text-foreground/90 leading-relaxed",
                             },
                             {
@@ -343,7 +343,7 @@ export default function FounderClientPage({
         </div> {/* Close parent relative */}
 
         {/* ═══════════════════════════════════════
-            SECTION 3 — VENTURES
+            SECTION 3 - VENTURES
             ═══════════════════════════════════════ */}
         <section id="founder-ventures" className="relative w-full py-24 lg:py-32">
           <div className="max-w-6xl mx-auto px-6">
@@ -369,7 +369,7 @@ export default function FounderClientPage({
         </section>
 
         {/* ═══════════════════════════════════════
-            SECTION 4 — VISION
+            SECTION 4 - VISION
             ═══════════════════════════════════════ */}
         <section id="founder-vision" className="relative w-full py-24 lg:py-32">
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent" />
@@ -405,7 +405,7 @@ export default function FounderClientPage({
         </section>
 
         {/* ═══════════════════════════════════════
-            SECTION 5 — CONNECT
+            SECTION 5 - CONNECT
             ═══════════════════════════════════════ */}
         <section id="founder-connect" className="relative w-full py-24 lg:py-32">
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
