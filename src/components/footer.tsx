@@ -64,11 +64,11 @@ export default function Footer() {
       </div>
 
       {/* Bottom Section - Always Dark with Huge Logo */}
-      <div className="bg-zinc-900 text-white pt-8 pb-6 md:pt-12 md:pb-0">
+      <div className="bg-zinc-900 text-white pt-4 pb-2 md:pt-6 md:pb-0">
         <div className="w-full flex flex-col items-center">
           
           {/* MASSIVE LOGO */}
-          <div className="w-full flex justify-center items-center pointer-events-none mb-6 md:mb-10">
+          <div className="w-full flex justify-center items-center pointer-events-none mb-2 md:mb-4">
             <Image 
               src="/V.png" 
               alt="VerspeKtive" 

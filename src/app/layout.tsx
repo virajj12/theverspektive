@@ -8,6 +8,7 @@ import GlobalLoaderProvider from "@/components/global-loader-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import ScrollToTop from "@/components/scroll-to-top";
 import DevConsoleEasterEgg from "@/components/dev-console-easter-egg";
+import ImageProtection from "@/components/image-protection";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -57,6 +58,7 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           <GlobalLoaderProvider>
+            <ImageProtection />
             <DevConsoleEasterEgg />
             <ScrollToTop />
             <Navbar />
